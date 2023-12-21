@@ -32,7 +32,7 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person savePerson(Person person) {
-        if(person.getId() != null && personRepo.findById(person.getId()).isPresent())
+        if (person.getId() != null && personRepo.findById(person.getId()).isPresent())
             return null;
         else
             person.setRoles(new Roles(person, UserRoles.CLIENT));
@@ -43,14 +43,6 @@ public class PersonServiceImpl implements PersonService {
             person.getAddress().setPerson(person);
         }
         return personRepo.save(person);
-    }
-
-    @Override
-    public String deletePerson(Long id) {
-        return personRepo.findById(id).map(p -> {
-            personRepo.delete(p);
-            return "Deleted user with id " + id;
-        }).orElseGet(() -> "Could not find user with id " + id);
     }
 
     @Override
@@ -69,5 +61,13 @@ public class PersonServiceImpl implements PersonService {
             oldPerson.setAddress(oldAddress);
             return personRepo.save(oldPerson);
         }).orElseGet(() -> null);
+    }
+
+    @Override
+    public String deletePerson(Long id) {
+        return personRepo.findById(id).map(p -> {
+            personRepo.delete(p);
+            return "Deleted user with id " + id;
+        }).orElseGet(() -> "Could not find user with id " + id);
     }
 }
