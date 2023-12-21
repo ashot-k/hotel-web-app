@@ -19,7 +19,6 @@ public class Address {
     @JoinColumn(name = "person_id")
     @JsonIgnore
     private Person person;
-
     @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "country")

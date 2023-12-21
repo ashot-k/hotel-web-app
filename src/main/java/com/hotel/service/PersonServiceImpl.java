@@ -11,15 +11,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonServiceImpl implements PersonService{
-    
+public class PersonServiceImpl implements PersonService {
+
     PersonRepository personRepo;
-    public PersonServiceImpl(PersonRepository personRepo){
+
+    public PersonServiceImpl(PersonRepository personRepo) {
         this.personRepo = personRepo;
     }
+
     @Override
-    public Person findPerson(Long id) {
-        Optional<Person> p =  personRepo.findById(id);
+    public Person getPersonById(Long id) {
+        Optional<Person> p = personRepo.findById(id);
         return p.orElse(null);
     }
 
@@ -30,16 +32,42 @@ public class PersonServiceImpl implements PersonService{
 
     @Override
     public Person savePerson(Person person) {
-        person.setRoles(new Roles(person, UserRoles.CLIENT));
+        if(person.getId() != null && personRepo.findById(person.getId()).isPresent())
+            return null;
+        else
+            person.setRoles(new Roles(person, UserRoles.CLIENT));
         if (person.getAddress() != null)
             person.getAddress().setPerson(person);
-        else
+        else {
             person.setAddress(new Address());
+            person.getAddress().setPerson(person);
+        }
         return personRepo.save(person);
     }
 
     @Override
-    public Person deletePerson(Long id) {
-        return null;
+    public String deletePerson(Long id) {
+        return personRepo.findById(id).map(p -> {
+            personRepo.delete(p);
+            return "Deleted user with id " + id;
+        }).orElseGet(() -> "Could not find user with id " + id);
+    }
+
+    @Override
+    public Person updatePerson(Long id, Person updatedPerson) {
+        return personRepo.findById(id).map(oldPerson -> {
+            oldPerson.setUsername(updatedPerson.getUsername());
+            oldPerson.setPassword(updatedPerson.getPassword());
+            Address oldAddress = oldPerson.getAddress();
+            Address newAddress = updatedPerson.getAddress();
+            oldAddress.setCountry(newAddress.getCountry());
+            oldAddress.setEmail(newAddress.getEmail());
+            oldAddress.setStreet(newAddress.getStreet());
+            oldAddress.setStreet2(newAddress.getStreet2());
+            oldAddress.setPostalCode(newAddress.getPostalCode());
+            oldAddress.setPhoneNumber(newAddress.getPhoneNumber());
+            oldPerson.setAddress(oldAddress);
+            return personRepo.save(oldPerson);
+        }).orElseGet(() -> null);
     }
 }
