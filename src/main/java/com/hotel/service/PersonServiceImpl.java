@@ -1,5 +1,6 @@
 package com.hotel.service;
 
+import com.hotel.HotelApplication;
 import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Roles;
