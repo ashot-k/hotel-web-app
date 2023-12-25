@@ -1,13 +1,17 @@
 package com.hotel.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.List;
 
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
     public static final String PASSWORD_ERROR_MESSAGE = """
             Please enter a password that has: <br>
@@ -20,15 +24,18 @@ public class Person {
     @Column(name = "person_id", nullable = false)
     private Long id;
     @Column(name = "username", nullable = false)
+    @NotNull
     private String username;
     @Column(name = "pass", nullable = false, length = 1000)
     @NotBlank(message = "Enter valid password")
+    @NotNull
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{5,}$"
             , message = PASSWORD_ERROR_MESSAGE)
     private String password;
 
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
+    @Valid
     private Address address;
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
@@ -56,12 +63,6 @@ public class Person {
         this.address = address;
     }
 
-    /*
-        @Override
-        public String toString(){
-            return "user: "+ this.username + "\nAddress details: \n" + this.address.toString();
-        }
-        */
     public String getUsername() {
         return username;
     }

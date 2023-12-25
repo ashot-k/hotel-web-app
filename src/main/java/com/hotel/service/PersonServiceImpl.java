@@ -5,8 +5,12 @@ import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Roles;
 import com.hotel.repo.PersonRepository;
+import com.hotel.utils.ExceptionMessages;
 import com.hotel.utils.UserRoles;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,14 +20,14 @@ public class PersonServiceImpl implements PersonService {
 
     PersonRepository personRepo;
 
+
     public PersonServiceImpl(PersonRepository personRepo) {
         this.personRepo = personRepo;
     }
 
     @Override
     public Person getPersonById(Long id) {
-        Optional<Person> p = personRepo.findById(id);
-        return p.orElse(null);
+        return personRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), id)));
     }
 
     @Override
@@ -61,7 +65,7 @@ public class PersonServiceImpl implements PersonService {
             oldAddress.setPhoneNumber(newAddress.getPhoneNumber());
             oldPerson.setAddress(oldAddress);
             return personRepo.save(oldPerson);
-        }).orElseGet(() -> null);
+        }).orElseThrow(() -> new EntityNotFoundException("Person with id: " + id + " not found"));
     }
 
     @Override
@@ -69,6 +73,6 @@ public class PersonServiceImpl implements PersonService {
         return personRepo.findById(id).map(p -> {
             personRepo.delete(p);
             return "Deleted user with id " + id;
-        }).orElseGet(() -> "Could not find user with id " + id);
+        }).orElseThrow(() -> new EntityNotFoundException("Person with id: " + id + " not found"));
     }
 }

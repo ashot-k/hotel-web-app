@@ -26,12 +26,15 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public Room saveRoom(Room room) {
-        return null;
+        return roomRepo.save(room);
     }
 
     @Override
     public String deleteRoom(Long id) {
-        return null;
+        return roomRepo.findById(id).map(p -> {
+            roomRepo.delete(p);
+            return "Deleted Room with id " + id;
+        }).orElseGet(() -> "Could not find Room with id " + id);
     }
 
     @Override

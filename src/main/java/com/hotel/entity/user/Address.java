@@ -5,9 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
-@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Address {
 
     @Id
@@ -20,20 +23,31 @@ public class Address {
     @JsonIgnore
     private Person person;
     @Column(name = "email", nullable = false)
+    @NotNull(message = "Please input an email address")
+    @NotBlank(message = "Please enter a valid email")
     private String email;
     @Column(name = "country")
     private String country;
     @Column(name = "postal_code")
     private String postalCode;
     @Column(name = "street_1")
+    @NotNull(message = "Please input an street address")
+    @NotBlank(message = "Please enter a valid street address")
     private String street;
     @Column(name = "street_2")
     private String street2;
     @Column(name = "phone_number")
+    @NotNull(message = "Please input a phone number")
+    @NotBlank(message = "Please enter a valid phone number")
+    @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
+            + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$", message = "Invalid phone number format")
     private String phoneNumber;
 
-    public Address(){}
-    public Address(Person person){
+    public Address() {
+    }
+
+    public Address(Person person) {
         this.person = person;
     }
 

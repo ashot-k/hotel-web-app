@@ -1,6 +1,8 @@
 package com.hotel.entity.room;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 public class Room {
@@ -8,37 +10,46 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
+    @Column(name = "room_type")
+    @NotNull
+    private RoomType roomType;
     @Column(name = "name", nullable = false)
+    @NotNull
+    @NotBlank
     private String name;
-    @Column(name = "description", nullable = false)
+    @Column(name = "description")
     private String description;
     @Column(name = "size", nullable = false)
+    @NotNull
+    @NotBlank
     private String size;
     @Column(name = "price")
     private double price;
-    @Column(name = "room_type")
-    private RoomType type;
 
-    public Long getId() {
-        return id;
+    public RoomType getRoomType() {
+        return roomType;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setRoomType(RoomType roomType) {
+        this.roomType = roomType;
     }
 
     public String getName() {
         return name;
     }
+
     public void setName(String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
+
     public String getSize() {
         return size;
     }
@@ -50,15 +61,16 @@ public class Room {
     public double getPrice() {
         return price;
     }
+
     public void setPrice(double price) {
         this.price = price;
     }
 
-    public RoomType getType() {
-        return type;
+    public Long getId() {
+        return id;
     }
 
-    public void setType(RoomType type) {
-        this.type = type;
+    public void setId(Long id) {
+        this.id = id;
     }
 }
