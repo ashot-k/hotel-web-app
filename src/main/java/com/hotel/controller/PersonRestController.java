@@ -1,6 +1,5 @@
 package com.hotel.controller;
 
-
 import com.hotel.entity.user.Person;
 import com.hotel.service.PersonService;
 import jakarta.validation.Valid;

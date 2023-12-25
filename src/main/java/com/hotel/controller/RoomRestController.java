@@ -3,6 +3,8 @@ package com.hotel.controller;
 import com.hotel.entity.room.Room;
 import com.hotel.service.RoomService;
 import jakarta.validation.Valid;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +16,8 @@ import java.util.List;
 @RequestMapping("/api/rooms")
 public class RoomRestController {
     RoomService roomService;
+    private static final Logger LOG = LoggerFactory.getLogger(RoomRestController.class);
+
     public RoomRestController(RoomService roomService){
         this.roomService = roomService;
     }
@@ -24,7 +28,6 @@ public class RoomRestController {
     }
 
     @GetMapping("/all")
-    @ResponseBody
     public ResponseEntity<List<Room>> getRooms(){
         return new ResponseEntity<>(roomService.findAllRooms(), HttpStatus.OK);
     }

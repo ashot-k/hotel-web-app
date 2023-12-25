@@ -23,7 +23,8 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person getPersonById(Long id) {
-        return personRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), id)));
+        return personRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(
+                ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), id)));
     }
 
     @Override
@@ -49,6 +50,7 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person updatePerson(Long id, Person updatedPerson) {
         return personRepo.findById(id).map(oldPerson -> {
+          /*
             oldPerson.setUsername(updatedPerson.getUsername());
             oldPerson.setPassword(updatedPerson.getPassword());
             Address oldAddress = oldPerson.getAddress();
@@ -60,6 +62,11 @@ public class PersonServiceImpl implements PersonService {
             oldAddress.setPostalCode(newAddress.getPostalCode());
             oldAddress.setPhoneNumber(newAddress.getPhoneNumber());
             oldPerson.setAddress(oldAddress);
+          */
+            updatedPerson.setId(oldPerson.getId());
+            oldPerson = updatedPerson;
+            oldPerson.getAddress().setPerson(oldPerson);
+            oldPerson.getAddress().setId(oldPerson.getId());
             return personRepo.save(oldPerson);
         }).orElseThrow(() -> new EntityNotFoundException("Person with id: " + id + " not found"));
     }
