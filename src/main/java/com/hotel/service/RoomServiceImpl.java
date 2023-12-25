@@ -1,7 +1,10 @@
 package com.hotel.service;
 
 import com.hotel.entity.room.Room;
+import com.hotel.entity.user.Person;
 import com.hotel.repo.RoomRepository;
+import com.hotel.utils.ExceptionMessages;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +19,8 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public Room getRoomById(Long id) {
-       return roomRepo.findById(id).orElse(null);
+       return roomRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(
+               ExceptionMessages.EntityNotFoundMessage(Room.class.getSimpleName(),"id",  id)));
     }
 
     @Override
@@ -39,6 +43,10 @@ public class RoomServiceImpl implements RoomService{
 
     @Override
     public Room updateRoom(Long id, Room updatedRoom) {
-        return null;
+      return  roomRepo.findById(id).map(oldRoom -> {
+          updatedRoom.setId(oldRoom.getId());
+          oldRoom = updatedRoom;
+          return roomRepo.save(oldRoom);
+        }).orElseThrow(()-> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Room.class.getSimpleName(), "id", id)));
     }
 }
