@@ -1,10 +1,8 @@
 package com.hotel.controller;
 
 import com.hotel.entity.room.Room;
-import com.hotel.entity.user.Person;
 import com.hotel.service.RoomService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

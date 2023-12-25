@@ -1,12 +1,8 @@
 package com.hotel.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.hotel.utils.UserRoles;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 @Entity
 @JsonIgnoreType

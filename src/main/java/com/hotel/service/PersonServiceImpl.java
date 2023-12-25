@@ -1,6 +1,5 @@
 package com.hotel.service;
 
-import com.hotel.HotelApplication;
 import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Roles;
@@ -8,12 +7,9 @@ import com.hotel.repo.PersonRepository;
 import com.hotel.utils.ExceptionMessages;
 import com.hotel.utils.UserRoles;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.BindingResult;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {

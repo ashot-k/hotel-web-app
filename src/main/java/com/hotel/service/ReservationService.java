@@ -1,7 +1,6 @@
 package com.hotel.service;
 
 import com.hotel.entity.reservation.Reservation;
-import com.hotel.entity.user.Person;
 
 import java.util.List;
 

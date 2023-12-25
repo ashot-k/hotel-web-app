@@ -1,6 +1,6 @@
 package com.hotel.service;
+
 import com.hotel.entity.room.Room;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 
