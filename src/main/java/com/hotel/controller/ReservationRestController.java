@@ -1,7 +1,9 @@
 package com.hotel.controller;
 
 
+import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.reservation.Reservation;
+import com.hotel.entity.user.Person;
 import com.hotel.service.ReservationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -21,15 +23,8 @@ public class ReservationRestController {
         this.reservationService = reservationService;
     }
     @PostMapping("/create-reservation")
-    public ResponseEntity<Reservation> createReservation(@Valid @RequestBody Reservation reservation){
-        System.out.println();
-
-
-
-
-
-
-        return new ResponseEntity<>(reservationService.createReservation(reservation), HttpStatus.CREATED);
+    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationDTO reservationDTO){
+        return new ResponseEntity<>(reservationService.createReservation(reservationDTO), HttpStatus.CREATED);
     }
 
 

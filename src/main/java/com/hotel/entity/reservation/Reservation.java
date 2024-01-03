@@ -1,5 +1,6 @@
 package com.hotel.entity.reservation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
 import jakarta.persistence.*;
@@ -8,17 +9,25 @@ import java.util.Date;
 
 @Entity
 public class Reservation {
+    public Reservation(){
+    }
+    public Reservation(Person person, Room room, Date start, Date end) {
+        this.person = person;
+        this.room = room;
+        this.start = start;
+        this.end = end;
+    }
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "client")
     private Person person;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "room")
     private Room room;
 
@@ -29,7 +38,7 @@ public class Reservation {
     private Date end;
 
     @Column(name = "created_at")
-    private Date created;
+    private Date created = new Date();
 
     public Long getId() {
         return id;
