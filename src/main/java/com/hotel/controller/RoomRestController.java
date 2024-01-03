@@ -41,7 +41,7 @@ public class RoomRestController {
         return new ResponseEntity<>(roomService.updateRoom(id, updatedRoom), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-user/{roomId}")
+    @DeleteMapping("/delete-room/{roomId}")
     public ResponseEntity<String> deleteRoom(@PathVariable String roomId) {
         return new ResponseEntity<>(roomService.deleteRoom(Long.parseLong(roomId)), HttpStatus.OK);
     }
