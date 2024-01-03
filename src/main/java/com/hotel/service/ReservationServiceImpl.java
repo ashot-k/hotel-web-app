@@ -39,13 +39,13 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation createReservation(ReservationDTO reservationDTO) {
+        //todo check if start > end
+        if(reservationRepo.isRoomBooked(reservationDTO.roomId(), reservationDTO.start(), reservationDTO.end()))
+            return null;
         Person person = personService.getPersonById(reservationDTO.personId());
         Room room = roomService.getRoomById(reservationDTO.roomId());
         Reservation reservation = new Reservation(person, room, reservationDTO.start(), reservationDTO.end());
-        if(!reservationRepo.isRoomBooked(room.getId(), reservation.getStart(), reservation.getEnd()))
-            return reservationRepo.save(reservation);
-        else
-            return null;
+        return reservationRepo.save(reservation);
     }
 
     @Override
