@@ -37,8 +37,7 @@ public class HotelRestControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public String handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
-        String errorMessage = "Invalid path variable type.";
-        return errorMessage;
+        return "Invalid path variable type.";
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidDatesException.class)
