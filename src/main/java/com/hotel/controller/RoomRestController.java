@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.RoundingMode;
 import java.util.List;
 
 @RestController
@@ -22,7 +23,7 @@ public class RoomRestController {
         this.roomService = roomService;
     }
 
-    @GetMapping("/{roomId}")
+    @GetMapping("/{roomId:\\d+}")
     public ResponseEntity<Room> getRooms(@PathVariable Long roomId) {
         return new ResponseEntity<>(roomService.getRoomById(roomId), HttpStatus.OK);
     }
@@ -36,12 +37,12 @@ public class RoomRestController {
         return new ResponseEntity<>(roomService.saveRoom(room), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Room> updateRoom(@Valid @RequestBody Room updatedRoom, @PathVariable Long id) {
-        return new ResponseEntity<>(roomService.updateRoom(id, updatedRoom), HttpStatus.OK);
+    @PutMapping("/{roomId:\\d+}")
+    public ResponseEntity<Room> updateRoom(@Valid @RequestBody Room updatedRoom, @PathVariable Long roomId) {
+        return new ResponseEntity<>(roomService.updateRoom(roomId, updatedRoom), HttpStatus.OK);
     }
 
-    @DeleteMapping("/{roomId}")
+    @DeleteMapping("/{roomId:\\d+}")
     public ResponseEntity<String> deleteRoom(@PathVariable String roomId) {
         return new ResponseEntity<>(roomService.deleteRoom(Long.parseLong(roomId)), HttpStatus.OK);
     }

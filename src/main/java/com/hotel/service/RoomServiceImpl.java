@@ -33,20 +33,16 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public String deleteRoom(Long id) {
-        return roomRepo.findById(id).map(p -> {
-            roomRepo.delete(p);
-            return "Deleted Room with id " + id;
-        }).orElseThrow(() -> new EntityNotFoundException(
-                ExceptionMessages.EntityNotFoundMessage(Room.class.getSimpleName(), id)));
-    }
-
-    @Override
     public Room updateRoom(Long id, Room updatedRoom) {
        return roomRepo.findById(id).map(oldRoom -> {
             updatedRoom.setId(oldRoom.getId());
             oldRoom = updatedRoom;
             return roomRepo.save(oldRoom);
         }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Room.class.getSimpleName(), id)));
+    }
+    @Override
+    public String deleteRoom(Long id) {
+            roomRepo.delete(this.getRoomById(id));
+            return "Deleted Room with id " + id;
     }
 }

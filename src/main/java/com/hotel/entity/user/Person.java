@@ -1,6 +1,7 @@
 package com.hotel.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -28,6 +29,8 @@ public class Person {
     @NotNull
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{5,}$"
             , message = PASSWORD_ERROR_MESSAGE)
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)

@@ -11,6 +11,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,20 +35,26 @@ public class HotelRestControllerAdvice {
         return errors;
     }
     @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public String handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex) {
+        String errorMessage = "Invalid path variable type.";
+        return errorMessage;
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(InvalidDatesException.class)
-    public String invalidDates(InvalidDatesException e){
+    public String invalidDates(InvalidDatesException e) {
         return e.getMessage();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RoomAlreadyReservedException.class)
-    public String alreadyReserved(RoomAlreadyReservedException e){
+    public String alreadyReserved(RoomAlreadyReservedException e) {
         return e.getMessage();
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(EntityNotFoundException.class)
-    public String handleEntityMissingException(EntityNotFoundException e){
+    public String handleEntityMissingException(EntityNotFoundException e) {
         return e.getMessage();
     }
 }

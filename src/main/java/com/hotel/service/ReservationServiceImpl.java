@@ -59,11 +59,16 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation updateReservation(Long id, ReservationDTO updatedReservation) {
         return reservationRepo.findById(id).map(oldReservation -> {
-
             oldReservation.setStart(updatedReservation.start());
             oldReservation.setEnd(updatedReservation.end());
-            if (reservationRepo.isRoomReserved(oldReservation.getId(), updatedReservation.roomId(), updatedReservation.start(), updatedReservation.end()))
-                oldReservation.setPerson(personService.getPersonById(updatedReservation.personId()));
+            if (reservationRepo.isRoomReserved(oldReservation.getId(), updatedReservation.roomId(), updatedReservation.start(), updatedReservation.end())) {
+                try {
+                    throw new RoomAlreadyReservedException("Room with id: " + updatedReservation.roomId() + " is already reserved");
+                } catch (RoomAlreadyReservedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+            oldReservation.setPerson(personService.getPersonById(updatedReservation.personId()));
             oldReservation.setRoom(roomService.getRoomById(updatedReservation.roomId()));
             return reservationRepo.save(oldReservation);
         }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Reservation.class.getSimpleName(), id)));
@@ -75,6 +80,7 @@ public class ReservationServiceImpl implements ReservationService {
         return "Deleted Reservation with id: " + id;
     }
 
+    @Override
     public void deleteAllReservations(Person p) {
         reservationRepo.deleteByPerson(p);
     }

@@ -23,9 +23,9 @@ public class PersonRestController {
         this.personService = personService;
     }
 
-    @GetMapping("/{personId}")
+    @GetMapping("/{personId:\\d+}")
     public ResponseEntity<Person> getUser(@PathVariable Long personId) {
-           return new ResponseEntity<>(personService.getPersonById(personId), HttpStatus.OK);
+        return new ResponseEntity<>(personService.getPersonById(personId), HttpStatus.OK);
     }
 
     @GetMapping
@@ -35,13 +35,13 @@ public class PersonRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> createUser(@Valid @RequestBody Person person){
+    public ResponseEntity<Person> createUser(@Valid @RequestBody Person person) {
         return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Person> updateUser(@Valid @RequestBody Person updatedPerson, @PathVariable Long id) {
-        return new ResponseEntity<>(personService.updatePerson(id, updatedPerson), HttpStatus.OK);
+    @PutMapping("/{personId:\\d+}")
+    public ResponseEntity<Person> updateUser(@Valid @RequestBody Person updatedPerson, @PathVariable Long personId) {
+        return new ResponseEntity<>(personService.updatePerson(personId, updatedPerson), HttpStatus.OK);
     }
 
     @DeleteMapping("/{personId}")
