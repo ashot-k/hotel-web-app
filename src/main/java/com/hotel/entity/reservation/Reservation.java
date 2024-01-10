@@ -1,16 +1,18 @@
 package com.hotel.entity.reservation;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
+import com.hotel.exceptions.RoomAlreadyReservedException;
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
 public class Reservation {
-    public Reservation(){
+    public Reservation() {
     }
+
     public Reservation(Person person, Room room, Date start, Date end) {
         this.person = person;
         this.room = room;
@@ -23,7 +25,7 @@ public class Reservation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client")
     private Person person;
 
@@ -39,6 +41,7 @@ public class Reservation {
 
     @Column(name = "created_at")
     private Date created = new Date();
+
 
     public Long getId() {
         return id;

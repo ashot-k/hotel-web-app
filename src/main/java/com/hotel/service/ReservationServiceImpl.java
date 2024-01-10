@@ -5,9 +5,13 @@ import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.reservation.Reservation;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
+import com.hotel.exceptions.RoomAlreadyReservedException;
 import com.hotel.repo.ReservationRepo;
+import com.hotel.utils.ExceptionMessages;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -24,7 +28,8 @@ public class ReservationServiceImpl implements ReservationService {
 
     @Override
     public Reservation getReservationById(Long id) {
-        return null;
+        return reservationRepo.findById(id).orElseThrow(() ->
+                new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Reservation.class.getSimpleName(), id)));
     }
 
     @Override
@@ -38,14 +43,30 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation createReservation(ReservationDTO reservationDTO) {
-        //todo check if start > end
-        if(reservationRepo.isRoomBooked(reservationDTO.roomId(), reservationDTO.start(), reservationDTO.end()))
-            return null;
-        Person person = personService.getPersonById(reservationDTO.personId());
-        Room room = roomService.getRoomById(reservationDTO.roomId());
-        Reservation reservation = new Reservation(person, room, reservationDTO.start(), reservationDTO.end());
+    public Reservation createReservation(ReservationDTO reservationDTO) throws RoomAlreadyReservedException {
+        Long roomId = reservationDTO.roomId();
+        Long personId = reservationDTO.personId();
+        Date start = reservationDTO.start();
+        Date end = reservationDTO.end();
+        if (reservationRepo.isRoomReserved(-1L, roomId, start, end))
+            throw new RoomAlreadyReservedException("Room with id: " + roomId + " is already reserved");
+        Person person = personService.getPersonById(personId);
+        Room room = roomService.getRoomById(roomId);
+        Reservation reservation = new Reservation(person, room, start, end);
         return reservationRepo.save(reservation);
+    }
+
+    @Override
+    public Reservation updateReservation(Long id, ReservationDTO updatedReservation) {
+        return reservationRepo.findById(id).map(oldReservation -> {
+
+            oldReservation.setStart(updatedReservation.start());
+            oldReservation.setEnd(updatedReservation.end());
+            if (reservationRepo.isRoomReserved(oldReservation.getId(), updatedReservation.roomId(), updatedReservation.start(), updatedReservation.end()))
+                oldReservation.setPerson(personService.getPersonById(updatedReservation.personId()));
+            oldReservation.setRoom(roomService.getRoomById(updatedReservation.roomId()));
+            return reservationRepo.save(oldReservation);
+        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Reservation.class.getSimpleName(), id)));
     }
 
     @Override
@@ -54,8 +75,7 @@ public class ReservationServiceImpl implements ReservationService {
         return "Deleted Reservation with id: " + id;
     }
 
-    @Override
-    public Reservation updateReservation(Long id, Reservation updatedReservation) {
-        return null;
+    public void deleteAllReservations(Person p) {
+        reservationRepo.deleteByPerson(p);
     }
 }

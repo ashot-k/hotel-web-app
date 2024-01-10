@@ -24,27 +24,27 @@ public class PersonRestController {
     }
 
     @GetMapping("/{personId}")
-    public ResponseEntity<Person> getUsers(@PathVariable Long personId) {
+    public ResponseEntity<Person> getUser(@PathVariable Long personId) {
            return new ResponseEntity<>(personService.getPersonById(personId), HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<Person>> getUsers() {
-        return new ResponseEntity<>(personService.findAllPeople(), HttpStatus.OK);
+        return new ResponseEntity<>(personService.getAllPeople(), HttpStatus.OK);
     }
 
-    @PostMapping("/create-user")
+    @PostMapping
     public ResponseEntity<Person> createUser(@Valid @RequestBody Person person){
         return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
     }
 
-    @PutMapping("/update-user/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Person> updateUser(@Valid @RequestBody Person updatedPerson, @PathVariable Long id) {
         return new ResponseEntity<>(personService.updatePerson(id, updatedPerson), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-user/{personId}")
+    @DeleteMapping("/{personId}")
     public ResponseEntity<String> deleteUser(@PathVariable String personId) {
         return new ResponseEntity<>(personService.deletePerson(Long.parseLong(personId)), HttpStatus.OK);
     }

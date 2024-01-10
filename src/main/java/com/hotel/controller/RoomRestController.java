@@ -27,21 +27,21 @@ public class RoomRestController {
         return new ResponseEntity<>(roomService.getRoomById(roomId), HttpStatus.OK);
     }
 
-    @GetMapping("/all")
+    @GetMapping
     public ResponseEntity<List<Room>> getRooms(){
         return new ResponseEntity<>(roomService.findAllRooms(), HttpStatus.OK);
     }
-    @PostMapping("/create-room")
+    @PostMapping
     public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room) {
         return new ResponseEntity<>(roomService.saveRoom(room), HttpStatus.CREATED);
     }
 
-    @PutMapping("/update-room/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Room> updateRoom(@Valid @RequestBody Room updatedRoom, @PathVariable Long id) {
         return new ResponseEntity<>(roomService.updateRoom(id, updatedRoom), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete-room/{roomId}")
+    @DeleteMapping("/{roomId}")
     public ResponseEntity<String> deleteRoom(@PathVariable String roomId) {
         return new ResponseEntity<>(roomService.deleteRoom(Long.parseLong(roomId)), HttpStatus.OK);
     }

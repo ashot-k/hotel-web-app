@@ -4,14 +4,14 @@ package com.hotel.controller;
 import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.reservation.Reservation;
 import com.hotel.entity.user.Person;
+import com.hotel.exceptions.RoomAlreadyReservedException;
 import com.hotel.service.ReservationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -22,9 +22,23 @@ public class ReservationRestController {
     public ReservationRestController(ReservationService reservationService){
         this.reservationService = reservationService;
     }
-    @PostMapping("/create-reservation")
-    public ResponseEntity<Reservation> createReservation(@RequestBody ReservationDTO reservationDTO){
+
+    @GetMapping("/{reservationId:\\d+}")
+    public ResponseEntity<Reservation> getReservation(@PathVariable Long reservationId){
+        return new ResponseEntity<>(reservationService.getReservationById(reservationId), HttpStatus.OK);
+    }
+    @GetMapping
+    public ResponseEntity<List<Reservation>> getReservations(){
+        return new ResponseEntity<>(reservationService.findAllReservations(), HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<Reservation> createReservation(@Valid @RequestBody ReservationDTO reservationDTO) throws RoomAlreadyReservedException {
         return new ResponseEntity<>(reservationService.createReservation(reservationDTO), HttpStatus.CREATED);
+    }
+    @PutMapping("/{reservationId:\\d+}")
+    public ResponseEntity<Reservation> updateReservation(@PathVariable Long reservationId,@Valid @RequestBody ReservationDTO reservationDTO)  throws RoomAlreadyReservedException{
+        return new ResponseEntity<>(reservationService.updateReservation(reservationId, reservationDTO), HttpStatus.OK);
     }
 
 

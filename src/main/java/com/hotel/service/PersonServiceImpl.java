@@ -4,9 +4,11 @@ import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Roles;
 import com.hotel.repo.PersonRepository;
+import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
 import com.hotel.utils.UserRoles;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,8 +18,10 @@ public class PersonServiceImpl implements PersonService {
 
     PersonRepository personRepo;
 
+    ReservationRepo reservationRepo;
 
-    public PersonServiceImpl(PersonRepository personRepo) {
+    public PersonServiceImpl(PersonRepository personRepo, ReservationRepo reservationRepo) {
+        this.reservationRepo = reservationRepo;
         this.personRepo = personRepo;
     }
 
@@ -28,7 +32,7 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<Person> findAllPeople() {
+    public List<Person> getAllPeople() {
         return personRepo.findAll();
     }
 
@@ -50,30 +54,19 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person updatePerson(Long id, Person updatedPerson) {
         return personRepo.findById(id).map(oldPerson -> {
-          /*
-            oldPerson.setUsername(updatedPerson.getUsername());
-            oldPerson.setPassword(updatedPerson.getPassword());
-            Address oldAddress = oldPerson.getAddress();
-            Address newAddress = updatedPerson.getAddress();
-            oldAddress.setCountry(newAddress.getCountry());
-            oldAddress.setEmail(newAddress.getEmail());
-            oldAddress.setStreet(newAddress.getStreet());
-            oldAddress.setStreet2(newAddress.getStreet2());
-            oldAddress.setPostalCode(newAddress.getPostalCode());
-            oldAddress.setPhoneNumber(newAddress.getPhoneNumber());
-            oldPerson.setAddress(oldAddress);
-          */
             updatedPerson.setId(oldPerson.getId());
             oldPerson = updatedPerson;
             oldPerson.getAddress().setPerson(oldPerson);
             oldPerson.getAddress().setId(oldPerson.getId());
             return personRepo.save(oldPerson);
-        }).orElseThrow(() -> new EntityNotFoundException("Person with id: " + id + " not found"));
+        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), id)));
     }
 
     @Override
+    @Transactional
     public String deletePerson(Long id) {
         return personRepo.findById(id).map(p -> {
+            reservationRepo.deleteByPerson(p);
             personRepo.delete(p);
             return "Deleted user with id " + id;
         }).orElseThrow(() -> new EntityNotFoundException("Person with id: " + id + " not found"));
