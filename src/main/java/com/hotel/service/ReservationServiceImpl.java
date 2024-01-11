@@ -5,7 +5,7 @@ import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.reservation.Reservation;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
-import com.hotel.exceptions.RoomAlreadyReservedException;
+import com.hotel.exceptions.RoomReservedException;
 import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
@@ -43,13 +43,13 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public Reservation createReservation(ReservationDTO reservationDTO) throws RoomAlreadyReservedException {
+    public Reservation createReservation(ReservationDTO reservationDTO) throws RoomReservedException {
         Long roomId = reservationDTO.roomId();
         Long personId = reservationDTO.personId();
         Date start = reservationDTO.start();
         Date end = reservationDTO.end();
         if (reservationRepo.isRoomReserved(-1L, roomId, start, end))
-            throw new RoomAlreadyReservedException("Room with id: " + roomId + " is already reserved");
+            throw new RoomReservedException("Room with id: " + roomId + " is already reserved");
         Person person = personService.getPersonById(personId);
         Room room = roomService.getRoomById(roomId);
         Reservation reservation = new Reservation(person, room, start, end);
@@ -63,8 +63,8 @@ public class ReservationServiceImpl implements ReservationService {
             oldReservation.setEnd(updatedReservation.end());
             if (reservationRepo.isRoomReserved(oldReservation.getId(), updatedReservation.roomId(), updatedReservation.start(), updatedReservation.end())) {
                 try {
-                    throw new RoomAlreadyReservedException("Room with id: " + updatedReservation.roomId() + " is already reserved");
-                } catch (RoomAlreadyReservedException e) {
+                    throw new RoomReservedException("Room with id: " + updatedReservation.roomId() + " is already reserved");
+                } catch (RoomReservedException e) {
                     throw new RuntimeException(e);
                 }
             }

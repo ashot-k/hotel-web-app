@@ -1,9 +1,7 @@
 package com.hotel.entity.reservation;
 
-import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
-import com.hotel.exceptions.RoomAlreadyReservedException;
 import jakarta.persistence.*;
 
 import java.util.Date;

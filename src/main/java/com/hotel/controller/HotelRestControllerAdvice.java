@@ -1,7 +1,7 @@
 package com.hotel.controller;
 
 import com.hotel.exceptions.InvalidDatesException;
-import com.hotel.exceptions.RoomAlreadyReservedException;
+import com.hotel.exceptions.RoomReservedException;
 import jakarta.persistence.EntityNotFoundException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +46,8 @@ public class HotelRestControllerAdvice {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(RoomAlreadyReservedException.class)
-    public String alreadyReserved(RoomAlreadyReservedException e) {
+    @ExceptionHandler(RoomReservedException.class)
+    public String alreadyReserved(RoomReservedException e) {
         return e.getMessage();
     }
 

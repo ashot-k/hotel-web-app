@@ -3,7 +3,7 @@ package com.hotel.controller;
 
 import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.reservation.Reservation;
-import com.hotel.exceptions.RoomAlreadyReservedException;
+import com.hotel.exceptions.RoomReservedException;
 import com.hotel.service.ReservationService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -33,12 +33,12 @@ public class ReservationRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Reservation> createReservation(@Valid @RequestBody ReservationDTO reservationDTO) throws RoomAlreadyReservedException {
+    public ResponseEntity<Reservation> createReservation(@Valid @RequestBody ReservationDTO reservationDTO) throws RoomReservedException {
         return new ResponseEntity<>(reservationService.createReservation(reservationDTO), HttpStatus.CREATED);
     }
 
     @PutMapping("/{reservationId:\\d+}")
-    public ResponseEntity<Reservation> updateReservation(@PathVariable Long reservationId, @Valid @RequestBody ReservationDTO reservationDTO) throws RoomAlreadyReservedException {
+    public ResponseEntity<Reservation> updateReservation(@PathVariable Long reservationId, @Valid @RequestBody ReservationDTO reservationDTO) throws RoomReservedException {
         return new ResponseEntity<>(reservationService.updateReservation(reservationId, reservationDTO), HttpStatus.OK);
     }
     @DeleteMapping("/{reservationId:\\d+}")

@@ -9,26 +9,39 @@ import com.hotel.utils.ExceptionMessages;
 import com.hotel.utils.UserRoles;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class PersonServiceImpl implements PersonService {
+public class PersonServiceImpl implements PersonService{
 
     PersonRepository personRepo;
 
     ReservationRepo reservationRepo;
 
-    public PersonServiceImpl(PersonRepository personRepo, ReservationRepo reservationRepo) {
+    PasswordEncoder bCryptEncoder;
+
+    public PersonServiceImpl(PersonRepository personRepo, ReservationRepo reservationRepo, PasswordEncoder bCryptEncoder) {
         this.reservationRepo = reservationRepo;
         this.personRepo = personRepo;
+        this.bCryptEncoder = bCryptEncoder;
     }
 
     @Override
     public Person getPersonById(Long id) {
         return personRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(
                 ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), id)));
+    }
+
+    @Override
+    public Person getPersonByUsername(String username) {
+        return personRepo.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(
+                ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), username)));
     }
 
     @Override
@@ -48,6 +61,7 @@ public class PersonServiceImpl implements PersonService {
             person.setAddress(new Address());
             person.getAddress().setPerson(person);
         }
+        person.setPassword(bCryptEncoder.encode(person.getPassword()));
         return personRepo.save(person);
     }
 
