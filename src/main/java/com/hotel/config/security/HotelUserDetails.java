@@ -34,6 +34,6 @@ public class HotelUserDetails implements UserDetailsService {
         authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(person.getRoles().getRole()));
 
-        return new User(username, password, authorities);
+        return new User(name, password, authorities);
     }
 }
