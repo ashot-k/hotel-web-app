@@ -1,6 +1,7 @@
 package com.hotel.config.security;
 
 import com.hotel.entity.user.Person;
+import com.hotel.entity.user.Roles;
 import com.hotel.service.PersonService;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -11,10 +12,14 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.System.in;
+
+@Component
 public class HotelAuthenticationProvider implements AuthenticationProvider {
 
     PersonService personService;
@@ -36,11 +41,13 @@ public class HotelAuthenticationProvider implements AuthenticationProvider {
         try {
             person = personService.getPersonByUsername(username);
         } catch (Exception e) {
-            throw new UsernameNotFoundException("User with name " + username + " not found");
+            throw new UsernameNotFoundException("User: " + username + " not found");
         }
         if (passwordEncoder.matches(password, person.getPassword())) {
             authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(person.getRoles().getRole()));
+            for (Roles r : person.getRoles()) {
+                authorities.add(new SimpleGrantedAuthority(r.getRole()));
+            }
             return new UsernamePasswordAuthenticationToken(username, password, authorities);
         } else
             throw new BadCredentialsException("Invalid Password");
@@ -48,6 +55,6 @@ public class HotelAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return false;
+        return (UsernamePasswordAuthenticationToken.class.isAssignableFrom(authentication));
     }
 }

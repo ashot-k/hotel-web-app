@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+/*@Service
 public class HotelUserDetails implements UserDetailsService {
     PersonService personService;
 
@@ -41,4 +41,4 @@ public class HotelUserDetails implements UserDetailsService {
             return new User(name, password, authorities);
 
     }
-}
+}*/

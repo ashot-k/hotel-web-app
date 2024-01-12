@@ -15,6 +15,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -54,7 +56,7 @@ public class PersonServiceImpl implements PersonService{
         if (person.getId() != null && personRepo.findById(person.getId()).isPresent())
             return null;
         else
-            person.setRoles(new Roles(person, UserRoles.CLIENT));
+            person.setRoles(List.of(new Roles(person)));
         if (person.getAddress() != null)
             person.getAddress().setPerson(person);
         else {

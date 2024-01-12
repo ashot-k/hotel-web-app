@@ -8,6 +8,10 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Person {
@@ -38,10 +42,9 @@ public class Person {
     @PrimaryKeyJoinColumn
     @Valid
     private Address address;
-    @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    private Roles roles;
-
+    private List<Roles> roles;
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -109,11 +112,11 @@ public class Person {
         this.address = address;
     }
 
-    public Roles getRoles() {
+    public List<Roles> getRoles() {
         return roles;
     }
 
-    public void setRoles(Roles roles) {
+    public void setRoles(List<Roles> roles) {
         this.roles = roles;
     }
 }
