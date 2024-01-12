@@ -30,10 +30,7 @@ public class SecurityConfig {
         http.httpBasic(Customizer.withDefaults());
         return http.build();
     }
-    /*@Bean
-    public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
-    }*/
+
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
