@@ -3,6 +3,7 @@ package com.hotel.config.security;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Roles;
 import com.hotel.service.PersonService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -32,6 +33,7 @@ public class HotelAuthenticationProvider implements AuthenticationProvider {
     }
 
     @Override
+    @Transactional
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();

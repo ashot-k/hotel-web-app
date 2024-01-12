@@ -5,10 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.hotel.utils.UserRoles;
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
-@JsonIgnoreType
 public class Roles {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -23,6 +20,7 @@ public class Roles {
 
     @Column(name = "role")
     private String role;
+
     public Roles() {
     }
 
@@ -30,10 +28,12 @@ public class Roles {
         this.person = person;
         this.role = role;
     }
+
     public Roles(Person person, UserRoles role) {
         this.person = person;
         this.role = role.toString();
     }
+
     public Roles(Person person) {
         this.person = person;
         this.role = UserRoles.CLIENT.toString();
