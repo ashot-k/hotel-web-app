@@ -6,21 +6,15 @@ import com.hotel.entity.user.Roles;
 import com.hotel.repo.PersonRepository;
 import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
-import com.hotel.utils.UserRoles;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Service
-public class PersonServiceImpl implements PersonService{
+public class PersonServiceImpl implements PersonService {
 
     PersonRepository personRepo;
 
@@ -54,7 +48,7 @@ public class PersonServiceImpl implements PersonService{
     @Override
     public Person savePerson(Person person) {
         if (person.getId() != null && personRepo.findById(person.getId()).isPresent())
-            return null;
+            throw new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), person.getId()));
         else
             person.setRoles(List.of(new Roles(person)));
         if (person.getAddress() != null)
