@@ -29,7 +29,7 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public Reservation getReservationById(Long id) {
         return reservationRepo.findById(id).orElseThrow(() ->
-                new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Reservation.class.getSimpleName(), id)));
+                new EntityNotFoundException(ExceptionMessages.EntityNotFound(Reservation.class.getSimpleName(), id)));
     }
 
     @Override
@@ -71,7 +71,7 @@ public class ReservationServiceImpl implements ReservationService {
             oldReservation.setPerson(personService.getPersonById(updatedReservation.personId()));
             oldReservation.setRoom(roomService.getRoomById(updatedReservation.roomId()));
             return reservationRepo.save(oldReservation);
-        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Reservation.class.getSimpleName(), id)));
+        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Reservation.class.getSimpleName(), id)));
     }
 
     @Override

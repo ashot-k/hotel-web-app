@@ -25,7 +25,7 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "person_id", nullable = false)
     private Long id;
-    @Column(name = "username", nullable = false)
+    @Column(name = "username", nullable = false, unique = true)
     @NotNull
     private String username;
     @Column(name = "pass", nullable = false, length = 1000)

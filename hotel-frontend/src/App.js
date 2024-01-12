@@ -3,8 +3,6 @@ import './css/pagebody.css'
 import {useEffect} from "react";
 
 function App() {
-
-
     useEffect(() => {
         fetch("http://localhost:8080/api/users")
             .then(res => {

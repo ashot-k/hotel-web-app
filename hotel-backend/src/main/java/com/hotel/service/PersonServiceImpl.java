@@ -3,11 +3,13 @@ package com.hotel.service;
 import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Roles;
+import com.hotel.exceptions.UsernameAlreadyExistsException;
 import com.hotel.repo.PersonRepository;
 import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,13 +33,13 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person getPersonById(Long id) {
         return personRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(
-                ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), id)));
+                ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
     }
 
     @Override
     public Person getPersonByUsername(String username) {
         return personRepo.findByUsername(username).orElseThrow(() -> new EntityNotFoundException(
-                ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), username)));
+                ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), username)));
     }
 
     @Override
@@ -47,16 +49,18 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public Person savePerson(Person person) {
-        if (person.getId() != null && personRepo.findById(person.getId()).isPresent())
-            throw new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), person.getId()));
+        if (person.getId() != null || personRepo.findByUsername(person.getUsername()).isPresent()) {
+            try {
+                throw new UsernameAlreadyExistsException(ExceptionMessages.AlreadyExists(Person.class.getSimpleName(), person.getUsername()));
+            } catch (UsernameAlreadyExistsException e) {
+                throw new RuntimeException(e);
+            }
+        }
         else
             person.setRoles(List.of(new Roles(person)));
-        if (person.getAddress() != null)
-            person.getAddress().setPerson(person);
-        else {
+        if (person.getAddress() == null)
             person.setAddress(new Address());
-            person.getAddress().setPerson(person);
-        }
+        person.getAddress().setPerson(person);
         person.setPassword(bCryptEncoder.encode(person.getPassword()));
         return personRepo.save(person);
     }
@@ -69,7 +73,7 @@ public class PersonServiceImpl implements PersonService {
             oldPerson.getAddress().setPerson(oldPerson);
             oldPerson.getAddress().setId(oldPerson.getId());
             return personRepo.save(oldPerson);
-        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Person.class.getSimpleName(), id)));
+        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
     }
 
     @Override

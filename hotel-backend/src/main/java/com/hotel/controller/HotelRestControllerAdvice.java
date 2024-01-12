@@ -2,9 +2,13 @@ package com.hotel.controller;
 
 import com.hotel.exceptions.InvalidDatesException;
 import com.hotel.exceptions.RoomReservedException;
+import com.hotel.exceptions.UsernameAlreadyExistsException;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.validation.executable.ValidateOnExecution;
+import org.hibernate.sql.results.graph.collection.internal.UnfetchedCollectionAssembler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -48,6 +52,12 @@ public class HotelRestControllerAdvice {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(RoomReservedException.class)
     public String alreadyReserved(RoomReservedException e) {
+        return e.getMessage();
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(UsernameAlreadyExistsException.class)
+    public String usernameAlreadyExistsException(UsernameAlreadyExistsException e){
         return e.getMessage();
     }
 

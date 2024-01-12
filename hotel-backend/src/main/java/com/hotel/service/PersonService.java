@@ -1,6 +1,7 @@
 package com.hotel.service;
 
 import com.hotel.entity.user.Person;
+import com.hotel.exceptions.UsernameAlreadyExistsException;
 
 import java.util.List;
 

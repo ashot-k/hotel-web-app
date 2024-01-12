@@ -1,6 +1,7 @@
 package com.hotel.controller;
 
 import com.hotel.entity.user.Person;
+import com.hotel.exceptions.UsernameAlreadyExistsException;
 import com.hotel.service.PersonService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;

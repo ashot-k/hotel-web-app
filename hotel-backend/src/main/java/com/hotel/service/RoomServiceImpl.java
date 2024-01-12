@@ -19,7 +19,7 @@ public class RoomServiceImpl implements RoomService {
     @Override
     public Room getRoomById(Long id) {
         return roomRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(
-                ExceptionMessages.EntityNotFoundMessage(Room.class.getSimpleName(), id)));
+                ExceptionMessages.EntityNotFound(Room.class.getSimpleName(), id)));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class RoomServiceImpl implements RoomService {
             updatedRoom.setId(oldRoom.getId());
             oldRoom = updatedRoom;
             return roomRepo.save(oldRoom);
-        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFoundMessage(Room.class.getSimpleName(), id)));
+        }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Room.class.getSimpleName(), id)));
     }
     @Override
     public String deleteRoom(Long id) {
