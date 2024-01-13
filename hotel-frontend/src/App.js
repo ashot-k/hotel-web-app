@@ -1,7 +1,7 @@
 import './App.css';
-import './css/pagebody.css'
+import './css/admin-users-page.css'
 import {useEffect} from "react";
-import {Users} from "./Users";
+import {Users} from "./components/Users";
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
     return (

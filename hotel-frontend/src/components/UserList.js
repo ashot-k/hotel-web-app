@@ -1,9 +1,13 @@
 export const UserList = ({users, handleDelete}) => {
-
     return (
         <table className="table table-dark table-striped admin-table">
             <tbody>
             <tr>
+                {/*
+                {users[0] && Object.keys(users[0]).map((fieldName) => (
+                    <th>{fieldName}</th>
+                ))}
+                */}
                 <th>ID</th>
                 <th>Username</th>
                 <th>Country</th>
@@ -19,7 +23,7 @@ export const UserList = ({users, handleDelete}) => {
                     <td>{user.address["email"]}</td>
                     <td>{user.address["phoneNumber"]}</td>
                     <td>
-                        <div className="d-flex gap-1 actions">
+                        <div className="d-flex gap-2 actions">
                             <button className="btn btn-warning">Edit</button>
                             <button className="btn btn-danger" onClick={() => handleDelete(user.id)}>Delete</button>
                         </div>
