@@ -9,7 +9,8 @@ import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -42,9 +43,12 @@ public class PersonServiceImpl implements PersonService {
                 ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), username)));
     }
 
+
     @Override
     public List<Person> getAllPeople() {
-        return personRepo.findAll();
+        //   Page<Person> page = personRepo.findAll(PageRequest.of(0, 100));
+         return personRepo.findAll();
+       // return personRepo.findAll(PageRequest.of(0,100)).getContent();
     }
 
     @Override

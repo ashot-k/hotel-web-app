@@ -1,4 +1,4 @@
-import './App.css';
+import './css/App.css';
 import './css/admin-users-page.css'
 import {useEffect} from "react";
 import {Users} from "./components/Users";
