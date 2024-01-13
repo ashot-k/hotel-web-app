@@ -13,7 +13,6 @@ public class Roles {
     @JsonIgnore
     private Long id;
     @ManyToOne
-    //@MapsId
     @JoinColumn(name = "person_id")
     @JsonIgnore
     private Person person;

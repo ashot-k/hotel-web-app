@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface PersonRepository extends JpaRepository<Person, Long> {
 
     @Override
-    @Query("FROM Person c JOIN FETCH c.address")
+    @Query("FROM Person p JOIN FETCH p.address a")
     List<Person> findAll();
 
     Optional<Person> findByUsername(String username);

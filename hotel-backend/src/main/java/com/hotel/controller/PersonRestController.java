@@ -1,7 +1,6 @@
 package com.hotel.controller;
 
 import com.hotel.entity.user.Person;
-import com.hotel.exceptions.UsernameAlreadyExistsException;
 import com.hotel.service.PersonService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -14,9 +13,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000/")
 //@Secured("ADMIN")
 @RequestMapping("/api/users")
+@CrossOrigin({"http://192.168.1.75:3000", "http://localhost:3000"})
 public class PersonRestController {
     PersonService personService;
     private static final Logger LOG = LoggerFactory.getLogger(PersonRestController.class);
