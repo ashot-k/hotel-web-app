@@ -1,10 +1,13 @@
 import {useState} from "react";
-import UserCreationForm from "./UserCreationForm"
-export const UserList = ({users, create, deleteUser, pageNav}) => {
+import CreationForm from "./CreationForm"
+import {inputs, initialValues} from "./UserFormFields";
+export const UserList = ({users, deleteUser, pageNav}) => {
     const [currentPage, setCurrentPage] = useState(0);
-    const [modal, setModal] = useState(true);
+    const [modal, setModal] = useState(false);
+
+    console.log(inputs);
     const toggleModal = () => {
-        setModal(!modal);
+         setModal(!modal);
     }
 
     return (
@@ -29,7 +32,7 @@ export const UserList = ({users, create, deleteUser, pageNav}) => {
                 <div>
                     <button className="btn btn-success" type="button" onClick={toggleModal}>Add new User
                     </button>
-                    {modal && UserCreationForm(toggleModal, create)}
+                    {modal && <CreationForm toggleModal={toggleModal} inputs={inputs} initialValues={initialValues}/>}
                 </div>
             </div>
             <table className="table table-dark table-striped admin-table">
