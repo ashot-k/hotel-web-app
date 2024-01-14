@@ -5,6 +5,8 @@ import com.hotel.service.PersonService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -31,8 +33,13 @@ public class PersonRestController {
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Person>> getUsers() {
-        return new ResponseEntity<>(personService.getAllPeople(), HttpStatus.OK);
+    public ResponseEntity<List<Person>> getUsers(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+                                                 @RequestParam(value = "pageSize", defaultValue = "25") int pageSize) {
+        Page<Person> page = personService.getAllPeople(pageNo, pageSize);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("X-Total-Pages", String.valueOf(page.getTotalPages()));
+
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     @PostMapping
