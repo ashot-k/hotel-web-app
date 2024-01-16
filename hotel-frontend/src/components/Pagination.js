@@ -16,7 +16,7 @@ export const Pagination = ({pageNav}) => {
                                 setCurrentPage(i);
                             }}>{i + 1}</button>);
             } else if (maxPage - 1 === i) {
-                buttons.push(<button className="btn btn-primary">...</button>);
+                buttons.push(<button key={i} className="btn btn-primary">...</button>);
             }
         }
         return buttons;
@@ -38,7 +38,6 @@ export const Pagination = ({pageNav}) => {
                     }
                 }}> &#60;</button>
                 {pageButtons()}
-
                 <button className="btn btn-primary" onClick={() => {
                     const max = pageNav();
                     setMaxPage(max);
@@ -46,13 +45,11 @@ export const Pagination = ({pageNav}) => {
                         setMaxPage(pageNav(currentPage + 1));
                         setCurrentPage(currentPage + 1);
                     }
-                }}>>
-                </button>
+                }}>></button>
                 <button className="btn btn-primary" onClick={() => {
                     setMaxPage(pageNav(maxPage));
                     setCurrentPage(maxPage);
-                }}>>>
-                </button>
+                }}>>></button>
             </div>
         </div>
     )

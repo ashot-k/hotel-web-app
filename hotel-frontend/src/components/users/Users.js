@@ -23,7 +23,7 @@ export const Users = () => {
     }
 
     return (
-        <div className="main-content">
+        <div >
             <div className="p-2">
                 {addModal && <CreationForm toggleModal={toggleAddModal} inputs={inputs} initialValues={initialValues}
                                            submitForm={(event)=> {create(event, setDataChanged); setAddModal(!addModal);}} />}
