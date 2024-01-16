@@ -1,5 +1,6 @@
 package com.hotel.service;
 
+import com.hotel.dto.PersonDTO;
 import com.hotel.entity.user.Person;
 import org.springframework.data.domain.Page;
 
@@ -14,7 +15,12 @@ public interface PersonService {
 
     Page<Person> getAllPeople(int pageNo, int pageSize);
 
-    Person savePerson(Person person);
+   // Person savePerson(Person person);
     String deletePerson(Long id);
-    Person updatePerson(Long id, Person updatedPerson);
+
+    Person savePerson(PersonDTO person);
+
+  //  Person updatePerson(Long id, Person updatedPerson);
+
+    Person updatePerson(Long id, PersonDTO updatedPerson);
 }

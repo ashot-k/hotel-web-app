@@ -1,5 +1,6 @@
 package com.hotel.service;
 
+import com.hotel.dto.PersonDTO;
 import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Roles;
@@ -46,23 +47,42 @@ public class PersonServiceImpl implements PersonService {
 
     @Override
     public List<Person> getAllPeople() {
-         return personRepo.findAll();
-    }
-    @Override
-    public Page<Person> getAllPeople(int pageNo, int pageSize) {
-        return personRepo.findAll(PageRequest.of(pageNo,pageSize));
+        return personRepo.findAll();
     }
 
     @Override
-    public Person savePerson(Person person) {
+    public Page<Person> getAllPeople(int pageNo, int pageSize) {
+        return personRepo.findAll(PageRequest.of(pageNo, pageSize));
+    }
+
+
+
+    public Person personDTOtoPerson(PersonDTO personDTO) {
+        Person person = new Person();
+        person.setUsername(personDTO.username());
+        person.setPassword(personDTO.password());
+
+        Address address = new Address();
+        address.setPhoneNumber(personDTO.phoneNumber());
+        address.setEmail(personDTO.email());
+        address.setPostalCode(personDTO.postalCode());
+        address.setCountry(personDTO.country());
+        address.setStreet(personDTO.street());
+        address.setStreet2(personDTO.street2());
+        person.setAddress(address);
+        return person;
+    }
+
+    @Override
+    public Person savePerson(PersonDTO personDTO) {
+        Person person = personDTOtoPerson(personDTO);
         if (person.getId() != null || personRepo.findByUsername(person.getUsername()).isPresent()) {
             try {
                 throw new UsernameAlreadyExistsException(ExceptionMessages.AlreadyExists(Person.class.getSimpleName(), person.getUsername()));
             } catch (UsernameAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
-        }
-        else
+        } else
             person.setRoles(List.of(new Roles(person)));
         if (person.getAddress() == null)
             person.setAddress(new Address());
@@ -72,7 +92,8 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person updatePerson(Long id, Person updatedPerson) {
+    public Person updatePerson(Long id, PersonDTO updatedPersonDTO) {
+        Person updatedPerson = personDTOtoPerson(updatedPersonDTO);
         return personRepo.findById(id).map(oldPerson -> {
             updatedPerson.setId(oldPerson.getId());
             oldPerson = updatedPerson;

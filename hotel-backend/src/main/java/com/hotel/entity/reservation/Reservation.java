@@ -3,6 +3,9 @@ package com.hotel.entity.reservation;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Future;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
@@ -25,16 +28,22 @@ public class Reservation {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client")
+    @NotNull(message = "Please enter personId")
     private Person person;
 
     @ManyToOne
     @JoinColumn(name = "room")
+    @NotNull(message = "Please enter roomId")
     private Room room;
 
     @Column(name = "starts_at")
+    @NotNull(message = "Invalid Date for start")
+    @FutureOrPresent(message = "Invalid Date for start")
     private Date start;
 
     @Column(name = "ends_at")
+    @NotNull(message = "Invalid Date for end")
+    @Future(message = "Invalid Date for end")
     private Date end;
 
     @Column(name = "created_at")

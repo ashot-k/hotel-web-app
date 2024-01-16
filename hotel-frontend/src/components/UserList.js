@@ -5,9 +5,20 @@ export const UserList = ({users, deleteUser, pageNav}) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [modal, setModal] = useState(false);
 
-    console.log(inputs);
+
     const toggleModal = () => {
-         setModal(!modal);
+        setModal(!modal);
+    }
+
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        console.log(formData)
+        const formDataArray = Object.fromEntries(formData);
+      /*  const payload = [];
+        payload.push(formDataArray.)*/
+        console.log(formDataArray);
     }
 
     return (
@@ -32,7 +43,10 @@ export const UserList = ({users, deleteUser, pageNav}) => {
                 <div>
                     <button className="btn btn-success" type="button" onClick={toggleModal}>Add new User
                     </button>
-                    {modal && <CreationForm toggleModal={toggleModal} inputs={inputs} initialValues={initialValues}/>}
+                    {modal && <CreationForm
+                        toggleModal={toggleModal} endpoint={toggleModal} inputs={inputs} initialValues={initialValues}
+                        submitForm={submitForm}
+                    />}
                 </div>
             </div>
             <table className="table table-dark table-striped admin-table">

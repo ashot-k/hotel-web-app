@@ -12,12 +12,13 @@ public record ReservationDTO(@NotNull(message = "Please enter personId") Long pe
                              @NotNull(message = "Invalid Date for start") @FutureOrPresent(message = "Invalid Date for start") Date start,
                              @NotNull(message = "Invalid Date for end") @Future(message = "Invalid Date for end") Date end) {
     public ReservationDTO {
-        if (start.compareTo(end) > 0) {
-            try {
-                throw new InvalidDatesException("Invalid Dates");
-            } catch (InvalidDatesException e) {
-                throw new RuntimeException(e);
+        if (start != null && end != null)
+            if (start.compareTo(end) > 0) {
+                try {
+                    throw new InvalidDatesException("Invalid Dates");
+                } catch (InvalidDatesException e) {
+                    throw new RuntimeException(e);
+                }
             }
-        }
     }
 }

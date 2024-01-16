@@ -36,7 +36,6 @@ public class Person {
             , message = PASSWORD_ERROR_MESSAGE)
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-
     private String password;
 
     @OneToOne(mappedBy = "person", cascade = CascadeType.ALL)

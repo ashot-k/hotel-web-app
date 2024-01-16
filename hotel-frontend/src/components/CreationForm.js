@@ -1,17 +1,13 @@
 import FormInput from "./FormInput";
 import {useState} from "react";
 
-export const CreationForm = ({toggleModal, inputs, initialValues}) => {
+export const CreationForm = ({toggleModal, inputs, initialValues, submitForm}) => {
     const [values, setValues] = useState(initialValues);
-    const submitForm = (e) => {
-       // e.preventDefault();
-        const formData = new FormData(e.target);
-        const payload = Object.fromEntries(formData);
-        console.log(payload);
-    }
+
     const onChange = (e) => {
         setValues({...values, [e.target.name]: e.target.value});
     }
+
     return (
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">

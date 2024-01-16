@@ -1,5 +1,6 @@
 package com.hotel.controller;
 
+import com.hotel.dto.PersonDTO;
 import com.hotel.entity.user.Person;
 import com.hotel.service.PersonService;
 import jakarta.validation.Valid;
@@ -42,13 +43,18 @@ public class PersonRestController {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-    @PostMapping
+    /*@PostMapping
     public ResponseEntity<Person> createUser(@Valid @RequestBody Person person) {
+        return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
+    }*/
+
+    @PostMapping
+    public ResponseEntity<Person> createUser(@Valid @RequestBody PersonDTO person) {
         return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
     }
 
     @PutMapping("/{personId:\\d+}")
-    public ResponseEntity<Person> updateUser(@Valid @RequestBody Person updatedPerson, @PathVariable Long personId) {
+    public ResponseEntity<Person> updateUser(@Valid @RequestBody PersonDTO updatedPerson, @PathVariable Long personId) {
         return new ResponseEntity<>(personService.updatePerson(personId, updatedPerson), HttpStatus.OK);
     }
 
