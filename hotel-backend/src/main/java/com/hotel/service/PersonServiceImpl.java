@@ -55,8 +55,6 @@ public class PersonServiceImpl implements PersonService {
         return personRepo.findAll(PageRequest.of(pageNo, pageSize));
     }
 
-
-
     public Person personDTOtoPerson(PersonDTO personDTO) {
         Person person = new Person();
         person.setUsername(personDTO.username());

@@ -43,11 +43,6 @@ public class PersonRestController {
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
-    /*@PostMapping
-    public ResponseEntity<Person> createUser(@Valid @RequestBody Person person) {
-        return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
-    }*/
-
     @PostMapping
     public ResponseEntity<Person> createUser(@Valid @RequestBody PersonDTO person) {
         return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
