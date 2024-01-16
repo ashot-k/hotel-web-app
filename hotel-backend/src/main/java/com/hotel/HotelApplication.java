@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -26,5 +27,11 @@ public class HotelApplication {
 						.exposedHeaders("X-Total-Pages");
 			}
 		};
+	}
+	@Bean
+	public Jackson2ObjectMapperBuilder jackson2ObjectMapperBuilder() {
+		Jackson2ObjectMapperBuilder builder = new Jackson2ObjectMapperBuilder();
+		builder.simpleDateFormat("yyyy-MM-dd");
+		return builder;
 	}
 }
