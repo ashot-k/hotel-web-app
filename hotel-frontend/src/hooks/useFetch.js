@@ -12,7 +12,7 @@ export const useFetch = (url) => {
             const controller = new AbortController();
             setIsPending(true);
             try {
-                const response = await fetch(url + "?pageNo=" + page + "&pageSize=" + 55555, {signal: controller.signal,});
+                const response = await fetch(url + "?pageNo=" + page + "&pageSize=" + 10, {signal: controller.signal,});
                 if(response.headers.get("X-Total-Pages")) {
                     setMaxPage(response.headers.get("X-Total-Pages") - 1);
                 }

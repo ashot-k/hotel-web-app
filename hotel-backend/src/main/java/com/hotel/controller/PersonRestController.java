@@ -36,7 +36,7 @@ public class PersonRestController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<PersonDTO>> getUsers(
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-            @RequestParam(value = "pageSize", defaultValue = "25") int pageSize) {
+            @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         Page<PersonDTO> page = personService.getAllPeople(pageNo, pageSize);
         HttpHeaders headers = new HttpHeaders();
