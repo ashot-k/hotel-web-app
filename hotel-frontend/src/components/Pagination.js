@@ -18,8 +18,7 @@ export const Pagination = ({pageNav}) => {
             }
             }>Next
             </button>
-            <h3>{pageNav()} Total Pages</h3>
+            <h3>{pageNav() + 1} Total Pages</h3>
         </div>
-
     )
 }

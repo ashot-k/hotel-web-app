@@ -14,12 +14,14 @@ export const CreationForm = ({toggleModal, inputs, initialValues, submitForm}) =
                 <div className="form-modal-body align-items-center">
                     <h1>Info</h1>
                     <hr/>
+
+                    <input name="id" value={values['id']} hidden="true"/>
                     {inputs.map((input) => (
                         <FormInput key={input.id} {...input} value={values[input.name]} onChange={onChange}/>
                     ))}
                     <hr/>
                     <div className="d-flex gap-2 justify-content-center w-100">
-                        <button className="btn btn-success" type="submit">Add</button>
+                        <button className="btn btn-success" type="submit">Submit</button>
                         <button className="btn btn-danger" type="button" onClick={toggleModal}>Cancel</button>
                     </div>
                 </div>

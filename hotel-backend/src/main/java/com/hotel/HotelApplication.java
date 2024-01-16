@@ -21,7 +21,8 @@ public class HotelApplication {
 			@Override
 			public void addCorsMappings(CorsRegistry registry) {
 				registry.addMapping("/**").allowedOrigins("http://192.168.1.75:3000", "http://localhost:3000", "http://192.168.1.75:8080/api/users")
-						.allowedHeaders("X-Total-Pages")
+						.allowedMethods("GET", "POST", "PUT", "DELETE")
+						.allowedHeaders("X-Total-Pages", "Content-Type")
 						.exposedHeaders("X-Total-Pages");
 			}
 		};

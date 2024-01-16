@@ -19,6 +19,7 @@ import java.util.List;
 //@Secured("ADMIN")
 @RequestMapping("/api/users")
 @CrossOrigin({"http://192.168.1.75:3000", "http://localhost:3000", "http://192.168.1.75:8080/api/users"})
+
 public class PersonRestController {
     PersonService personService;
     private static final Logger LOG = LoggerFactory.getLogger(PersonRestController.class);
