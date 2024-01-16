@@ -8,6 +8,7 @@ export const Pagination = ({pageNav}) => {
         for (let i = currentPage; i <= maxPage; i++) {
             if (!(currentPage + 4 < i && i < maxPage)) {
                 buttons.push(
+
                     <button key={i}
                             className={i === currentPage ? "btn btn-primary current-page-button" : "btn btn-primary"}
                             onClick={() => {
