@@ -24,6 +24,7 @@ export const inputs = [
         label: "Start Date*",
         required: true
     },
+
     {
         id: 4,
         name: "end",
