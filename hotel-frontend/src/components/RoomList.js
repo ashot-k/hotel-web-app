@@ -1,27 +1,14 @@
 import {useState} from "react";
 import CreationForm from "./CreationForm"
-import {initialValues, inputs} from "./UserFormFields";
-
-export const UserList = ({users, deleteUser, pageNav, url}) => {
+//import {initialValues, inputs} from "./UserFormFields";
+export const RoomList = ({rooms, deleteRoom, pageNav, url}) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [modal, setModal] = useState(false);
     const [searchTerm, setSearchTerm] = useState("");
     const toggleModal = () => {
         setModal(!modal);
     }
-    function isSearchTermPresent(row, searchTerm) {
-        for (let key in row) {
-            if (row.hasOwnProperty(key)) {
-                const value = row[key];
-                if (typeof value === 'string' && value.toLowerCase().includes(searchTerm.toString().toLowerCase())) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-    const headers = users.length > 0 ? Object.keys(users[0]) : [];
-    console.log(users)
+
     const submitForm = (e) => {
         e.preventDefault();
         const user = Object.fromEntries(new FormData(e.target));
@@ -56,12 +43,12 @@ export const UserList = ({users, deleteUser, pageNav, url}) => {
                     </button>
                 </div>
                 <div>
-                    <button className="btn btn-success" type="button" onClick={toggleModal}>Add new Entry
+                    <button className="btn btn-success" type="button" onClick={toggleModal}>Add new Room
                     </button>
-                    {modal && <CreationForm
+                   {/* {modal && <CreationForm
                         toggleModal={toggleModal} endpoint={toggleModal} inputs={inputs} initialValues={initialValues}
                         submitForm={submitForm}
-                    />}
+                     />}*/}
                 </div>
                 <h3>Search: </h3>
                 <input
@@ -71,21 +58,38 @@ export const UserList = ({users, deleteUser, pageNav, url}) => {
             <table className="table table-dark table-striped admin-table">
                 <tbody>
                 <tr>
-                    {headers.map(heading => {
-                        return <th key={heading}>{heading}</th>
-                    })
-                    }
+                    <th>ID</th>
+                    <th>Room Type</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Size</th>
+                    <th>Price</th>
+                    <th>Actions</th>
                 </tr>
-                {users.filter((row) =>
+                {rooms.filter((row) =>
                     !searchTerm.length
                     ||
-                    isSearchTermPresent(row, searchTerm)
+                    row.roomType.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+                    ||
+                    row.name.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+                    ||
+                    row.description.toString().toLowerCase().includes(searchTerm.toString().toLowerCase())
+
                 )
-                    .map((item, index) => (
-                        <tr key={index}>
-                            {headers.map(header => (
-                                <td key={header}>{item[header]}</td>
-                            ))}
+                    .map((room) => (
+                        <tr className="user-preview p-1" key={room.id}>
+                            <td>{room.id}</td>
+                            <td>{room.roomType}</td>
+                            <td>{room.name}</td>
+                            <td>{room.description}</td>
+                            <td>{room.size}</td>
+                            <td>{room.price}</td>
+                            <td>
+                                <div className="actions">
+                                    <button className="btn btn-warning">Edit</button>
+                                    <button className="btn btn-danger" onClick={() => deleteRoom(room.id)}>Delete</button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

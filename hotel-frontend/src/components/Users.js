@@ -12,7 +12,7 @@ export const Users = () => {
 
     return (
         <div>
-            {users && <UserList users={users} deleteUser={deleteUser} pageNav={pageNav}/>}
+            {users && <UserList users={users} deleteUser={deleteUser} pageNav={pageNav} url={usersUrl}/>}
             {isPending && <div>Loading Users...</div>}
         </div>
     );

@@ -18,9 +18,10 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query("FROM Person p JOIN FETCH p.address a")
     List<Person> findAll();
     @Override
-    @Query("FROM Person p JOIN FETCH p.address a")
+    @Query("FROM Person p JOIN FETCH p.address a ORDER BY p.id")
     Page<Person> findAll(Pageable pageable);
 
     Optional<Person> findByUsername(String username);
+
 
 }

@@ -1,5 +1,6 @@
 package com.hotel.service;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hotel.dto.PersonDTO;
 import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
@@ -10,6 +11,9 @@ import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,9 +37,9 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person getPersonById(Long id) {
-        return personRepo.findById(id).orElseThrow(() -> new EntityNotFoundException(
-                ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
+    public PersonDTO getPersonById(Long id) {
+        return personRepo.findById(id).map(this::PersonToPersonDTO)
+                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
     }
 
     @Override
@@ -51,12 +55,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Page<Person> getAllPeople(int pageNo, int pageSize) {
-        return personRepo.findAll(PageRequest.of(pageNo, pageSize));
+    public Page<PersonDTO> getAllPeople(int pageNo, int pageSize) {
+        return personRepo.findAll(PageRequest.of(pageNo, pageSize)).map(
+                (this::PersonToPersonDTO)
+        );
     }
 
+    @Override
     public Person personDTOtoPerson(PersonDTO personDTO) {
         Person person = new Person();
+        person.setId(personDTO.id());
         person.setUsername(personDTO.username());
         person.setPassword(personDTO.password());
 
@@ -72,7 +80,16 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public Person savePerson(PersonDTO personDTO) {
+    public PersonDTO PersonToPersonDTO(Person p) {
+        Address a = p.getAddress();
+        return new PersonDTO(p.getId(), p.getUsername(), p.getPassword()
+                , a.getEmail(), a.getCountry(), a.getPostalCode(),
+                a.getStreet(), a.getStreet2(), a.getPhoneNumber());
+    }
+
+
+    @Override
+    public PersonDTO savePerson(PersonDTO personDTO) {
         Person person = personDTOtoPerson(personDTO);
         if (person.getId() != null || personRepo.findByUsername(person.getUsername()).isPresent()) {
             try {
@@ -86,18 +103,18 @@ public class PersonServiceImpl implements PersonService {
             person.setAddress(new Address());
         person.getAddress().setPerson(person);
         person.setPassword(bCryptEncoder.encode(person.getPassword()));
-        return personRepo.save(person);
+        return PersonToPersonDTO(personRepo.save(person));
     }
 
     @Override
-    public Person updatePerson(Long id, PersonDTO updatedPersonDTO) {
+    public PersonDTO updatePerson(Long id, PersonDTO updatedPersonDTO) {
         Person updatedPerson = personDTOtoPerson(updatedPersonDTO);
         return personRepo.findById(id).map(oldPerson -> {
             updatedPerson.setId(oldPerson.getId());
             oldPerson = updatedPerson;
             oldPerson.getAddress().setPerson(oldPerson);
             oldPerson.getAddress().setId(oldPerson.getId());
-            return personRepo.save(oldPerson);
+            return PersonToPersonDTO(personRepo.save(oldPerson));
         }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
     }
 

@@ -28,15 +28,17 @@ public class PersonRestController {
     }
 
     @GetMapping("/{personId:\\d+}")
-    public ResponseEntity<Person> getUser(@PathVariable Long personId) {
+    public ResponseEntity<PersonDTO> getUser(@PathVariable Long personId) {
         return new ResponseEntity<>(personService.getPersonById(personId), HttpStatus.OK);
     }
 
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<Person>> getUsers(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-                                                 @RequestParam(value = "pageSize", defaultValue = "25") int pageSize) {
-        Page<Person> page = personService.getAllPeople(pageNo, pageSize);
+    public ResponseEntity<List<PersonDTO>> getUsers(
+            @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "25") int pageSize) {
+
+        Page<PersonDTO> page = personService.getAllPeople(pageNo, pageSize);
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Pages", String.valueOf(page.getTotalPages()));
 
@@ -44,12 +46,12 @@ public class PersonRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> createUser(@Valid @RequestBody PersonDTO person) {
+    public ResponseEntity<PersonDTO> createUser(@Valid @RequestBody PersonDTO person) {
         return new ResponseEntity<>(personService.savePerson(person), HttpStatus.CREATED);
     }
 
     @PutMapping("/{personId:\\d+}")
-    public ResponseEntity<Person> updateUser(@Valid @RequestBody PersonDTO updatedPerson, @PathVariable Long personId) {
+    public ResponseEntity<PersonDTO> updateUser(@Valid @RequestBody PersonDTO updatedPerson, @PathVariable Long personId) {
         return new ResponseEntity<>(personService.updatePerson(personId, updatedPerson), HttpStatus.OK);
     }
 

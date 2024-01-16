@@ -12,8 +12,10 @@ export const useFetch = (url) => {
             const controller = new AbortController();
             setIsPending(true);
             try {
-                const response = await fetch(url + "?pageNo=" + page + "&pageSize=" + 5, {signal: controller.signal,});
-                setMaxPage(response.headers.get("X-Total-Pages") - 1);
+                const response = await fetch(url + "?pageNo=" + page + "&pageSize=" + 55555, {signal: controller.signal,});
+                if(response.headers.get("X-Total-Pages")) {
+                    setMaxPage(response.headers.get("X-Total-Pages") - 1);
+                }
                 const data = (await response.json());
                 setData(data);
             } catch (e) {
@@ -46,7 +48,6 @@ export const useFetch = (url) => {
                 setData(data.filter(data => data.id !== id));
             });
     }
-
 
     return {data, isPending, error, handleDelete, pageNav}
 }
