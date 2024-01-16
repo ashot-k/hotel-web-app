@@ -4,9 +4,9 @@ import com.hotel.entity.room.Room;
 import com.hotel.repo.RoomRepository;
 import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -23,8 +23,8 @@ public class RoomServiceImpl implements RoomService {
     }
 
     @Override
-    public List<Room> findAllRooms() {
-        return roomRepo.findAll();
+    public Page<Room> getAllRooms(int pageNo, int pageSize) {
+        return roomRepo.findAll(PageRequest.of(pageNo, pageSize));
     }
 
     @Override

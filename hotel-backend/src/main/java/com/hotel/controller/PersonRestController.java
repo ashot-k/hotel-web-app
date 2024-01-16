@@ -30,7 +30,7 @@ public class PersonRestController {
 
     @GetMapping("/{personId:\\d+}")
     public ResponseEntity<PersonDTO> getUser(@PathVariable Long personId) {
-        return new ResponseEntity<>(personService.getPersonById(personId), HttpStatus.OK);
+        return new ResponseEntity<>(personService.getPersonDTOById(personId), HttpStatus.OK);
     }
 
     @GetMapping

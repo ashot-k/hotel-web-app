@@ -26,8 +26,10 @@
 
 .pagination {
   display: flex;
-  gap: 0.2rem;
-  justify-content: center;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: start;
+  align-items: center;
 }
 
 .overlay {
@@ -72,4 +74,4 @@ input:invalid[focused=true] ~ span {
   display: block;
 }
 
-/*# sourceMappingURL=admin-users-page.css.map */
+/*# sourceMappingURL=list-page.css.map */

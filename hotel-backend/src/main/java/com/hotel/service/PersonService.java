@@ -9,19 +9,23 @@ import java.util.List;
 
 public interface PersonService {
 
-    PersonDTO getPersonById(Long id);
+    Person getPersonById(Long id);
+
     Person getPersonByUsername(String username);
+
     List<Person> getAllPeople();
-
-    Page<PersonDTO> getAllPeople(int pageNo, int pageSize);
-
-    String deletePerson(Long id);
 
     Person personDTOtoPerson(PersonDTO personDTO);
 
     PersonDTO PersonToPersonDTO(Person p);
 
+    Page<PersonDTO> getAllPeople(int pageNo, int pageSize);
+
+    PersonDTO getPersonDTOById(Long id);
+
     PersonDTO savePerson(PersonDTO person);
 
     PersonDTO updatePerson(Long id, PersonDTO updatedPerson);
+
+    String deletePerson(Long id);
 }

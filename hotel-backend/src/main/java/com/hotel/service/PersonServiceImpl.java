@@ -1,6 +1,5 @@
 package com.hotel.service;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hotel.dto.PersonDTO;
 import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
@@ -11,9 +10,6 @@ import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -37,10 +33,17 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public PersonDTO getPersonById(Long id) {
+    public PersonDTO getPersonDTOById(Long id) {
         return personRepo.findById(id).map(this::PersonToPersonDTO)
                 .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
     }
+
+    @Override
+    public Person getPersonById(Long id) {
+        return personRepo.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
+    }
+
 
     @Override
     public Person getPersonByUsername(String username) {

@@ -50,7 +50,7 @@ public class ReservationServiceImpl implements ReservationService {
         Date end = reservationDTO.end();
         if (reservationRepo.isRoomReserved(-1L, roomId, start, end))
             throw new RoomReservedException("Room with id: " + roomId + " is already reserved");
-        Person person = personService.personDTOtoPerson(personService.getPersonById(personId));
+        Person person = personService.getPersonById(personId);
         Room room = roomService.getRoomById(roomId);
         Reservation reservation = new Reservation(person, room, start, end);
         return reservationRepo.save(reservation);
@@ -68,7 +68,7 @@ public class ReservationServiceImpl implements ReservationService {
                     throw new RuntimeException(e);
                 }
             }
-            oldReservation.setPerson(personService.personDTOtoPerson(personService.getPersonById(updatedReservation.personId())));
+            oldReservation.setPerson(personService.getPersonById(updatedReservation.personId()));
             oldReservation.setRoom(roomService.getRoomById(updatedReservation.roomId()));
             return reservationRepo.save(oldReservation);
         }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Reservation.class.getSimpleName(), id)));

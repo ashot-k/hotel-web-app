@@ -1,5 +1,6 @@
 package com.hotel.entity.reservation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
 import jakarta.persistence.*;
@@ -29,13 +30,19 @@ public class Reservation {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client")
     @NotNull(message = "Please enter personId")
+    @JsonIgnore
     private Person person;
 
     @ManyToOne
     @JoinColumn(name = "room")
     @NotNull(message = "Please enter roomId")
+    @JsonIgnore
     private Room room;
 
+    @Transient
+    private Long personId;
+    @Transient
+    private Long roomId;
     @Column(name = "starts_at")
     @NotNull(message = "Invalid Date for start")
     @FutureOrPresent(message = "Invalid Date for start")
@@ -49,6 +56,19 @@ public class Reservation {
     @Column(name = "created_at")
     private Date created = new Date();
 
+
+    public Long getPersonId() {
+        if (person != null) {
+            return person.getId();  // Assuming the Person class has a `getName()` method
+        }
+        return null;
+    }
+    public Long getRoomId(){
+        if(room != null){
+            return room.getId();
+        }
+        return null;
+    }
 
     public Long getId() {
         return id;

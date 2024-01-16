@@ -1,44 +1,42 @@
-import {useFetch} from "../hooks/useFetch";
-import {useEffect} from "react";
+export const CRUDOperations = (url) => {
 
-export const CRUDOperations = (setDataChanged) => {
-
-    const create =  (e, url) => {
+    const create = (e, setDataChanged) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
         fetch(url, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(entry)
         }).then(() => {
                 console.log("new entry added");
+                setDataChanged((prev) => prev + 1);
             }
-        )
+        );
 
-        setDataChanged((prev) => prev + 1);
     }
 
-    const update= (e, url, setDataChanged) =>{
+    const update = (e, setDataChanged) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
         console.log(entry)
         fetch(url + "/" + entry['id'], {
             method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(entry)
         }).then(() => {
                 console.log("entry updated");
+                setDataChanged((prev) => prev + 1);
             }
-        )
-        setDataChanged((prev) => prev + 1);
-        console.log("called update" + setDataChanged)
+        );
     }
-    function remove(url, id) {
+
+    function remove(id, setDataChanged) {
         fetch(url + "/" + id, {method: 'DELETE'})
-            .then(()=>{
+            .then(() => {
                 console.log("entry deleted");
-            })
-        setDataChanged((prev) => prev + 1);
+                setDataChanged((prev) => prev + 1);
+            });
     }
+
     return {create, update, remove}
 }

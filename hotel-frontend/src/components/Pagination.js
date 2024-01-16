@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export const Pagination = ({pageNav}) => {
     const [currentPage, setCurrentPage] = useState(0);
@@ -22,7 +22,7 @@ export const Pagination = ({pageNav}) => {
         return buttons;
     }
     return (
-        <div className="pagination d-flex flex-row gap-2 justify-content-start align-items-center">
+        <div className="pagination">
             <h5>{pageNav() + 1} Total Pages</h5>
             <div className=" d-flex flex-row gap-2 ">
                 <button className="btn btn-primary" onClick={() => {
