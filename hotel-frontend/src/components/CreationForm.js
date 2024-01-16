@@ -15,7 +15,7 @@ export const CreationForm = ({toggleModal, inputs, initialValues, submitForm}) =
                     <h1>Info</h1>
                     <hr/>
 
-                    <input name="id" value={values['id']} hidden="true"/>
+                    <input name="id" value={values['id']} hidden={true}/>
                     {inputs.map((input) => (
                         <FormInput key={input.id} {...input} value={values[input.name]} onChange={onChange}/>
                     ))}

@@ -2,23 +2,57 @@ import {useState} from "react";
 
 export const Pagination = ({pageNav}) => {
     const [currentPage, setCurrentPage] = useState(0);
-    return (
-        <div className="pagination d-flex flex-row gap-2">
-            <button className="btn btn-primary" onClick={() => {
-                pageNav(false);
-                if (currentPage > 0)
-                    setCurrentPage(currentPage - 1);
-            }}>Previous
-            </button>
-            <button className="btn btn-primary current-page-button">{currentPage + 1}</button>
-            <button className="btn btn-primary" onClick={() => {
-                const max = pageNav(true);
-                if (currentPage < max)
-                    setCurrentPage(currentPage + 1);
+    const [maxPage, setMaxPage] = useState(pageNav);
+    const pageButtons = () => {
+        const buttons = [];
+        for (let i = currentPage; i <= maxPage; i++) {
+            if (!(currentPage + 4 < i && i < maxPage)) {
+                buttons.push(
+                    <button key={i}
+                            className={i === currentPage ? "btn btn-primary current-page-button" : "btn btn-primary"}
+                            onClick={() => {
+                                pageNav(i);
+                                setCurrentPage(i);
+                            }}>{i + 1}</button>);
+            } else if (maxPage - 1 === i) {
+                buttons.push(<button className="btn btn-primary">...</button>);
             }
-            }>Next
-            </button>
-            <h3>{pageNav() + 1} Total Pages</h3>
+        }
+        return buttons;
+    }
+    return (
+        <div className="pagination d-flex flex-row gap-2 justify-content-start align-items-center">
+            <h5>{pageNav() + 1} Total Pages</h5>
+            <div className=" d-flex flex-row gap-2 ">
+                <button className="btn btn-primary" onClick={() => {
+                    if (currentPage > 0) {
+                        setMaxPage(pageNav(0));
+                        setCurrentPage(0);
+                    }
+                }}> &#60;&#60;</button>
+                <button className="btn btn-primary" onClick={() => {
+                    if (currentPage > 0) {
+                        setMaxPage(pageNav(currentPage - 1));
+                        setCurrentPage(currentPage - 1);
+                    }
+                }}> &#60;</button>
+                {pageButtons()}
+
+                <button className="btn btn-primary" onClick={() => {
+                    const max = pageNav();
+                    setMaxPage(max);
+                    if (currentPage < max) {
+                        setMaxPage(pageNav(currentPage + 1));
+                        setCurrentPage(currentPage + 1);
+                    }
+                }}>>
+                </button>
+                <button className="btn btn-primary" onClick={() => {
+                    setMaxPage(pageNav(maxPage));
+                    setCurrentPage(maxPage);
+                }}>>>
+                </button>
+            </div>
         </div>
     )
 }

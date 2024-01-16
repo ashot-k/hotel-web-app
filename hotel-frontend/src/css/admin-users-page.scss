@@ -4,7 +4,7 @@
   color: white;
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 10px;
 
 }
 .admin-table-container{
@@ -54,6 +54,7 @@
 
 .current-page-button{
   pointer-events: none;
+  background-color: green !important;
 }
 span{
   font-size: 16px;
