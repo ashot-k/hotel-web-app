@@ -3,7 +3,7 @@ import {useState} from "react";
 export const Pagination = ({pageNav}) => {
     const [currentPage, setCurrentPage] = useState(0);
     return (
-        <div className="pagination">
+        <div className="pagination d-flex flex-row gap-2">
             <button className="btn btn-primary" onClick={() => {
                 pageNav(false);
                 if (currentPage > 0)
@@ -18,6 +18,8 @@ export const Pagination = ({pageNav}) => {
             }
             }>Next
             </button>
+            <h3>{pageNav()} Total Pages</h3>
         </div>
+
     )
 }

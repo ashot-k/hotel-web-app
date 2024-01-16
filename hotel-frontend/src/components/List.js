@@ -1,9 +1,8 @@
 import {useState} from "react";
-import CreationForm from "./CreationForm"
-import {initialValues, inputs} from "./UserFormFields";
 
 export const List = ({data, deleteEntry}) => {
     const [searchTerm, setSearchTerm] = useState("");
+    const headers = data.length > 0 ? Object.keys(data[0]) : [];
 
     function isSearchTermPresent(row, searchTerm) {
         for (let key in row) {
@@ -16,10 +15,6 @@ export const List = ({data, deleteEntry}) => {
         }
         return false;
     }
-    const headers = data.length > 0 ? Object.keys(data[0]) : [];
-
-    console.log(data)
-
 
     return (
         <div>
@@ -30,20 +25,26 @@ export const List = ({data, deleteEntry}) => {
             <table className="table table-dark table-striped admin-table">
                 <tbody>
                 <tr>
-                    {headers.map(heading => {return <th key={heading}>{heading}</th>})}
+                    <th>#</th>
+                    {headers.map(heading => {
+                        return <th key={heading}>{heading}</th>
+                    })}
+                    <th>Actions</th>
                 </tr>
-                {data.filter((row) =>
-                    !searchTerm.length
-                    ||
-                    isSearchTermPresent(row, searchTerm)
-                )
+                {data.filter((row) => !searchTerm.length || isSearchTermPresent(row, searchTerm))
                     .map((item, index) => (
                         <tr key={index}>
+                            <td>{index}</td>
                             {headers.map(header => (
                                 <td key={header}>{item[header]}</td>
                             ))}
-
-                            <td></td>
+                            <td>
+                                <div className="actions">
+                                    <button className="btn btn-warning">Edit</button>
+                                    <button className="btn btn-danger" onClick={() => deleteEntry(item.id)}>Delete
+                                    </button>
+                                </div>
+                            </td>
                         </tr>
                     ))}
                 </tbody>

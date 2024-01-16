@@ -20,6 +20,7 @@ export const Users = () => {
     const submitForm = (e) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
+        console.log(entry)
         fetch(usersUrl, {
             method: 'POST',
             headers: {"Content-Type": "application/json"},
@@ -30,13 +31,13 @@ export const Users = () => {
         )
     }
     return (
-        <div>
+        <div className="main-content">
             <Pagination pageNav={pageNav}/>
             <div>
                 <button className="btn btn-success" type="button" onClick={toggleModal}>Add new Entry</button>
                 {modal && <CreationForm toggleModal={toggleModal} inputs={inputs} initialValues={initialValues} submitForm={submitForm} />}
             </div>
-            {users && <List data={users}/>}
+            {users && <List data={users} deleteEntry={deleteEntry}/>}
             {isPending && <div>Loading Users...</div>}
         </div>
     );

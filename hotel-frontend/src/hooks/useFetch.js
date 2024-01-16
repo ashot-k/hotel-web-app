@@ -12,7 +12,7 @@ export const useFetch = (url) => {
             const controller = new AbortController();
             setIsPending(true);
             try {
-                const response = await fetch(url + "?pageNo=" + page + "&pageSize=" + 10, {signal: controller.signal,});
+                const response = await fetch(url + "?pageNo=" + page + "&pageSize=" + 100, {signal: controller.signal,});
                 if(response.headers.get("X-Total-Pages")) {
                     setMaxPage(response.headers.get("X-Total-Pages") - 1);
                 }
@@ -29,14 +29,15 @@ export const useFetch = (url) => {
     }, [page])
 
     function pageNav(i) {
-        if (i) {
-            if (page < maxPage) {
-                setPage(page + 1);
-            }
-        }
-        else if (!i) {
-            if (page > 0) {
-                setPage(page - 1);
+        if(i != null) {
+            if (i) {
+                if (page < maxPage) {
+                    setPage(page + 1);
+                }
+            } else if (!i) {
+                if (page > 0) {
+                    setPage(page - 1);
+                }
             }
         }
         return maxPage;

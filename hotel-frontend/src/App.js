@@ -5,7 +5,7 @@ import {Users} from "./components/Users";
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
     return (
-        <div className="App main-content">
+        <div className="App ">
             <Users/>
         </div>
     );
