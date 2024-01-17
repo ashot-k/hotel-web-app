@@ -48,6 +48,7 @@ public class RoomServiceImpl implements RoomService {
         }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Room.class.getSimpleName(), id)));
     }
 
+
     @Override
     public List<Room> getAllRooms() {
         return roomRepo.findAll();
