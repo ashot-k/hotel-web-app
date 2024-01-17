@@ -41,7 +41,6 @@ export const List = ({data, toggleAddModal, toggleEditModal, setDataChanged, pag
                         <tr key={index}>
                             <td>{index + 1}</td>
                             {headers.map(header => {
-                                console.log(header)
                                 if (header === 'imageUrl')
                                     return <td key={header}><img src={item[header]} width={"100px"} height={"100px"} alt=""></img></td>
                                 else

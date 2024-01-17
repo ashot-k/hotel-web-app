@@ -7,7 +7,7 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
     const [description, setDescription] = useState(initialValues.description);
     const [size, setSize] = useState(initialValues.size);
     const [price, setPrice] = useState(initialValues.price);
-
+    const [imageUrl, setImageUrl] = useState(initialValues.imageUrl);
     return (
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">
@@ -40,6 +40,10 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
                     <div>
                         <label>Price*</label><br/>
                         <input name="price" type={"number"} value={price} onChange={(e) => setPrice(e.target.value)}/>
+                    </div>
+                    <div>
+                        <label>Add Image</label><br/>
+                        <input name="imageUrl" type={"file"}  onChange={(e) => setImageUrl(e.target.value)}/>
                     </div>
                     <div className="d-flex gap-2 justify-content-center w-100">
                         <button className="btn btn-success" type="submit">Submit</button>

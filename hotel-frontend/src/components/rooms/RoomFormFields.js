@@ -1,3 +1,4 @@
+/*
 export const inputs = [
     {
         id: 2,
@@ -44,6 +45,7 @@ export const inputs = [
         label: "Price*",
         required: true
     }];
+*/
 
 export const roomTypes= ["SINGLE", "DOUBLE", "TRIPLE", "STUDIO", "SUITE", "DELUXE"];
 export const initialValues = {
@@ -51,5 +53,6 @@ export const initialValues = {
     size: "",
     roomType: "",
     price: "",
-    description: ""
+    description: "",
+    imageUrl:""
 };
