@@ -38,7 +38,7 @@
 export const initialValues = {
     id: "",
     username: "",
-    roomId: "",
     start: "",
-    end: ""
+    end: "",
+    roomId: ""
 };

@@ -26,6 +26,17 @@ public class Room {
     @Column(name = "price")
     private double price;
 
+    @Column(name = "image_url")
+    private String imageUrl;
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
     public RoomType getRoomType() {
         return roomType;
     }

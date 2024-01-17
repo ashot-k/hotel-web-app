@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {Await} from "react-router-dom";
 
 export const ReservationForm = ({toggleModal, initialValues, submitForm, checkAvailabilityUrl}) => {
 
@@ -9,11 +10,16 @@ export const ReservationForm = ({toggleModal, initialValues, submitForm, checkAv
     const [availableRooms, setAvailableRooms] = useState(null);
 
 
+    useEffect(() => {
+        checkAvailability()
+    }, [start, end]);
+
+
+
     const checkAvailability = async () => {
         if(start && end) {
             console.log(start, end)
             const response = await fetch(checkAvailabilityUrl + "?start=" + start + "&end=" + end);
-
             const rooms = (await response.json());
             console.log(rooms);
             setAvailableRooms(rooms);
@@ -33,21 +39,20 @@ export const ReservationForm = ({toggleModal, initialValues, submitForm, checkAv
 
                     <div>
                         <label>Starting Date*</label><br/>
-                        <input name="start" type={"date"} value={start} onChange={(e) => {
-                            checkAvailability();
-                            setStart(e.target.value)
+                        <input name="start" type={"date"} value={start} onChange={ (e) => {
+                            setStart(e.target.value);
                         }}/>
                     </div>
                     <div>
                         <label>End*</label><br/>
                         <input name="end" type={"date"} value={end} onChange={(e) => {
-                            checkAvailability();
-                            setEnd(e.target.value)}}/>
+                           setEnd(e.target.value);
+                        }}/>
                     </div>
 
                     <div>
                         <label>Room Id*</label><br/>
-                        <select>
+                        <select name="roomId">
                             {availableRooms &&
                                 availableRooms.map((room) => {
                                 return <option value={room.id}>{room.id}</option>

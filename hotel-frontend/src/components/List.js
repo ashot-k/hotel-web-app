@@ -24,7 +24,8 @@ export const List = ({data, toggleAddModal, toggleEditModal, setDataChanged, pag
             </div>
             <div className="p-3 d-flex justify-content-between">
                 {data.length > 0 && <Pagination pageNav={pageNav}/>}
-                <button className="btn btn-success" type="button" onClick={() => toggleAddModal()}>Add new Entry</button>
+                <button className="btn btn-success" type="button" onClick={() => toggleAddModal()}>Add new Entry
+                </button>
             </div>
             <table className="table table-dark table-striped admin-table">
                 <tbody>
@@ -39,10 +40,13 @@ export const List = ({data, toggleAddModal, toggleEditModal, setDataChanged, pag
                     .map((item, index) => (
                         <tr key={index}>
                             <td>{index + 1}</td>
-                            {headers.map(header => (
-                                <td key={header}>{item[header]}</td>
-                            ))
-                            }
+                            {headers.map(header => {
+                                console.log(header)
+                                if (header === 'imageUrl')
+                                    return <td key={header}><img src={item[header]} width={"100px"} height={"100px"} alt=""></img></td>
+                                else
+                                    return <td key={header}>{item[header]}</td>
+                            })}
                             <td>
                                 <div className="actions">
                                     <button className="btn btn-warning" onClick={() => toggleEditModal(item)}>Edit
