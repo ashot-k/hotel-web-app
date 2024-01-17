@@ -1,7 +1,7 @@
 package com.hotel.controller;
 
-import com.hotel.dto.PersonDTO;
 import com.hotel.entity.room.Room;
+import com.hotel.entity.room.RoomType;
 import com.hotel.service.RoomService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
@@ -12,7 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class RoomRestController {
     RoomService roomService;
     private static final Logger LOG = LoggerFactory.getLogger(RoomRestController.class);
 
-    public RoomRestController(RoomService roomService){
+    public RoomRestController(RoomService roomService) {
         this.roomService = roomService;
     }
 
@@ -32,14 +32,23 @@ public class RoomRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Room>> getRooms( @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-                                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+    public ResponseEntity<List<Room>> getRooms(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         Page<Room> page = roomService.getAllRooms(pageNo, pageSize);
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Pages", String.valueOf(page.getTotalPages()));
 
         return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
+
+    @GetMapping("/room-types")
+    public ResponseEntity<List<String>> getRoomTypes() {
+        List<String> roomTypes = new ArrayList<>();
+        for (RoomType roomType : RoomType.values())
+            roomTypes.add(roomType.name());
+        return new ResponseEntity<>(roomTypes, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room) {
         return new ResponseEntity<>(roomService.saveRoom(room), HttpStatus.CREATED);

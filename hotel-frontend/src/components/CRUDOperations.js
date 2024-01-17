@@ -32,10 +32,11 @@ export const CRUDOperations = (url) => {
 
     function remove(id, setDataChanged) {
         fetch(url + "/" + id, {method: 'DELETE'})
-            .then(() => {
+            .then((message) => {
+                console.log(message.text());
                 console.log("entry deleted");
                 setDataChanged((prev) => prev + 1);
-            });
+            }).catch(error => console.log(error));
     }
 
     return {create, update, remove}

@@ -18,7 +18,6 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
 
-import static java.lang.System.in;
 
 @Component
 public class HotelAuthenticationProvider implements AuthenticationProvider {
@@ -26,7 +25,6 @@ public class HotelAuthenticationProvider implements AuthenticationProvider {
     PersonService personService;
 
     PasswordEncoder passwordEncoder;
-
     public HotelAuthenticationProvider(PersonService personService, PasswordEncoder passwordEncoder) {
         this.personService = personService;
         this.passwordEncoder = passwordEncoder;
@@ -50,7 +48,9 @@ public class HotelAuthenticationProvider implements AuthenticationProvider {
             for (Roles r : person.getRoles()) {
                 authorities.add(new SimpleGrantedAuthority(r.getRole()));
             }
-            return new UsernamePasswordAuthenticationToken(username, password, authorities);
+
+
+         return new UsernamePasswordAuthenticationToken(username, password, authorities);
         } else
             throw new BadCredentialsException("Invalid Password");
     }

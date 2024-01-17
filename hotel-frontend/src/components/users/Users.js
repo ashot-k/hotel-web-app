@@ -1,9 +1,9 @@
 import {List} from "../List";
 import {useFetch} from "../../hooks/useFetch";
-import CreationForm from "../CreationForm";
-import {initialValues, inputs} from "./UserFormFields";
+import {initialValues} from "./UserFormFields";
 import {useState} from "react";
 import {CRUDOperations} from "../CRUDOperations";
+import UserForm from "./UserForm";
 
 export const Users = () => {
 
@@ -23,15 +23,21 @@ export const Users = () => {
     }
 
     return (
-        <div >
+        <div>
             <div className="p-2">
-                {addModal && <CreationForm toggleModal={toggleAddModal} inputs={inputs} initialValues={initialValues}
-                                           submitForm={(event)=> {create(event, setDataChanged); setAddModal(!addModal);}} />}
-
-                {editModal && <CreationForm toggleModal={toggleEditModal} inputs={inputs} initialValues={editDetails}
-                                            submitForm={(event) => {update(event, setDataChanged); setEditModal(!editModal);}}/>}
+                {addModal && <UserForm toggleModal={toggleAddModal} initialValues={initialValues}
+                                       submitForm={(event) => {
+                                           create(event, setDataChanged);
+                                           setAddModal(!addModal);
+                                       }}/>}
+                {editModal && <UserForm toggleModal={toggleEditModal}
+                                        submitForm={(event) => {
+                                            update(event, setDataChanged);
+                                            setEditModal(!editModal);
+                                        }}
+                                        initialValues={editDetails}/>}
             </div>
-            {users && <List data={users}  inputs={inputs}
+            {users && <List data={users}
                             toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal}
                             setDataChanged={setDataChanged} pageNav={pageNav} remove={remove}/>}
             {isPending && <div>Loading Users...</div>}

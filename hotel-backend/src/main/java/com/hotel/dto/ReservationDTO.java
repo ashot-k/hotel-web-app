@@ -7,7 +7,9 @@ import jakarta.validation.constraints.NotNull;
 
 import java.util.Date;
 
-public record ReservationDTO(@NotNull(message = "Please enter personId") Long personId,
+public record ReservationDTO(
+        Long id,
+        @NotNull(message = "Please enter username") String username,
                              @NotNull(message = "Please enter roomId") Long roomId,
                              @NotNull(message = "Invalid Date for start") @FutureOrPresent(message = "Invalid Date for start") Date start,
                              @NotNull(message = "Invalid Date for end") @Future(message = "Invalid Date for end") Date end) {

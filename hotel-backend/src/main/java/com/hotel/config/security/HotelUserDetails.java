@@ -1,9 +1,9 @@
 package com.hotel.config.security;
 
+/*
 import com.hotel.entity.user.Person;
-import com.hotel.repo.PersonRepository;
+import com.hotel.entity.user.Roles;
 import com.hotel.service.PersonService;
-import com.hotel.service.PersonServiceImpl;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -15,15 +15,16 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
-/*@Service
+@Service
 public class HotelUserDetails implements UserDetailsService {
     PersonService personService;
 
-    public HotelUserDetails(PersonService personService){
+    public HotelUserDetails(PersonService personService) {
         this.personService = personService;
     }
 
-    @Override
+
+   @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         String name, password = null;
         List<GrantedAuthority> authorities = null;
@@ -34,11 +35,13 @@ public class HotelUserDetails implements UserDetailsService {
         } catch (Exception e) {
             throw new UsernameNotFoundException("User with name " + username + " not found");
         }
-            name = person.getUsername();
-            password = person.getPassword();
-            authorities = new ArrayList<>();
-            authorities.add(new SimpleGrantedAuthority(person.getRoles().getRole()));
-            return new User(name, password, authorities);
+        name = person.getUsername();
+        password = person.getPassword();
+        authorities = new ArrayList<>();
+        for (Roles role : person.getRoles())
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        return new User(name, password, authorities);
 
     }
-}*/
+}
+*/

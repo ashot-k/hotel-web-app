@@ -1,4 +1,4 @@
-export const inputs = [
+/*export const inputs = [
     {
         id: 1,
         name: "username",
@@ -77,7 +77,7 @@ export const inputs = [
         errorMessage: "",
         label: "Street 2 (Optional)"
     },
-];
+];*/
 export const initialValues = {
     username: "",
     password: "",
@@ -85,7 +85,7 @@ export const initialValues = {
     country: "",
     postalCode: "",
     phoneNumber: "",
-    street1: "",
+    street: "",
     street2: "",
 };
 

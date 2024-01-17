@@ -11,6 +11,7 @@ import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,24 +34,50 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Reservation> findAllReservations() {
-        return reservationRepo.findAll();
+    public Reservation reservationDTOToReservation(ReservationDTO reservationDTO) {
+        Reservation reservation = new Reservation();
+        reservation.setPerson(personService.getPersonByUsername(reservationDTO.username()));
+        reservation.setStart(reservationDTO.start());
+        reservation.setEnd(reservationDTO.end());
+        reservation.setRoom(roomService.getRoomById(reservationDTO.roomId()));
+        return reservation;
     }
 
     @Override
-    public Reservation createReservation(Reservation reservation) {
-        return null;
+    public ReservationDTO reservationToReservationDTO(Reservation reservation) {
+        return new ReservationDTO(reservation.getId(), reservation.getPerson().getUsername(), reservation.getRoomId(), reservation.getStart(), reservation.getEnd());
+    }
+
+    @Override
+    public List<ReservationDTO> getAllReservationsDTO() {
+        List<Reservation> reservations = reservationRepo.findAll();
+        List<ReservationDTO> reservationDTOS = new ArrayList<>();
+
+        for (Reservation reservation : reservations) {
+            reservationDTOS.add(reservationToReservationDTO(reservation));
+        }
+        return reservationDTOS;
+    }
+
+    @Override
+    public List<Room> getAvailableRooms(Date start, Date end) {
+        return reservationRepo.available(start, end);
+    }
+
+    @Override
+    public List<Reservation> getAllReservations() {
+        return reservationRepo.findAll();
     }
 
     @Override
     public Reservation createReservation(ReservationDTO reservationDTO) throws RoomReservedException {
         Long roomId = reservationDTO.roomId();
-        Long personId = reservationDTO.personId();
+        String username = reservationDTO.username();
         Date start = reservationDTO.start();
         Date end = reservationDTO.end();
         if (reservationRepo.isRoomReserved(-1L, roomId, start, end))
             throw new RoomReservedException("Room with id: " + roomId + " is already reserved");
-        Person person = personService.getPersonById(personId);
+        Person person = personService.getPersonByUsername(username);
         Room room = roomService.getRoomById(roomId);
         Reservation reservation = new Reservation(person, room, start, end);
         return reservationRepo.save(reservation);
@@ -68,7 +95,7 @@ public class ReservationServiceImpl implements ReservationService {
                     throw new RuntimeException(e);
                 }
             }
-            oldReservation.setPerson(personService.getPersonById(updatedReservation.personId()));
+            oldReservation.setPerson(personService.getPersonByUsername(updatedReservation.username()));
             oldReservation.setRoom(roomService.getRoomById(updatedReservation.roomId()));
             return reservationRepo.save(oldReservation);
         }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Reservation.class.getSimpleName(), id)));

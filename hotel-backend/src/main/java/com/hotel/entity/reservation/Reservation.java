@@ -27,7 +27,7 @@ public class Reservation {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(name = "client")
     @NotNull(message = "Please enter personId")
     @JsonIgnore

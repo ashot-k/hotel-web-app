@@ -1,13 +1,15 @@
 import {useFetch} from "../../hooks/useFetch";
 import {CRUDOperations} from "../CRUDOperations";
-import {initialValues, inputs} from "./RoomFormFields"
-import CreationForm from "../CreationForm";
+import {initialValues} from "./RoomFormFields"
 import {List} from "../List";
 import {useState} from "react";
+import RoomForm from "./RoomForm";
 
 export const Rooms = () => {
 
     const roomsUrl = "http://192.168.1.75:8080/api/rooms";
+    const roomTypesUrl = roomsUrl + "/room-types";
+    const {data: roomTypes} = useFetch(roomTypesUrl);
     const {data: rooms, isPending, error, pageNav, setDataChanged} = useFetch(roomsUrl);
     const {create, update, remove} = CRUDOperations(roomsUrl);
     const [addModal, setAddModal] = useState(false);
@@ -25,13 +27,22 @@ export const Rooms = () => {
         <div className="main-content">
             <div className="p-2">
 
-                {addModal && <CreationForm toggleModal={toggleAddModal} inputs={inputs} initialValues={initialValues}
-                                           submitForm={(event)=> {create(event, setDataChanged); setAddModal(!addModal);}} />}
-
-                {editModal && <CreationForm toggleModal={toggleEditModal} inputs={inputs} initialValues={editDetails}
-                                            submitForm={(event) => {update(event, setDataChanged); setEditModal(!editModal);}}/>}
+                {addModal && <RoomForm toggleModal={toggleAddModal}
+                                       initialValues={initialValues}
+                                       roomTypes = {roomTypes}
+                                       submitForm={(event) => {
+                                           create(event, setDataChanged);
+                                           setAddModal(!addModal);
+                                       }}/>}
+                {editModal && <RoomForm toggleModal={toggleEditModal}
+                                        initialValues={editDetails}
+                                        roomTypes = {roomTypes}
+                                        submitForm={(event) => {
+                                            update(event, setDataChanged);
+                                            setEditModal(!editModal);
+                                        }}/>}
             </div>
-            {rooms && <List data={rooms}  inputs={inputs}
+            {rooms && <List data={rooms}
                             toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal}
                             setDataChanged={setDataChanged} pageNav={pageNav} remove={remove}/>}
             {isPending && <div>Loading Rooms...</div>}

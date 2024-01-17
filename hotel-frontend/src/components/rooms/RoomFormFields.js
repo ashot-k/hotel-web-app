@@ -44,6 +44,8 @@ export const inputs = [
         label: "Price*",
         required: true
     }];
+
+export const roomTypes= ["SINGLE", "DOUBLE", "TRIPLE", "STUDIO", "SUITE", "DELUXE"];
 export const initialValues = {
     name: "",
     size: "",

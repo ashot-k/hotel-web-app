@@ -1,4 +1,4 @@
-export const inputs = [
+/*export const inputs = [
     {
         id: 1,
         name: "personId",
@@ -34,9 +34,10 @@ export const inputs = [
         label: "End Date*",
         required: true
     },
-];
+];*/
 export const initialValues = {
-    personId: "",
+    id: "",
+    username: "",
     roomId: "",
     start: "",
     end: ""

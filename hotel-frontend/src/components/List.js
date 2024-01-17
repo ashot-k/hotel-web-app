@@ -19,7 +19,6 @@ export const List = ({data, toggleAddModal, toggleEditModal, setDataChanged, pag
 
     return (
         <div>
-
             <div className="d-flex flex-row justify-content-end gap-3 p-2">
                 <label>Search: <input onChange={(e) => setSearchTerm(e.target.value)}/> </label>
             </div>
@@ -46,8 +45,11 @@ export const List = ({data, toggleAddModal, toggleEditModal, setDataChanged, pag
                             }
                             <td>
                                 <div className="actions">
-                                    <button className="btn btn-warning" onClick={() => toggleEditModal(item)}>Edit</button>
-                                    <button className="btn btn-danger" onClick={() => remove(item.id, setDataChanged)}>Delete</button>
+                                    <button className="btn btn-warning" onClick={() => toggleEditModal(item)}>Edit
+                                    </button>
+                                    <button className="btn btn-danger"
+                                            onClick={() => remove(item.id, setDataChanged)}>Delete
+                                    </button>
                                 </div>
                             </td>
                         </tr>
