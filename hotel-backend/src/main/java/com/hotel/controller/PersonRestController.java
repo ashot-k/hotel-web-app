@@ -32,7 +32,10 @@ public class PersonRestController {
     public ResponseEntity<PersonDTO> getUser(@PathVariable Long personId) {
         return new ResponseEntity<>(personService.getPersonDTOById(personId), HttpStatus.OK);
     }
-
+    @GetMapping("/search")
+    public ResponseEntity<List<PersonDTO>> getUserByName(@RequestParam("term") String term){
+        return new ResponseEntity<>(personService.getPersonDTOsByUsername(term), HttpStatus.OK);
+    }
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<List<PersonDTO>> getUsers(

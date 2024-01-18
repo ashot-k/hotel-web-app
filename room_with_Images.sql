@@ -998,3 +998,4 @@ insert into room (id, name, description, price, size, image_url, room_type) valu
 insert into room (id, name, description, price, size, image_url, room_type) values (998, 'Lightening Serum', 'Restriction of Right Neck Lymphatic, Percutaneous Approach', 95.32, 38, 'http://dummyimage.com/1000x1000.png/ff4444/ffffff', 0);
 insert into room (id, name, description, price, size, image_url, room_type) values (999, 'Guaifenesin', 'Supplement R Hand Subcu/Fascia w Synth Sub, Perc', 77.3, 43, 'http://dummyimage.com/1000x1000.png/dddddd/000000', 4);
 insert into room (id, name, description, price, size, image_url, room_type) values (1000, 'Cetirizine Hydrochloride', 'Nonimag Nucl Med Prob Low Extrem Lymph w Oth Radionuclide', 72.39, 75, 'http://dummyimage.com/1000x1000.png/dddddd/000000', 5);
+SELECT setval('room_seq', (SELECT MAX(id) FROM Room));

@@ -25,8 +25,7 @@ export const Rooms = () => {
     }
     return (
         <div className="main-content">
-            <div className="p-2">
-
+            <div>
                 {addModal && <RoomForm toggleModal={toggleAddModal}
                                        initialValues={initialValues}
                                        roomTypes = {roomTypes}

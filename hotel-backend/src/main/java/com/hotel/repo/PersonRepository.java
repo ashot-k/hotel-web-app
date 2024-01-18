@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -21,6 +22,11 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query("FROM Person p JOIN FETCH p.address a ORDER BY p.id")
     Page<Person> findAll(Pageable pageable);
 
+
+    @Query("FROM Person p JOIN FETCH p.address a " +
+            "WHERE p.username like :username" +
+            " order by p.id ")
+    List<Person> findByUsernameTerm(@Param("username") String username);
     Optional<Person> findByUsername(String username);
 
 

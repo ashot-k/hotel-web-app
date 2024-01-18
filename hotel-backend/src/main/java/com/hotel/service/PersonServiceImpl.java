@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -40,6 +41,17 @@ public class PersonServiceImpl implements PersonService {
     public PersonDTO getPersonDTOById(Long id) {
         return personRepo.findById(id).map(this::PersonToPersonDTO)
                 .orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), id)));
+    }
+
+    @Override
+    public List<PersonDTO> getPersonDTOsByUsername(String username) {
+        List<Person> people = personRepo.findByUsernameTerm("%" + username +"%");
+        List<PersonDTO> personDTOList = new ArrayList<>();
+        people.forEach((person)->{
+            personDTOList.add(PersonToPersonDTO(person));
+        });
+
+        return personDTOList;
     }
 
     @Override

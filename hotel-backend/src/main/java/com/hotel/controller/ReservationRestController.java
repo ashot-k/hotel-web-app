@@ -10,18 +10,14 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.tags.form.InputTag;
-
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
+@CrossOrigin({"http://192.168.1.75:3000", "http://localhost:3000", "http://192.168.1.75:8080/api/rooms","http://192.168.1.75:8080/api/rooms/available" })
 public class ReservationRestController {
 
     ReservationService reservationService ;
@@ -41,15 +37,15 @@ public class ReservationRestController {
     }
     @GetMapping("/available")
     public ResponseEntity<List<Room>> getAvailable(@RequestParam("start") String start, @RequestParam("end") String end){
-        //return new ResponseEntity<>(reservationService.getAvailableRooms());
-       DateFormat inputFormatter = new SimpleDateFormat("dd-MM-yyyy");
-       Date startDate,endDate;
-        try {
-            startDate = inputFormatter.parse(start);
-            endDate = inputFormatter.parse(end);
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
-        }
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+
+        String startFormatted = outputFormat.format(inputFormat.parse(start));
+        String endFormatted = outputFormat.format(inputFormat.parse(end));
+
+        LocalDate startDate = LocalDate.parse(startFormatted, outputFormat);
+        LocalDate endDate = LocalDate.parse(endFormatted, outputFormat);
+
         return new ResponseEntity<>(reservationService.getAvailableRooms(startDate, endDate), HttpStatus.OK);
     }
 

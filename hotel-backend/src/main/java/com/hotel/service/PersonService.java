@@ -22,7 +22,7 @@ public interface PersonService {
     Page<PersonDTO> getAllPeople(int pageNo, int pageSize);
 
     PersonDTO getPersonDTOById(Long id);
-
+    List<PersonDTO> getPersonDTOsByUsername(String username);
     PersonDTO savePerson(PersonDTO person);
 
     PersonDTO updatePerson(Long id, PersonDTO updatedPerson);

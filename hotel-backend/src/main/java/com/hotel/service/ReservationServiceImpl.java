@@ -11,6 +11,7 @@ import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -60,7 +61,7 @@ public class ReservationServiceImpl implements ReservationService {
     }
 
     @Override
-    public List<Room> getAvailableRooms(Date start, Date end) {
+    public List<Room> getAvailableRooms(LocalDate start, LocalDate end) {
         return reservationRepo.available(start, end);
     }
 
@@ -73,8 +74,8 @@ public class ReservationServiceImpl implements ReservationService {
     public Reservation createReservation(ReservationDTO reservationDTO) throws RoomReservedException {
         Long roomId = reservationDTO.roomId();
         String username = reservationDTO.username();
-        Date start = reservationDTO.start();
-        Date end = reservationDTO.end();
+        LocalDate start = reservationDTO.start();
+        LocalDate end = reservationDTO.end();
         if (reservationRepo.isRoomReserved(-1L, roomId, start, end))
             throw new RoomReservedException("Room with id: " + roomId + " is already reserved");
         Person person = personService.getPersonByUsername(username);

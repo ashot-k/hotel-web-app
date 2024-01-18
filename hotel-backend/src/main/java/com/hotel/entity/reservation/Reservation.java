@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Future;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -15,7 +16,7 @@ public class Reservation {
     public Reservation() {
     }
 
-    public Reservation(Person person, Room room, Date start, Date end) {
+    public Reservation(Person person, Room room, LocalDate start, LocalDate end) {
         this.person = person;
         this.room = room;
         this.start = start;
@@ -46,15 +47,15 @@ public class Reservation {
     @Column(name = "starts_at")
     @NotNull(message = "Invalid Date for start")
     @FutureOrPresent(message = "Invalid Date for start")
-    private Date start;
+    private LocalDate start;
 
     @Column(name = "ends_at")
     @NotNull(message = "Invalid Date for end")
     @Future(message = "Invalid Date for end")
-    private Date end;
+    private LocalDate end;
 
     @Column(name = "created_at")
-    private Date created = new Date();
+    private LocalDate created = LocalDate.now();
 
 
     public Long getPersonId() {
@@ -94,27 +95,27 @@ public class Reservation {
         this.room = room;
     }
 
-    public Date getStart() {
+    public LocalDate getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(LocalDate start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public LocalDate getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(LocalDate end) {
         this.end = end;
     }
 
-    public Date getCreated() {
+    public LocalDate getCreated() {
         return created;
     }
 
-    public void setCreated(Date created) {
+    public void setCreated(LocalDate created) {
         this.created = created;
     }
 }

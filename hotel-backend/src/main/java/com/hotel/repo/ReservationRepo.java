@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -28,17 +29,17 @@ public interface ReservationRepo extends JpaRepository<Reservation, Long> {
             "AND r.end >= :start")
     boolean isRoomReserved(@Param("reservationId") Long reservationId,
                            @Param("roomId") Long roomId,
-                           @Param("start") Date start,
-                           @Param("end") Date end
+                           @Param("start") LocalDate start,
+                           @Param("end") LocalDate end
 
     );
 
     @Query("SELECT r from Room r "+
             "WHERE r.id NOT IN " +
-            "(SELECT r.room.id FROM Reservation r " +
-            "WHERE r.start <= :end AND r.end >= :start)")
-    List<Room> available(@Param("start") Date start,
-                         @Param("end") Date end);
+            "(SELECT res.room.id FROM Reservation res " +
+            "WHERE res.start <= :end AND res.end >= :start)")
+    List<Room> available(@Param("start") LocalDate start,
+                         @Param("end") LocalDate end);
 
     void deleteByPerson(Person p);
 

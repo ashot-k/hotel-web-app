@@ -10,7 +10,7 @@ export const Pagination = ({pageNav}) => {
                 buttons.push(
 
                     <button key={i}
-                            className={i === currentPage ? "btn btn-primary current-page-button" : "btn btn-primary"}
+                            className={i === currentPage ? "btn btn-success" : "btn btn-primary"}
                             onClick={() => {
                                 pageNav(i);
                                 setCurrentPage(i);

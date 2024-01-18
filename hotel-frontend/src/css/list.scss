@@ -1,0 +1,113 @@
+//mobile
+@media only screen and (max-width: 700px) {
+  $card-width: 40vw;
+  .card-container {
+    width: $card-width;
+    max-height: 90vw;
+  }
+  .card-image {
+    width: $card-width;
+    height:  $card-width;
+  }
+  .card-body button {
+    width: 100%
+  }
+  .card-title{
+    font-size: 4vw;
+  }
+  .card-text *{
+    font-size: 3vw;
+  }
+}
+
+//pc
+@media screen and (min-width: 700px) {
+  $card-width: 15vw;
+  .card-container {
+    width: $card-width;
+    max-height: 50vw;
+  }
+  .card-image {
+    width: $card-width;
+    height: $card-width;
+  }
+  .card-body button {
+    width: 85%;
+  }
+  .card-title{
+    font-size: 1vw;
+  }
+  .card-text *{
+    font-size: 0.8vw;
+  }
+}
+
+hr{
+  width: 100%;
+}
+
+.main-content {
+  background-color: #282c34;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.card-container {
+  background-color: #454c57;
+  border-radius: 15px;
+  color: white;
+  padding: 15px;
+}
+
+.card-title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+
+.card-text {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100%;
+}
+
+nav a:hover {
+  color: rgb(13, 110, 253);;
+}
+
+.actions > button {
+  padding-right: 25px;
+  padding-left: 25px;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.pagination {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  justify-content: start;
+  align-items: center;
+}
+
+span {
+  font-size: 16px;
+  color: red;
+  display: none;
+}
+
+input:invalid[focused="true"] ~ span {
+  display: block;
+}
