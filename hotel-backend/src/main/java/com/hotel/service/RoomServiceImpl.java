@@ -5,19 +5,27 @@ import com.hotel.entity.room.RoomType;
 import com.hotel.repo.ReservationRepo;
 import com.hotel.repo.RoomRepository;
 import com.hotel.utils.ExceptionMessages;
+import com.hotel.utils.ImageUtils;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
     RoomRepository roomRepo;
 
     ReservationRepo reservationRepo;
+
 
     public RoomServiceImpl(RoomRepository roomRepo, ReservationRepo reservationRepo) {
         this.roomRepo = roomRepo;
@@ -65,19 +73,33 @@ public class RoomServiceImpl implements RoomService {
         }
         if (roomType != null) {
             return roomRepo.findByTerm(roomType, PageRequest.of(pageNo, pageSize));
-        }
-        else
+        } else
             return roomRepo.findByTerm("%" + term + "%", PageRequest.of(pageNo, pageSize));
     }
 
     @Override
     public String deleteRoom(Long id) {
         try {
-            roomRepo.delete(this.getRoomById(id));
+            Room r = this.getRoomById(id);
+            //     RoomImages.deleteImage(r.getImageUrl());
+            roomRepo.delete(r);
         } catch (DataIntegrityViolationException e) {
-
             return "Could not delete room with id " + id + ", room might be reserved";
         }
         return "Deleted Room with id: " + id;
     }
+
+
+    @Override
+    public ByteArrayResource getRoomImage(String roomName) throws IOException {
+        Optional<Room> room = roomRepo.findByName(roomName);
+        return new ByteArrayResource(Files.readAllBytes(Paths.get(ImageUtils.uploadDirectory + room.get().getImageUrl())));
+    }
+
+    @Override
+    public String saveRoomImage(MultipartFile imageFile, String roomName) {
+            return ImageUtils.saveRoomImageToFileSystem(imageFile, roomName);
+    }
+
+
 }

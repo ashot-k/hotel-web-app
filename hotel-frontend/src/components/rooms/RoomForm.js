@@ -9,13 +9,6 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
     const [price, setPrice] = useState(initialValues.price);
     const [imageUrl, setImageUrl] = useState(initialValues.imageUrl);
 
-    const uploadImage = () => {
-        if(imageUrl) {
-            fetch()
-        }
-
-    }
-
     return (
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">
@@ -39,7 +32,8 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
                     </div>
                     <div>
                         <label>Description*</label><br/>
-                        <input name="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
+                        <input name="description" value={description}
+                               onChange={(e) => setDescription(e.target.value)}/>
                     </div>
                     <div>
                         <label>Size*</label><br/>
@@ -47,14 +41,15 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
                     </div>
                     <div>
                         <label>Price*</label><br/>
-                        <input name="price" type={"number"} value={price} onChange={(e) => setPrice(e.target.value)}/>
+                        <input name="price" type={"number"} value={price}
+                               onChange={(e) => setPrice(e.target.value)}/>
                     </div>
                     <div>
                         <label>Add Image</label><br/>
                         <input name="imageUrl" type={"file"} onChange={(e) => {setImageUrl(e.target.files[0].name);}}/>
                     </div>
                     <div className="d-flex gap-2 justify-content-center w-100">
-                        <button className="btn btn-success" onSubmit={uploadImage} type="submit">Submit</button>
+                        <button className="btn btn-success" type="submit">Submit</button>
                         <button className="btn btn-danger" type="button" onClick={toggleModal}>Cancel</button>
                     </div>
                 </div>

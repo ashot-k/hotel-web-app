@@ -11,6 +11,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface RoomRepository extends JpaRepository<Room, Long> {
     @Override
@@ -30,5 +32,5 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
             "ORDER BY r.id ")
     Page<Room> findByTerm(@Param("term") RoomType term, Pageable pageable);
 
-
+    Optional<Room> findByName(String name);
 }

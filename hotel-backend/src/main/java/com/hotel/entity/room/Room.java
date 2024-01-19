@@ -3,6 +3,7 @@ package com.hotel.entity.room;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.web.multipart.MultipartFile;
 
 @Entity
 public class Room {
@@ -13,7 +14,7 @@ public class Room {
     @Column(name = "room_type")
     @NotNull
     private RoomType roomType;
-    @Column(name = "name", nullable = false)
+    @Column(name = "name", nullable = false, unique = true)
     @NotNull
     @NotBlank
     private String name;
