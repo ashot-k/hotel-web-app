@@ -4,41 +4,39 @@ import {initialValues} from "./UserFormFields";
 import {useState} from "react";
 import {CRUDOperations} from "../CRUDOperations";
 import UserForm from "./UserForm";
+import {Pagination} from "../Pagination";
 
 export const Users = () => {
 
-    const usersUrl = "http://192.168.1.75:8080/api/users";
-    let {data: users, isPending, error, pageNav, setDataChanged} = useFetch(usersUrl);
-    const {create, update, remove} = CRUDOperations(usersUrl);
+    const rootUrl = "http://192.168.1.75:8080/api/users";
+    const [url, setUrl] = useState(rootUrl);
+    const {data: users, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
+    const {create, update, remove} = CRUDOperations(rootUrl);
     const [addModal, setAddModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [editDetails, setEditDetails] = useState(initialValues);
-    const [searchData, setSearchData] = useState(null);
-
 
     const toggleAddModal = () => {
         setAddModal(!addModal);
     }
     const toggleEditModal = (initialValues) => {
         setEditModal(!editModal);
-        console.log(initialValues)
         setEditDetails(initialValues);
     }
 
     const isSearchTermPresent = async (searchTerm) => {
         if (searchTerm) {
-            const response = await fetch(usersUrl + "/search?term=" + searchTerm);
-            users = await response.json();
-            setSearchData(users);
+            setUrl(rootUrl + "/search?term=" + searchTerm);
+            setDataChanged((prev) => prev + 1);
         } else {
-            const response = await fetch(usersUrl);
-            users = await response.json();
-            setSearchData(null);
+            setUrl(rootUrl);
+            setDataChanged((prev) => prev + 1);
         }
     }
     return (
         <div>
             <div className="p-2">
+                {totalPages && <Pagination totalPages={totalPages} totalElements={totalElements} pageChange={pageChange} setPageSize={setPageSize}/>}
                 {addModal && <UserForm toggleModal={toggleAddModal} initialValues={initialValues}
                                        submitForm={(event) => {
                                            create(event, setDataChanged);
@@ -51,13 +49,9 @@ export const Users = () => {
                                         }}
                                         initialValues={editDetails}/>}
             </div>
-            {searchData && <List data={searchData} isSearchTermPresent={isSearchTermPresent}
-                                 toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal}
-                                 setDataChanged={setDataChanged} remove={remove}/>
-                ||
-                users && <List data={users} isSearchTermPresent={isSearchTermPresent}
+            {users && <List data={users} isSearchTermPresent={isSearchTermPresent}
                                toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal}
-                               setDataChanged={setDataChanged} pageNav={pageNav} remove={remove}/>}
+                               setDataChanged={setDataChanged} remove={remove}/>}
             {isPending && <div>Loading Users...</div>}
         </div>
     );

@@ -30,7 +30,10 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
             "OR p.address.phoneNumber like :term " +
             "OR p.address.postalCode like :term " +
             " order by p.id ")
-    List<Person> findByTerm(@Param("term") String term);
+    Page<Person> findByTerm(@Param("term") String term, Pageable pageable);
+
+
+    Page<Person> findByUsername(String username, Pageable pageable);
 
     Optional<Person> findByUsername(String username);
 

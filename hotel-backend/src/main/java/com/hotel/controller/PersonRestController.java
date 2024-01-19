@@ -33,20 +33,19 @@ public class PersonRestController {
         return new ResponseEntity<>(personService.getPersonDTOById(personId), HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<List<PersonDTO>> getUserByName(@RequestParam("term") String term){
-        return new ResponseEntity<>(personService.getPeopleDTOByTerm(term), HttpStatus.OK);
+    public ResponseEntity<Page<PersonDTO>> getUserByName(@RequestParam("term") String term,
+                                                         @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+                                                         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return new ResponseEntity<>(personService.getPeopleDTOByTerm(pageNo, pageSize,term), HttpStatus.OK);
     }
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<List<PersonDTO>> getUsers(
+    public ResponseEntity<Page<PersonDTO>> getUsers(
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
         Page<PersonDTO> page = personService.getAllPeopleDTOPageable(pageNo, pageSize);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Pages", String.valueOf(page.getTotalPages()));
-
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(page,HttpStatus.OK);
     }
 
     @PostMapping

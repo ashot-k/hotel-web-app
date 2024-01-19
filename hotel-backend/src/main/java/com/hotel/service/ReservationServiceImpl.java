@@ -9,6 +9,8 @@ import com.hotel.exceptions.RoomReservedException;
 import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
 import jakarta.persistence.EntityNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -58,6 +60,16 @@ public class ReservationServiceImpl implements ReservationService {
             reservationDTOS.add(reservationToReservationDTO(reservation));
         }
         return reservationDTOS;
+    }
+
+    @Override
+    public Page<ReservationDTO> getAllReservationsDTO(int pageNo, int pageSize) {
+        return reservationRepo.findAll(PageRequest.of(pageNo, pageSize)).map(this::reservationToReservationDTO);
+    }
+
+    @Override
+    public Page<ReservationDTO> getAllReservationsDTOByTerm(int pageNo, int pageSize, String term) {
+        return reservationRepo.findByTerm("%" + term + "%", PageRequest.of(pageNo, pageSize)).map(this::reservationToReservationDTO);
     }
 
     @Override

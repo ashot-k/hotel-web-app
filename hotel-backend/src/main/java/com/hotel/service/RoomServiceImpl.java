@@ -1,6 +1,7 @@
 package com.hotel.service;
 
 import com.hotel.entity.room.Room;
+import com.hotel.entity.room.RoomType;
 import com.hotel.repo.ReservationRepo;
 import com.hotel.repo.RoomRepository;
 import com.hotel.utils.ExceptionMessages;
@@ -48,10 +49,25 @@ public class RoomServiceImpl implements RoomService {
         }).orElseThrow(() -> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Room.class.getSimpleName(), id)));
     }
 
-
     @Override
     public List<Room> getAllRooms() {
         return roomRepo.findAll();
+    }
+
+    @Override
+    public Page<Room> getRoomsByTerm(int pageNo, int pageSize, String term) {
+        RoomType roomType = null;
+        for (RoomType r : RoomType.values()) {
+            if (r.name().equalsIgnoreCase(term)) {
+                roomType = r;
+                break;
+            }
+        }
+        if (roomType != null) {
+            return roomRepo.findByTerm(roomType, PageRequest.of(pageNo, pageSize));
+        }
+        else
+            return roomRepo.findByTerm("%" + term + "%", PageRequest.of(pageNo, pageSize));
     }
 
     @Override

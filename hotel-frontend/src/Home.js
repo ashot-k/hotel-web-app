@@ -6,13 +6,12 @@ const Home = () => {
     const roomsUrl = "http://192.168.1.75:8080/api/rooms";
     const reservationsUrl = "http://192.168.1.75:8080/api/reservations";
     const availableRoomsUrl = "/available"
-    const {data: rooms, isPending, error, pageNav, setDataChanged} = useFetch(roomsUrl);
+   // const {data: rooms, isPending, error,  totalPages, totalElements, pageChange, setDataChanged} = useFetch(roomsUrl);
     const [start, setStart] = useState(initialValues.start);
     const [end, setEnd] = useState(initialValues.end);
     const [availableRooms, setAvailableRooms] = useState(null);
 
     useEffect(() => {
-        console.log("called check")
         checkAvailability(start, end);
     }, [start, end]);
 

@@ -1,5 +1,6 @@
 package com.hotel.controller;
 
+import com.hotel.dto.PersonDTO;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.room.RoomType;
 import com.hotel.service.RoomService;
@@ -32,13 +33,15 @@ public class RoomRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Room>> getRooms(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+    public ResponseEntity<Page<Room>> getRooms(@RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        Page<Room> page = roomService.getAllRooms(pageNo, pageSize);
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("X-Total-Pages", String.valueOf(page.getTotalPages()));
-
-        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
+        return new ResponseEntity<>(roomService.getAllRooms(pageNo, pageSize), HttpStatus.OK);
+    }
+    @GetMapping("/search")
+    public ResponseEntity<Page<Room>> getRoomByTerm(@RequestParam("term") String term,
+                                                         @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
+                                                         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
+        return new ResponseEntity<>(roomService.getRoomsByTerm(pageNo, pageSize,term), HttpStatus.OK);
     }
 
     @GetMapping("/room-types")

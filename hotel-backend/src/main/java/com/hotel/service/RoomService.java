@@ -16,4 +16,6 @@ public interface RoomService {
     Room updateRoom(Long id, Room updatedRoom);
 
     List<Room> getAllRooms();
+
+    Page<Room> getRoomsByTerm(int pageNo, int pageSize, String term);
 }

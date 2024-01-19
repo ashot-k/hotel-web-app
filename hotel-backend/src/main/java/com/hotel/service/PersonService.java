@@ -3,6 +3,7 @@ package com.hotel.service;
 import com.hotel.dto.PersonDTO;
 import com.hotel.entity.user.Person;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -15,7 +16,9 @@ public interface PersonService {
     Person getPersonByUsername(String username);
     PersonDTO getPersonDTOByUsername(String username);
 
-    List<PersonDTO> getPeopleDTOByTerm(String term);
+
+
+    Page<PersonDTO> getPeopleDTOByTerm(int pageNo, int pageSize, String term);
     List<Person> getAllPeople();
 
 

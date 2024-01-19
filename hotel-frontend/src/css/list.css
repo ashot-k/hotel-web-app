@@ -36,6 +36,10 @@
     font-size: 0.8vw;
   }
 }
+.table-container {
+  overflow-x: auto;
+}
+
 hr {
   width: 100%;
 }
@@ -87,14 +91,6 @@ nav a:hover {
   display: flex;
   gap: 1rem;
   justify-content: center;
-}
-
-.pagination {
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  justify-content: start;
-  align-items: center;
 }
 
 span {

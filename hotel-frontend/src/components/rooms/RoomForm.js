@@ -8,6 +8,7 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
     const [size, setSize] = useState(initialValues.size);
     const [price, setPrice] = useState(initialValues.price);
     const [imageUrl, setImageUrl] = useState(initialValues.imageUrl);
+
     return (
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">

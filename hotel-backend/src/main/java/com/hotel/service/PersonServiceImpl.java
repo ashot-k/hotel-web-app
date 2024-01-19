@@ -54,14 +54,10 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
-    public List<PersonDTO> getPeopleDTOByTerm(String term) {
-        List<Person> people = personRepo.findByTerm("%" + term +"%");
-        List<PersonDTO> personDTOList = new ArrayList<>();
-        people.forEach((person)->{
-            personDTOList.add(PersonToPersonDTO(person));
-        });
+    public Page<PersonDTO> getPeopleDTOByTerm(int pageNo, int pageSize, String term) {
+        Page<Person> people = personRepo.findByTerm("%" + term +"%", PageRequest.of(pageNo, pageSize));
 
-        return personDTOList;
+        return people.map(this::PersonToPersonDTO);
     }
 
     @Override
@@ -86,9 +82,6 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Page<PersonDTO> getAllPeopleDTOPageable(int pageNo, int pageSize) {
         Page<Person> p = personRepo.findAll(PageRequest.of(pageNo, pageSize));
-        System.out.println(p);
-        System.out.println(p.nextPageable());
-       // Page<Person> p2 =  p.getPageable().next();
 
         return personRepo.findAll(PageRequest.of(pageNo, pageSize)).map(
                 (this::PersonToPersonDTO)
