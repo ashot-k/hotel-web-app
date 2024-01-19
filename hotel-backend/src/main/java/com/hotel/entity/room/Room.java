@@ -29,6 +29,7 @@ public class Room {
     @Column(name = "image_url")
     private String imageUrl;
 
+
     public String getImageUrl() {
         return imageUrl;
     }

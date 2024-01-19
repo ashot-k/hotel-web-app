@@ -49,7 +49,7 @@ export const Pagination = ({totalPages, totalElements, pageChange, setPageSize})
                 </select>
             </div>
             <div className="d-flex flex-column gap-3">
-                <h5>{totalPages} Pages, {totalElements} </h5>
+                <h5>{totalPages} Pages, {totalElements} Entries</h5>
                 <div className="d-flex flex-row flex-wrap gap-1">
                     {(currentPage !== 0) && <button className="btn btn-primary" onClick={() => {
                         if (currentPage > 0) {

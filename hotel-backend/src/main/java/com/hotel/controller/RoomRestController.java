@@ -7,12 +7,18 @@ import com.hotel.service.RoomService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,11 +58,30 @@ public class RoomRestController {
         return new ResponseEntity<>(roomTypes, HttpStatus.OK);
     }
 
+
     @PostMapping
-    public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room) {
+    public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room, @RequestPart("file") MultipartFile file) {
         return new ResponseEntity<>(roomService.saveRoom(room), HttpStatus.CREATED);
     }
+    @PostMapping("/image")
+    public ResponseEntity<String> uploadRoomImage(@RequestBody MultipartFile imageFile){
+        try {
+            // Get the file name and path
+            String fileName = imageFile.getOriginalFilename();
+            String directory ="/photos/";
+            Path path = Paths.get(directory + fileName);
+            byte[] bytes = imageFile.getBytes();
+            Files.write(path, bytes);
+            // Save the file
+         //   Files.copy(imageFile.getInputStream(), filePath, StandardCopyOption.REPLACE_EXISTING);
 
+           // return "File uploaded successfully!";
+        } catch (Exception e) {
+
+            System.out.println(e);
+        }
+        return null;
+    }
     @PutMapping("/{roomId:\\d+}")
     public ResponseEntity<Room> updateRoom(@Valid @RequestBody Room updatedRoom, @PathVariable Long roomId) {
         return new ResponseEntity<>(roomService.updateRoom(roomId, updatedRoom), HttpStatus.OK);
