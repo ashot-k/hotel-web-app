@@ -7,9 +7,7 @@ export const Pagination = ({pageNav}) => {
         const buttons = [];
         for (let i = currentPage; i <= maxPage; i++) {
             if (!(currentPage + 4 < i && i < maxPage)) {
-                buttons.push(
-
-                    <button key={i}
+                buttons.push(<button key={i}
                             className={i === currentPage ? "btn btn-success" : "btn btn-primary"}
                             onClick={() => {
                                 pageNav(i);

@@ -24,9 +24,14 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
 
 
     @Query("FROM Person p JOIN FETCH p.address a " +
-            "WHERE p.username like :username" +
+            "WHERE p.username like :term " +
+            "OR p.address.country like :term " +
+            "OR p.address.email like :term " +
+            "OR p.address.phoneNumber like :term " +
+            "OR p.address.postalCode like :term " +
             " order by p.id ")
-    List<Person> findByUsernameTerm(@Param("username") String username);
+    List<Person> findByTerm(@Param("term") String term);
+
     Optional<Person> findByUsername(String username);
 
 

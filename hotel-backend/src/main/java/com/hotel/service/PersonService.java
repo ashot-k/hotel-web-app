@@ -10,22 +10,27 @@ import java.util.List;
 public interface PersonService {
 
     Person getPersonById(Long id);
+    PersonDTO getPersonDTOById(Long id);
 
     Person getPersonByUsername(String username);
+    PersonDTO getPersonDTOByUsername(String username);
 
+    List<PersonDTO> getPeopleDTOByTerm(String term);
     List<Person> getAllPeople();
 
-    Person personDTOtoPerson(PersonDTO personDTO);
 
-    PersonDTO PersonToPersonDTO(Person p);
 
-    Page<PersonDTO> getAllPeople(int pageNo, int pageSize);
+    Page<PersonDTO> getAllPeopleDTOPageable(int pageNo, int pageSize);
 
-    PersonDTO getPersonDTOById(Long id);
-    List<PersonDTO> getPersonDTOsByUsername(String username);
+
+
     PersonDTO savePerson(PersonDTO person);
 
     PersonDTO updatePerson(Long id, PersonDTO updatedPerson);
 
     String deletePerson(Long id);
+
+    Person personDTOtoPerson(PersonDTO personDTO);
+
+    PersonDTO PersonToPersonDTO(Person p);
 }

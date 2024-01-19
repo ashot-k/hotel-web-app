@@ -34,7 +34,7 @@ public class PersonRestController {
     }
     @GetMapping("/search")
     public ResponseEntity<List<PersonDTO>> getUserByName(@RequestParam("term") String term){
-        return new ResponseEntity<>(personService.getPersonDTOsByUsername(term), HttpStatus.OK);
+        return new ResponseEntity<>(personService.getPeopleDTOByTerm(term), HttpStatus.OK);
     }
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
@@ -42,7 +42,7 @@ public class PersonRestController {
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
 
-        Page<PersonDTO> page = personService.getAllPeople(pageNo, pageSize);
+        Page<PersonDTO> page = personService.getAllPeopleDTOPageable(pageNo, pageSize);
         HttpHeaders headers = new HttpHeaders();
         headers.add("X-Total-Pages", String.valueOf(page.getTotalPages()));
 
