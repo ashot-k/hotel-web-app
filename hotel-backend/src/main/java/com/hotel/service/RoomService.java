@@ -10,18 +10,12 @@ import java.util.List;
 
 public interface RoomService {
 
-    String saveRoomImage(MultipartFile multipartFile, String roomId);
     Room getRoomById(Long id);
-
     Page<Room> getAllRooms(int pageNo, int pageSize);
-
     Room saveRoom(Room room);
     String deleteRoom(Long id);
     Room updateRoom(Long id, Room updatedRoom);
-
     List<Room> getAllRooms();
-
     Page<Room> getRoomsByTerm(int pageNo, int pageSize, String term);
-
     ByteArrayResource getRoomImage(String RoomId) throws IOException;
 }

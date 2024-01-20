@@ -14,14 +14,14 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
             <div className="overlay d-flex justify-content-center align-items-center">
                 <div className="form-modal-body d-flex flex-column  gap-2align-items-center">
                     <h1>User Info</h1>
-                    <input name="id" value={initialValues.id} hidden/>
+                    <input name="id" value={initialValues.id} readOnly={true} hidden/>
                     <div>
                         <label>Room Type*</label><br/>
                         <select name="roomType">
                             {roomTypes.map((roomType) => {
                                     if (initialValues.roomType && roomType === initialValues.roomType)
-                                        return <option value={roomType} selected>{roomType}</option>
-                                    return <option value={roomType}>{roomType}</option>
+                                        return <option key={roomType} value={roomType} defaultValue={roomType}>{roomType}</option>
+                                    return <option key={roomType} value={roomType} >{roomType}</option>
                                 }
                             )}
                         </select>
@@ -32,8 +32,7 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
                     </div>
                     <div>
                         <label>Description*</label><br/>
-                        <input name="description" value={description}
-                               onChange={(e) => setDescription(e.target.value)}/>
+                        <input name="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
                     </div>
                     <div>
                         <label>Size*</label><br/>
@@ -41,8 +40,7 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
                     </div>
                     <div>
                         <label>Price*</label><br/>
-                        <input name="price" type={"number"} value={price}
-                               onChange={(e) => setPrice(e.target.value)}/>
+                        <input name="price" type={"number"} value={price} onChange={(e) => setPrice(e.target.value)}/>
                     </div>
                     <div>
                         <label>Add Image</label><br/>

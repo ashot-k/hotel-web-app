@@ -12,13 +12,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class RoomServiceImpl implements RoomService {
@@ -45,12 +44,29 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Room saveRoom(Room room) {
+        if (room.getImageUrl() != null) {
+            ImageUtils.saveImageToFileSystem(ImageUtils.decodeBase64Image(room.getImageUrl()), ImageUtils.roomImageDirectory, room.getName());
+            room.setImageUrl(room.getName());
+        }
         return roomRepo.save(room);
     }
 
     @Override
     public Room updateRoom(Long id, Room updatedRoom) {
         return roomRepo.findById(id).map(oldRoom -> {
+            if (updatedRoom.getImageUrl() == null) {
+                if (oldRoom.getImageUrl() != null) {
+                    if (!updatedRoom.getName().equalsIgnoreCase(oldRoom.getName())) {
+                        ImageUtils.rename(ImageUtils.roomImageDirectory + "/" + oldRoom.getImageUrl(), ImageUtils.roomImageDirectory + "/" + updatedRoom.getName());
+                        updatedRoom.setImageUrl(updatedRoom.getName());
+                    }
+                }
+            } else {
+                if (oldRoom.getImageUrl() != null)
+                    ImageUtils.deleteImage(ImageUtils.roomImageDirectory, oldRoom.getImageUrl());
+                ImageUtils.saveImageToFileSystem(ImageUtils.decodeBase64Image(updatedRoom.getImageUrl()), ImageUtils.roomImageDirectory, updatedRoom.getName());
+                updatedRoom.setImageUrl(updatedRoom.getName());
+            }
             updatedRoom.setId(oldRoom.getId());
             oldRoom = updatedRoom;
             return roomRepo.save(oldRoom);
@@ -81,24 +97,25 @@ public class RoomServiceImpl implements RoomService {
     public String deleteRoom(Long id) {
         try {
             Room r = this.getRoomById(id);
-            //     RoomImages.deleteImage(r.getImageUrl());
             roomRepo.delete(r);
+            ImageUtils.deleteImage(ImageUtils.roomImageDirectory, r.getImageUrl());
         } catch (DataIntegrityViolationException e) {
             return "Could not delete room with id " + id + ", room might be reserved";
         }
         return "Deleted Room with id: " + id;
     }
 
-
     @Override
     public ByteArrayResource getRoomImage(String roomName) throws IOException {
-        Optional<Room> room = roomRepo.findByName(roomName);
-        return new ByteArrayResource(Files.readAllBytes(Paths.get(ImageUtils.uploadDirectory + room.get().getImageUrl())));
-    }
-
-    @Override
-    public String saveRoomImage(MultipartFile imageFile, String roomName) {
-            return ImageUtils.saveRoomImageToFileSystem(imageFile, roomName);
+        File folder = new File(ImageUtils.roomImageDirectory);
+        File[] listOfFiles = folder.listFiles();
+        for (int i = 0; i < listOfFiles.length; i++) {
+            File f = listOfFiles[i];
+            if (f.getName().equalsIgnoreCase(roomName)) {
+                return new ByteArrayResource(Files.readAllBytes(Paths.get(listOfFiles[i].getAbsolutePath())));
+            }
+        }
+        return null;
     }
 
 

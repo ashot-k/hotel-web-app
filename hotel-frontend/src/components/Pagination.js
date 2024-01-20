@@ -41,8 +41,8 @@ export const Pagination = ({totalPages, totalElements, pageChange, setPageSize})
                     pageChange(0);
                     setCurrentPage(0);
                     setPageSize(e.target.value)
-                }}>
-                    <option value={25} selected>25</option>
+                }} defaultValue={25}>
+                    <option value={25} >25</option>
                     <option value={50}>50</option>
                     <option value={100}>100</option>
                     <option value={250}>250</option>

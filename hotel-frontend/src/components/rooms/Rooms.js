@@ -13,7 +13,7 @@ export const Rooms = () => {
     const roomTypesUrl = rootUrl + "/room-types";
     const {data: roomTypes} = useFetch(roomTypesUrl);
     const {data: rooms, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
-    const {createRoom, update, remove} = CRUDOperations(rootUrl);
+    const {createRoom, updateRoom, remove} = CRUDOperations(rootUrl);
     const [addModal, setAddModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [editDetails, setEditDetails] = useState(initialValues);
@@ -48,7 +48,7 @@ export const Rooms = () => {
                                        }}/>}
                 {editModal && <RoomForm toggleModal={toggleEditModal} initialValues={editDetails} roomTypes={roomTypes}
                                         submitForm={(event) => {
-                                            update(event, setDataChanged);
+                                            updateRoom(event, setDataChanged);
                                             setEditModal(!editModal);
                                         }}/>}
                 {rooms && <List data={rooms} isSearchTermPresent={isSearchTermPresent} toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal} setDataChanged={setDataChanged} remove={remove}/>}

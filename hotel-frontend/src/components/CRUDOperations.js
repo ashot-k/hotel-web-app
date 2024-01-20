@@ -3,69 +3,88 @@ export const CRUDOperations = (url) => {
 
     const createRoom = (e, setDataChanged) => {
         e.preventDefault();
-
         const entry = Object.fromEntries(new FormData(e.target));
-        const imagePart = entry.imageUrl;
-        const roomName = entry.name;
 
-        const imageData = new FormData();
-        imageData.append('image', imagePart);
-        imageData.append('roomName', roomName);
-
-
-        entry.imageUrl = roomName + "/" + entry.imageUrl.name;
-
-        fetch(url, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(entry)
-        }).then(response => response.json())
-            .then(data => {
-                console.log(data);
-                fetch('http://192.168.1.75:8080/api/rooms/image', {
+        if (entry.imageUrl.name.length > 0) {
+            const reader = new FileReader();
+            reader.readAsDataURL(entry.imageUrl);
+            reader.onload = () => {
+                entry.imageUrl = reader.result;
+                fetch(url, {
                     method: 'POST',
-                    body: imageData
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(entry)
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .then(() => {
+                        setDataChanged((prev) => prev + 1);
+                    }).catch(error => {
+                    console.error(error);
+                });
+            }
+        }
+        else {
+            console.log("no image")
+           delete entry.imageUrl;
+            fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(entry)
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
                 })
-                    .then(response => response.json()).then(() => {
+                .then(() => {
                     setDataChanged((prev) => prev + 1);
-                })
-                    .catch(error => {
-                        console.error(error);
-                    });
-            }).catch(error => {
-            console.error(error);
-        }).then(setDataChanged((prev) => prev + 1));
-
+                }).catch(error => {
+                console.error(error);
+            });
+        }
     }
 
     const updateRoom = (e, setDataChanged) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
-        const imageEntry = entry.imageUrl;
-        delete entry.imageUrl;
-        const roomEntry = JSON.stringify(entry);
 
-        fetch(url + "/" + entry['id'], {
-            method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
-            body: roomEntry
-        }).then(response => response.json())
-            .then(data => {
-                const formData = new FormData();
-                formData.append('image', imageEntry);
-                formData.append('roomId', data.id);
-                fetch('http://192.168.1.75:8080/api/rooms/image', {method: 'POST', body: formData})
-                    .then(response => response.json())
-                    .catch(error => {
-                        console.error(error);
-                    });
-
-            }).then(() => {
-            setDataChanged((prev) => prev + 1);
-        })
-            .catch(error => {
+        if (entry.imageUrl.name.length > 0) {
+            const reader = new FileReader();
+            reader.readAsDataURL(entry.imageUrl);
+            reader.onload = () => {
+                entry.imageUrl = reader.result;
+                fetch(url + "/" + entry['id'],{
+                    method: 'PUT',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(entry)
+                }).then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .then(() => {
+                        setDataChanged((prev) => prev + 1);
+                    }).catch(error => {
+                    console.error(error);
+                });
+            }
+        }
+        else {
+            console.log("no image")
+            delete entry.imageUrl;
+            fetch(url + "/" + entry['id'], {
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(entry)
+            }).then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                })
+                .then(() => {
+                    setDataChanged((prev) => prev + 1);
+                }).catch(error => {
                 console.error(error);
             });
+        }
     }
 
     const create = (e, setDataChanged) => {
