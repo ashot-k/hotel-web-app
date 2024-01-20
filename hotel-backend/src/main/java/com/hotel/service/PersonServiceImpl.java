@@ -23,7 +23,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class PersonServiceImpl implements PersonService {
+public class PersonServiceImpl implements PersonService{
 
     PersonRepository personRepo;
 
@@ -154,4 +154,5 @@ public class PersonServiceImpl implements PersonService {
             return "Deleted user with id " + id;
         }).orElseThrow(() -> new EntityNotFoundException("Person with id: " + id + " not found"));
     }
+
 }

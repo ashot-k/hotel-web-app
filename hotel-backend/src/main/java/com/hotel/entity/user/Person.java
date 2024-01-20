@@ -8,16 +8,19 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Person {
+public class Person implements UserDetails{
     public static final String PASSWORD_ERROR_MESSAGE = """
             Please enter a password that has: <br>
             At least 5 characters. <br>
@@ -44,7 +47,7 @@ public class Person {
     @PrimaryKeyJoinColumn
     @Valid
     private Address address;
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @PrimaryKeyJoinColumn
     @JsonIgnore
     private List<Roles> roles;
@@ -83,13 +86,44 @@ public class Person {
         this.address = address;
     }
 
+
     public String getUsername() {
         return username;
+    }
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorityList= new ArrayList<>();
+        for(Roles r: roles)
+        {
+            authorityList.add(new SimpleGrantedAuthority(r.getRole()));
+        }
+        return authorityList;
+    }
+
 
     public String getPassword() {
         return password;
