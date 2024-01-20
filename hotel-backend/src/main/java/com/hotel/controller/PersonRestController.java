@@ -33,7 +33,7 @@ public class PersonRestController {
         return new ResponseEntity<>(personService.getPersonDTOById(personId), HttpStatus.OK);
     }
     @GetMapping("/search")
-    public ResponseEntity<Page<PersonDTO>> getUserByName(@RequestParam("term") String term,
+    public ResponseEntity<Page<PersonDTO>> getUserByTerm(@RequestParam("term") String term,
                                                          @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
                                                          @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
         return new ResponseEntity<>(personService.getPeopleDTOByTerm(pageNo, pageSize,term), HttpStatus.OK);

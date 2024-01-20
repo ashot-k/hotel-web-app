@@ -28,6 +28,11 @@ public class ImageUtils {
         roomImageDirectory = roomImageDirectoryCreation;
         if (!folder.exists()) {
             boolean created = folder.mkdirs();
+            if (created) {
+                System.out.println("Folder created: " + folder.getAbsolutePath());
+            } else {
+                System.err.println("Failed to create folder: " + folder.getAbsolutePath());
+            }
         }
     }
     public static byte[] decodeBase64Image(String data){
