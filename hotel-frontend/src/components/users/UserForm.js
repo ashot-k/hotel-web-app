@@ -9,7 +9,6 @@ export const UserForm = ({toggleModal, initialValues, submitForm}) => {
     const [phoneNumber, setPhoneNumber] = useState(initialValues.phoneNumber);
     const [street, setStreet] = useState(initialValues.street);
     const [street2, setStreet2] = useState(initialValues.street2);
-
     return (
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">
@@ -22,7 +21,7 @@ export const UserForm = ({toggleModal, initialValues, submitForm}) => {
                     </div>
                     <div>
                         <label>Password*</label><br/>
-                        <input name="password"  onChange={(e) => setPassword(e.target.value)}/>
+                        <input name="password" onChange={(e) => setPassword(e.target.value)}/>
                     </div>
                     <div>
                         <label>Email*</label><br/>
@@ -47,6 +46,14 @@ export const UserForm = ({toggleModal, initialValues, submitForm}) => {
                     <div>
                         <label>Street 2 (Optional)</label><br/>
                         <input name="street2" value={street2} onChange={(e) => setStreet2(e.target.value)}/>
+                    </div>
+                    <div>
+                        <label>Roles</label><br/>
+                        <select name="roles">
+                            <option value={"ADMIN"}>Admin</option>
+                            <option value={"EMPLOYEE"}>Employee</option>
+                            <option value={"CLIENT"}>Client</option>
+                        </select>
                     </div>
                     <hr/>
                     <div className="d-flex gap-2 justify-content-center w-100">

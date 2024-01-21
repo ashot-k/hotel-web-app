@@ -1,4 +1,5 @@
 import {useEffect, useState} from "react";
+import {getCookie} from "../Cookies";
 
 export const useFetch = (url) => {
     const [data, setData] = useState([]);
@@ -9,15 +10,19 @@ export const useFetch = (url) => {
     const [totalElements, setTotalElements] = useState(0);
     const [dataChanged, setDataChanged] = useState(0);
     const [pageSize, setPageSize] = useState(25);
+
+
+
     const fetchData = async (url, page) => {
         const controller = new AbortController();
         setIsPending(true);
         try {
+            console.log(getCookie("token"))
             let response;
             if (url.toString().includes("?"))
-                response = await fetch(url + "&pageNo=" + page + "&pageSize=" + pageSize, {signal: controller.signal,});
+                response = await fetch(url + "&pageNo=" + page + "&pageSize=" + pageSize, {headers:  {Authorization: 'Bearer ' + getCookie("token")}, signal: controller.signal});
             else
-                response = await fetch(url + "?pageNo=" + page + "&pageSize=" + pageSize, {signal: controller.signal,});
+                response = await fetch(url + "?pageNo=" + page + "&pageSize=" + pageSize, {headers:  {Authorization: 'Bearer ' + getCookie("token")}, signal: controller.signal});
             const data = (await response.json());
             if (data['content']) {
                 setTotalPages(data['totalPages']);

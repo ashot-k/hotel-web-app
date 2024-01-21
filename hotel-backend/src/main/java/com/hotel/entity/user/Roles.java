@@ -1,7 +1,6 @@
 package com.hotel.entity.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreType;
 import com.hotel.utils.UserRoles;
 import jakarta.persistence.*;
 
@@ -18,24 +17,20 @@ public class Roles {
     private Person person;
 
     @Column(name = "role")
-    private String role;
+    @Enumerated
+    private UserRoles role;
 
     public Roles() {
     }
 
-    public Roles(Person person, String role) {
+    public Roles(Person person, UserRoles role) {
         this.person = person;
         this.role = role;
     }
 
-    public Roles(Person person, UserRoles role) {
-        this.person = person;
-        this.role = role.toString();
-    }
-
     public Roles(Person person) {
         this.person = person;
-        this.role = UserRoles.CLIENT.toString();
+        this.role = UserRoles.CLIENT;
     }
 
     public Person getPerson() {
@@ -46,11 +41,11 @@ public class Roles {
         this.person = person;
     }
 
-    public String getRole() {
+    public UserRoles getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRoles role) {
         this.role = role;
     }
 }

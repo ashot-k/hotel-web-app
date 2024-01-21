@@ -8,16 +8,21 @@ import com.hotel.exceptions.UsernameAlreadyExistsException;
 import com.hotel.repo.PersonRepository;
 import com.hotel.repo.ReservationRepo;
 import com.hotel.utils.ExceptionMessages;
+import com.hotel.utils.UserRoles;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.management.relation.Role;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -94,7 +99,6 @@ public class PersonServiceImpl implements PersonService{
         person.setId(personDTO.id());
         person.setUsername(personDTO.username());
         person.setPassword(personDTO.password());
-
         Address address = new Address();
         address.setPhoneNumber(personDTO.phoneNumber());
         address.setEmail(personDTO.email());
@@ -103,15 +107,35 @@ public class PersonServiceImpl implements PersonService{
         address.setStreet(personDTO.street());
         address.setStreet2(personDTO.street2());
         person.setAddress(address);
+        List<Roles> roles= new ArrayList<>();
+
+        if(SecurityContextHolder.getContext().getAuthentication().isAuthenticated() && personDTO.roles() != null) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            boolean hasAuthority = authentication.getAuthorities().stream()
+                    .anyMatch(authority ->
+                            authority.getAuthority().equals("ADMIN"));
+            if (hasAuthority) {
+                roles.add(new Roles(person, UserRoles.valueOf(personDTO.roles())));
+            }
+        }
+        roles.add(new Roles(person));
+        person.setRoles(roles);
         return person;
     }
 
     @Override
     public PersonDTO PersonToPersonDTO(Person p) {
         Address a = p.getAddress();
+        List<Roles> roles = p.getRoles();
+        UserRoles userRole = UserRoles.CLIENT;
+        for(Roles r: roles){
+            if(!r.getRole().name().equalsIgnoreCase("CLIENT")){
+                userRole = r.getRole();
+            }
+        }
         return new PersonDTO(p.getId(), p.getUsername(), p.getPassword()
                 , a.getEmail(), a.getCountry(), a.getPostalCode(),
-                a.getStreet(), a.getStreet2(), a.getPhoneNumber());
+                a.getStreet(), a.getStreet2(), a.getPhoneNumber(), userRole.name());
     }
 
 
@@ -124,8 +148,7 @@ public class PersonServiceImpl implements PersonService{
             } catch (UsernameAlreadyExistsException e) {
                 throw new RuntimeException(e);
             }
-        } else
-            person.setRoles(List.of(new Roles(person)));
+        }
         if (person.getAddress() == null)
             person.setAddress(new Address());
         person.getAddress().setPerson(person);

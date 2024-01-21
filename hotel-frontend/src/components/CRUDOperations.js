@@ -1,3 +1,5 @@
+import {getCookie} from "../Cookies";
+
 export const CRUDOperations = (url) => {
 
 
@@ -12,7 +14,11 @@ export const CRUDOperations = (url) => {
                 entry.imageUrl = reader.result;
                 fetch(url, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + getCookie("token"),
+                    },
                     body: JSON.stringify(entry)
                 }).then(response => response.json())
                     .then(data => {
@@ -24,13 +30,17 @@ export const CRUDOperations = (url) => {
                     console.error(error);
                 });
             }
-        }
-        else {
+        } else {
             console.log("no image")
-           delete entry.imageUrl;
+            delete entry.imageUrl;
             fetch(url, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: "Bearer " + getCookie("token"),
+                },
+
                 body: JSON.stringify(entry)
             }).then(response => response.json())
                 .then(data => {
@@ -53,9 +63,13 @@ export const CRUDOperations = (url) => {
             reader.readAsDataURL(entry.imageUrl);
             reader.onload = () => {
                 entry.imageUrl = reader.result;
-                fetch(url + "/" + entry['id'],{
+                fetch(url + "/" + entry['id'], {
                     method: 'PUT',
-                    headers: {'Content-Type': 'application/json'},
+                    headers: {
+                        Accept: 'application/json',
+                        'Content-Type': 'application/json',
+                        Authorization: "Bearer " + getCookie("token"),
+                    },
                     body: JSON.stringify(entry)
                 }).then(response => response.json())
                     .then(data => {
@@ -67,13 +81,17 @@ export const CRUDOperations = (url) => {
                     console.error(error);
                 });
             }
-        }
-        else {
+        } else {
             console.log("no image")
             delete entry.imageUrl;
             fetch(url + "/" + entry['id'], {
                 method: 'PUT',
-                headers: {'Content-Type': 'application/json'},
+                headers: {
+                    Accept: 'application/json',
+                    'Content-Type': 'application/json',
+                    Authorization: "Bearer " + getCookie("token"),
+                },
+
                 body: JSON.stringify(entry)
             }).then(response => response.json())
                 .then(data => {
@@ -90,10 +108,16 @@ export const CRUDOperations = (url) => {
     const create = (e, setDataChanged) => {
         e.preventDefault();
 
+
         const entry = Object.fromEntries(new FormData(e.target));
+        console.log(JSON.stringify(entry))
+        console.log(" auth token " + getCookie("token"))
         fetch(url, {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                Accept: 'application/json', 'Content-Type': 'application/json',
+                Authorization: "Bearer " + getCookie("token"),
+            },
             body: JSON.stringify(entry)
         }).then(response => response.json())
             .then(data => {
@@ -109,7 +133,12 @@ export const CRUDOperations = (url) => {
         console.log(entry)
         fetch(url + "/" + entry['id'], {
             method: 'PUT',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + getCookie("token"),
+            },
+
             body: JSON.stringify(entry)
         }).then(() => {
                 console.log("entry updated");
@@ -119,7 +148,14 @@ export const CRUDOperations = (url) => {
     }
 
     function remove(id, setDataChanged) {
-        fetch(url + "/" + id, {method: 'DELETE'})
+        fetch(url + "/" + id, {
+            method: 'DELETE',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                Authorization: "Bearer " + getCookie("token"),
+            },
+        })
             .then((message) => {
                 console.log(message.text());
                 console.log("entry deleted");

@@ -77,7 +77,7 @@ public class RoomRestController {
             roomTypes.add(roomType.name());
         return new ResponseEntity<>(roomTypes, HttpStatus.OK);
     }
-    @GetMapping(value = "/{roomName}/image", produces = MediaType.IMAGE_JPEG_VALUE)
+    @GetMapping(value = "/image/{roomName}", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody Resource getImage(@PathVariable String roomName) throws IOException {
         return roomService.getRoomImage(roomName);
     }

@@ -31,7 +31,7 @@ public class HotelApplication {
 				registry.addMapping("/**")
 						.allowedOrigins("http://192.168.1.75:3000", "http://localhost:3000", "http://192.168.1.75:8080/api/users")
 						.allowedMethods("GET", "POST", "PUT", "DELETE")
-						.allowedHeaders("X-Total-Pages", "Content-Type")
+						.allowedHeaders("X-Total-Pages", "Content-Type", "Authorization")
 						.exposedHeaders("X-Total-Pages");
 			}
 		};

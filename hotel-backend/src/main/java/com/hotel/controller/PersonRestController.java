@@ -10,16 +10,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-//@Secured("ADMIN")
 @RequestMapping("/api/users")
 @CrossOrigin({"http://192.168.1.75:3000", "http://localhost:3000", "http://192.168.1.75:8080/api/users"})
-
 public class PersonRestController {
     PersonService personService;
     private static final Logger LOG = LoggerFactory.getLogger(PersonRestController.class);
@@ -39,11 +38,9 @@ public class PersonRestController {
         return new ResponseEntity<>(personService.getPeopleDTOByTerm(pageNo, pageSize,term), HttpStatus.OK);
     }
     @GetMapping
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Page<PersonDTO>> getUsers(
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-
         Page<PersonDTO> page = personService.getAllPeopleDTOPageable(pageNo, pageSize);
         return new ResponseEntity<>(page,HttpStatus.OK);
     }

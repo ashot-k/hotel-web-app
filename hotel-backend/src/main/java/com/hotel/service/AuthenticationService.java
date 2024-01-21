@@ -8,7 +8,6 @@ import com.hotel.entity.user.Person;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class AuthenticationService {
@@ -24,6 +23,7 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(PersonDTO personDTO) {
+
         Person person = personService.personDTOtoPerson(personService.savePerson(personDTO));
         var jwtToken = jwtService.generateToken(person);
         return new AuthenticationResponse(jwtToken);

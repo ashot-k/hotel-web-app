@@ -119,7 +119,7 @@ public class Person implements UserDetails{
         List<GrantedAuthority> authorityList= new ArrayList<>();
         for(Roles r: roles)
         {
-            authorityList.add(new SimpleGrantedAuthority(r.getRole()));
+            authorityList.add(new SimpleGrantedAuthority(r.getRole().name()));
         }
         return authorityList;
     }

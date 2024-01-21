@@ -8,10 +8,12 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,11 +35,14 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((requests) -> {
+        http.csrf().disable().authorizeHttpRequests((requests) -> {
             try {
                 requests
                         .requestMatchers("/api/auth/**").permitAll()
-                      //  .requestMatchers("/api/**").authenticated()
+                        .requestMatchers("/api/reservations/available").permitAll()
+                        .requestMatchers("/api/rooms/image/**").permitAll()
+                        .requestMatchers(HttpMethod.POST,"/api/reservations").authenticated()
+                        .requestMatchers("/api/**").hasAuthority("ADMIN")
                         .anyRequest().authenticated()
                         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .and().authenticationProvider(authProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -52,7 +57,6 @@ public class SecurityConfig {
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
-
     }
 
 
