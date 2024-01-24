@@ -12,33 +12,18 @@ export const useFetch = (url) => {
     const [dataChanged, setDataChanged] = useState(0);
     const [pageSize, setPageSize] = useState(25);
 
-
-
     const fetchData = async (url, page) => {
         const controller = new AbortController();
         setIsPending(true);
-
         try {
-            console.log(getCookie("token"))
-            let response;
-            let data;
-            if (url.toString().includes("?")){
-               response = await  axios.get(url,{
+             const data = await  axios.get(url,{
                    params:{
                        pageNo: page,
                        pageSize: pageSize
                    },
-                   headers: {Authorization: "Bearer " + getCookie("token")}, signal: controller.signal}).then(response => data = response.data);
-             }
-              else
-                  response = await axios.get(url,{
-                      params:{
-                          pageNo: page,
-                          pageSize: pageSize
-                      },
-                      headers: {Authorization: "Bearer " + getCookie("token")}, signal: controller.signal} ).then(response => data = response.data);
-
-            console.log(data);
+                   headers: {Authorization: "Bearer " + getCookie("token")}, signal: controller.signal})
+                   .then(response => response.data);
+            //console.log(data);
             if (data['content']) {
                 setTotalPages(data['totalPages']);
                 setTotalElements(data['totalElements']);

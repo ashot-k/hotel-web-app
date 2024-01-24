@@ -13,7 +13,7 @@ export const Rooms = () => {
     const roomTypesUrl = rootUrl + "/room-types";
     const {data: roomTypes} = useFetch(roomTypesUrl);
     const {data: rooms, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
-    const {createRoom, updateRoom, remove} = CRUDOperations(rootUrl);
+    const {createRoom, updateRoom, remove, error} = CRUDOperations(rootUrl);
     const [addModal, setAddModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [editDetails, setEditDetails] = useState(initialValues);
@@ -40,19 +40,23 @@ export const Rooms = () => {
 
     return (
         <div className="main-content">
-                {totalPages && <Pagination totalPages={totalPages} totalElements={totalElements} pageChange={pageChange} setPageSize={setPageSize}/>}
-                {addModal && <RoomForm toggleModal={toggleAddModal} initialValues={initialValues} roomTypes={roomTypes}
-                                       submitForm={(event) => {
-                                           createRoom(event, setDataChanged);
-                                           setAddModal(!addModal);
-                                       }}/>}
-                {editModal && <RoomForm toggleModal={toggleEditModal} initialValues={editDetails} roomTypes={roomTypes}
-                                        submitForm={(event) => {
-                                            updateRoom(event, setDataChanged);
-                                            setEditModal(!editModal);
-                                        }}/>}
-                {rooms && <List data={rooms} isSearchTermPresent={isSearchTermPresent} toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal} setDataChanged={setDataChanged} remove={remove}/>}
-                {isPending && <div>Loading Rooms...</div>}
+            {addModal && <RoomForm toggleModal={toggleAddModal} initialValues={initialValues} roomTypes={roomTypes}
+                                   submitForm={(event) => {
+                                       createRoom(event, setDataChanged);
+                                       setAddModal(!addModal);
+                                   }}/>}
+            {editModal && <RoomForm toggleModal={toggleEditModal} initialValues={editDetails} roomTypes={roomTypes}
+                                    submitForm={(event) => {
+                                        updateRoom(event, setDataChanged);
+                                        setEditModal(!editModal);
+                                    }}/>}
+            {isPending && <div>Loading Rooms...</div>}
+            {rooms &&
+                <List data={rooms} isSearchTermPresent={isSearchTermPresent} toggleAddModal={toggleAddModal}
+                      toggleEditModal={toggleEditModal} setDataChanged={setDataChanged} remove={remove}/>}
+            {totalPages > 0 && <Pagination totalPages={totalPages} totalElements={totalElements} pageChange={pageChange}
+                                           setPageSize={setPageSize}/>}
+            {error && <h5>{error.message}</h5>}
         </div>
     );
 }

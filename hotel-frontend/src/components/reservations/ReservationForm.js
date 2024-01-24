@@ -8,11 +8,9 @@ export const ReservationForm = ({toggleModal, initialValues, submitForm, checkAv
     const [end, setEnd] = useState(initialValues.end);
     const [availableRooms, setAvailableRooms] = useState(null);
 
-
     useEffect(() => {
         checkAvailability(start, end)
     }, [start, end]);
-
 
     const checkAvailability = async (start, end) => {
         if (start && end) {

@@ -1,6 +1,6 @@
 import {useState} from "react";
 
-export const UserForm = ({toggleModal, initialValues, submitForm}) => {
+export const UserForm = ({toggleModal, initialValues, submitForm, error}) => {
     const [username, setUsername] = useState(initialValues.username);
     const [password, setPassword] = useState("");
     const [email, setEmail] = useState(initialValues.email);
@@ -9,6 +9,7 @@ export const UserForm = ({toggleModal, initialValues, submitForm}) => {
     const [phoneNumber, setPhoneNumber] = useState(initialValues.phoneNumber);
     const [street, setStreet] = useState(initialValues.street);
     const [street2, setStreet2] = useState(initialValues.street2);
+
     return (
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">
@@ -50,9 +51,9 @@ export const UserForm = ({toggleModal, initialValues, submitForm}) => {
                     <div>
                         <label>Roles</label><br/>
                         <select name="roles">
-                            <option value={"ADMIN"}>Admin</option>
-                            <option value={"EMPLOYEE"}>Employee</option>
                             <option value={"CLIENT"}>Client</option>
+                            <option value={"EMPLOYEE"}>Employee</option>
+                            <option value={"ADMIN"}>Admin</option>
                         </select>
                     </div>
                     <hr/>

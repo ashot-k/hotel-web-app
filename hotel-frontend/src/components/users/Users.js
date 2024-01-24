@@ -11,7 +11,7 @@ export const Users = () => {
     const rootUrl = "http://192.168.1.64:8080/api/users";
     const [url, setUrl] = useState(rootUrl);
     const {data: users, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
-    const {create, update, remove} = CRUDOperations(rootUrl);
+    const {create, update, remove, error} = CRUDOperations(rootUrl);
     const [addModal, setAddModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [editDetails, setEditDetails] = useState(initialValues);
@@ -36,23 +36,27 @@ export const Users = () => {
     return (
         <div>
             <div className="p-2">
-                {totalPages && <Pagination totalPages={totalPages} totalElements={totalElements} pageChange={pageChange} setPageSize={setPageSize}/>}
+
                 {addModal && <UserForm toggleModal={toggleAddModal} initialValues={initialValues}
+                                       error={error}
                                        submitForm={(event) => {
                                            create(event, setDataChanged);
                                            setAddModal(!addModal);
-                                       }}/>}
-                {editModal && <UserForm toggleModal={toggleEditModal}
+                                       }}
+                />}
+                {editModal && <UserForm toggleModal={toggleEditModal} initialValues={editDetails}
                                         submitForm={(event) => {
                                             update(event, setDataChanged);
                                             setEditModal(!editModal);
                                         }}
-                                        initialValues={editDetails}/>}
+                />}
             </div>
-            {users && <List data={users} isSearchTermPresent={isSearchTermPresent}
-                               toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal}
-                               setDataChanged={setDataChanged} remove={remove}/>}
             {isPending && <div>Loading Users...</div>}
+            {users && <List data={users} isSearchTermPresent={isSearchTermPresent}
+                            toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal}
+                            setDataChanged={setDataChanged} remove={remove}/>}
+            {totalPages > 0 && <Pagination totalPages={totalPages} totalElements={totalElements} pageChange={pageChange}
+                                           setPageSize={setPageSize}/>}
         </div>
     );
 }

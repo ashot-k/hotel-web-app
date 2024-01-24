@@ -1,9 +1,8 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
-const Login = () => {
+const Login = ({setToken}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState("");
     const navigate = useNavigate();
     const [errorMsg, setErrorMsg] = useState("");
 

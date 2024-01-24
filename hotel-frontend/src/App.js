@@ -11,16 +11,16 @@ import {deleteCookie, getCookie, setCookie} from "./Cookies";
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 import {useEffect, useState} from "react";
 import Register from "./Register";
+import Footer from "./components/Footer";
 //import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
-
-    const [loggedIn, setLoggedIn] = useState(false);
+    const [token, setToken] = useState(getCookie("token"));
 
     return (
         <BrowserRouter>
             <div className="App main-content">
                 <header>
-                    <nav className="d-flex flex-wrap p-4 gap-2 ">
+                    <nav className="d-flex flex-wrap p-4 gap-2">
                         <div>
                             <h1>Hotel</h1>
                             <br/>
@@ -28,7 +28,7 @@ function App() {
                         <div className="d-flex flex-wrap gap-3 w-100 align-items-center justify-content-between">
                             <div className="d-flex gap-2">
                                 <NavLink to="/">Home</NavLink>
-                                {getCookie("token") &&
+                                {token.length > 0 &&
                                     <div className="d-flex gap-2">
                                         <NavLink to="users">Users</NavLink>
                                         <NavLink to="rooms">Rooms</NavLink>
@@ -36,12 +36,12 @@ function App() {
                                     </div>
                                 }
                             </div>
-                            {!getCookie("token").length > 0 &&
+                            {!token.length > 0 &&
                                 <div className="d-flex gap-2">
                                     <NavLink className="btn btn-primary" to="login">Login</NavLink>
                                     <NavLink className="btn btn-primary" to="register">Register</NavLink>
                                 </div>
-                                || <button className="btn btn-danger" onClick={(e) => {deleteCookie("token"); setLoggedIn(false)}}>Logout</button>}
+                                || <button className="btn btn-danger" onClick={(e) => {deleteCookie("token"); setToken("")}}>Logout</button>}
                         </div>
                     </nav>
                 </header>
@@ -52,10 +52,12 @@ function App() {
                         <Route path="users" element={<Users/>}/>
                         <Route path="rooms" element={<Rooms/>}/>
                         <Route path="reservations" element={<Reservations/>}/>
-                        <Route path="login" element={<Login/>}/>
-                        <Route path="register" element={<Register/>}/>
+                        <Route path="login" element={<Login setToken={setToken}/>}/>
+                        <Route path="register" element={<Register setToken={setToken}/>}/>
                     </Routes>
                 </main>
+                <hr/>
+                <Footer/>
             </div>
         </BrowserRouter>
     );

@@ -1,7 +1,13 @@
 import {getCookie} from "../Cookies";
+import axios from 'axios';
+import {useState} from "react";
 
 export const CRUDOperations = (url) => {
 
+    const [error, setError] = useState(null);
+    axios.defaults.headers.common['Authorization'] = "Bearer " + getCookie("token");
+    axios.defaults.headers.common['Accept'] = 'application/json';
+    axios.defaults.headers.common['Content-Type'] = 'application/json';
 
     const createRoom = (e, setDataChanged) => {
         e.preventDefault();
@@ -81,7 +87,8 @@ export const CRUDOperations = (url) => {
                     console.error(error);
                 });
             }
-        } else {
+        }
+        else {
             console.log("no image")
             delete entry.imageUrl;
             fetch(url + "/" + entry['id'], {
@@ -107,24 +114,10 @@ export const CRUDOperations = (url) => {
 
     const create = (e, setDataChanged) => {
         e.preventDefault();
-
-
         const entry = Object.fromEntries(new FormData(e.target));
-        console.log(JSON.stringify(entry))
-        console.log(" auth token " + getCookie("token"))
-        fetch(url, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json', 'Content-Type': 'application/json',
-                Authorization: "Bearer " + getCookie("token"),
-            },
-            body: JSON.stringify(entry)
-        }).then(response => response.json())
-            .then(data => {
-                setDataChanged((prev) => prev + 1);
-            }).catch(error => {
-            console.error(error);
-        });
+        return  axios.post(url, {...entry})
+            .then(setDataChanged((prev) => prev + 1))
+            .catch(error => setError(error));
     }
 
     const update = (e, setDataChanged) => {
@@ -133,12 +126,6 @@ export const CRUDOperations = (url) => {
         console.log(entry)
         fetch(url + "/" + entry['id'], {
             method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: "Bearer " + getCookie("token"),
-            },
-
             body: JSON.stringify(entry)
         }).then(() => {
                 console.log("entry updated");
@@ -163,5 +150,6 @@ export const CRUDOperations = (url) => {
             }).catch(error => console.log(error));
     }
 
-    return {create, update, remove, createRoom, updateRoom}
+
+    return {create, update, remove, createRoom, updateRoom, error}
 }

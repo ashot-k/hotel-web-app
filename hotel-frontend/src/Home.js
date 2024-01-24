@@ -1,10 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import {useFetch} from "./hooks/useFetch";
 import {initialValues} from "./components/reservations/ReservationFormFields";
-
+import axios from 'axios';
+import {getCookie} from "./Cookies";
 const Home = () => {
-    const roomsUrl = "http://192.168.1.75:8080/api/rooms";
-    const reservationsUrl = "http://192.168.1.75:8080/api/reservations";
+    const roomsUrl = "http://192.168.1.64:8080/api/rooms";
+    const reservationsUrl = "http://192.168.1.64:8080/api/reservations";
 
     const availableRoomsUrl = "/available"
    // const {data: rooms, isPending, error,  totalPages, totalElements, pageChange, setDataChanged} = useFetch(roomsUrl);
@@ -16,11 +17,15 @@ const Home = () => {
         checkAvailability(start, end);
     }, [start, end]);
 
-    const checkAvailability = async (start, end) => {
+    const checkAvailability =  (start, end) => {
         if (start && end) {
-            const response = await fetch(reservationsUrl + availableRoomsUrl + "?start=" + start + "&end=" + end);
-            const rooms = (await response.json());
-            setAvailableRooms(rooms);
+           const rooms = axios.get(reservationsUrl + availableRoomsUrl,{
+                params:{
+                    start: start,
+                    end: end
+                },
+                headers: {Authorization: "Bearer " + getCookie("token")}})
+                .then(response => setAvailableRooms(response.data));
         }
         else
             setAvailableRooms(null);
@@ -50,7 +55,7 @@ const Home = () => {
                     return <div className="card-container">
                         <div className="card-body d-flex flex-column gap-4 justify-content-between align-items-center">
                             <h5 className="card-title">{room.name}</h5>
-                            <img src={"http://192.168.1.75:8080/api/rooms/image/"+ room.name} className="card-image" alt="..."/>
+                            <img src={"http://192.168.1.64:8080/api/rooms/image/"+ room.name} className="card-image" alt="..."/>
                             <div className="card-text">
                                 <h5 className="">{room.roomType}</h5>
                                 <button type={"button"} className="btn btn-primary">Book {room.price}€</button>

@@ -11,12 +11,12 @@ export const Reservations = () => {
     const rootUrl = "http://192.168.1.64:8080/api/reservations";
     const [url, setUrl] = useState(rootUrl);
     const availableRoomsUrl = rootUrl + "/available";
-    const {data: reservations, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
+    const {data: reservations,error, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
     const {create, update, remove} = CRUDOperations(rootUrl);
+
     const [addModal, setAddModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [editDetails, setEditDetails] = useState(initialValues);
-
     const toggleAddModal = () => {
         setAddModal(!addModal);
     }
@@ -33,28 +33,27 @@ export const Reservations = () => {
             setDataChanged((prev) => prev + 1);
         }
     }
+
     return (
         <div className="main-content">
-            <div className="p-2">
-                {totalPages &&
-                    <Pagination totalPages={totalPages} totalElements={totalElements} pageChange={pageChange} setPageSize={setPageSize}/>}
-                {addModal && <ReservationForm toggleModal={toggleAddModal} checkAvailabilityUrl={availableRoomsUrl}
-                                              initialValues={initialValues}
+
+                 {addModal && <ReservationForm toggleModal={toggleAddModal} checkAvailabilityUrl={availableRoomsUrl} initialValues={initialValues}
                                               submitForm={(event) => {
                                                   create(event, setDataChanged);
                                                   setAddModal(!addModal);
                                               }}/>}
-                {editModal && <ReservationForm toggleModal={toggleEditModal}
-                                               initialValues={editDetails} checkAvailabilityUrl={availableRoomsUrl}
+                {editModal && <ReservationForm toggleModal={toggleEditModal} checkAvailabilityUrl={availableRoomsUrl} initialValues={editDetails}
                                                submitForm={(event) => {
                                                    update(event, setDataChanged);
                                                    setEditModal(!editModal);
                                                }}/>}
-            </div>
+            {isPending && <div>Loading Reservations...</div>}
             {reservations && <List data={reservations} isSearchTermPresent={isSearchTermPresent}
                                    toggleAddModal={toggleAddModal} toggleEditModal={toggleEditModal}
                                    setDataChanged={setDataChanged} remove={remove}/>}
-            {isPending && <div>Loading Reservations...</div>}
+            {totalPages > 0 &&
+                <Pagination totalPages={totalPages} totalElements={totalElements} pageChange={pageChange} setPageSize={setPageSize}/>}
+            {error && <h5>{error.message}</h5>}
         </div>
     );
 }

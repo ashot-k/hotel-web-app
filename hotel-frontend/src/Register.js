@@ -1,12 +1,9 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 
-const Register = () => {
+const Register = ({setToken}) => {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    const [token, setToken] = useState("");
-    const navigate = useNavigate();
-    const [errorMsg, setErrorMsg] = useState("");
     const [email, setEmail] = useState("");
     const [country, setCountry] = useState("");
     const [postalCode, setPostalCode] = useState("");
@@ -14,6 +11,8 @@ const Register = () => {
     const [street, setStreet] = useState("");
     const [street2, setStreet2] = useState("");
 
+    const [errorMsg, setErrorMsg] = useState("");
+    const navigate = useNavigate();
     function registerRequest(e) {
         e.preventDefault();
         const credentials = Object.fromEntries(new FormData(e.target));
@@ -26,7 +25,7 @@ const Register = () => {
                     res.json() .then((data) => {
                         setToken(data.token);
                         document.cookie = "token=" + data.token;
-                        navigate("/")
+                        navigate("/");
                     })
                 else
                     res.text().then((message) => setErrorMsg(message));

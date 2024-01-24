@@ -8,6 +8,7 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
     const [size, setSize] = useState(initialValues.size);
     const [price, setPrice] = useState(initialValues.price);
     const [imageUrl, setImageUrl] = useState(initialValues.imageUrl);
+    const [error, setError] = useState("");
 
     return (
         <form className="form form-modal" action="/" onSubmit={submitForm}>
@@ -46,6 +47,9 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
                         <label>Add Image</label><br/>
                         <input name="imageUrl" type={"file"} onChange={(e) => {setImageUrl(e.target.files[0].name);}}/>
                     </div>
+                    {error &&  <div>
+                        <h5 style={{color:"red"}}>{error}</h5>
+                    </div>}
                     <div className="d-flex gap-2 justify-content-center w-100">
                         <button className="btn btn-success" type="submit">Submit</button>
                         <button className="btn btn-danger" type="button" onClick={toggleModal}>Cancel</button>
