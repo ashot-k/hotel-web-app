@@ -8,7 +8,7 @@ import {Pagination} from "../Pagination";
 
 export const Users = () => {
 
-    const rootUrl = "http://192.168.1.75:8080/api/users";
+    const rootUrl = "http://192.168.1.64:8080/api/users";
     const [url, setUrl] = useState(rootUrl);
     const {data: users, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
     const {create, update, remove} = CRUDOperations(rootUrl);

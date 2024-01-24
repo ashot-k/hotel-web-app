@@ -124,7 +124,6 @@ public class Person implements UserDetails{
         return authorityList;
     }
 
-
     public String getPassword() {
         return password;
     }

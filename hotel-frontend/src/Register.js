@@ -17,7 +17,7 @@ const Register = () => {
     function registerRequest(e) {
         e.preventDefault();
         const credentials = Object.fromEntries(new FormData(e.target));
-        fetch("http://192.168.1.75:8080/api/auth/register", {
+        fetch("http://192.168.1.64:8080/api/auth/register", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(credentials)

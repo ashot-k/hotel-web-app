@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {getCookie} from "../Cookies";
+import  axios from "axios";
 
 export const useFetch = (url) => {
     const [data, setData] = useState([]);
@@ -16,14 +17,28 @@ export const useFetch = (url) => {
     const fetchData = async (url, page) => {
         const controller = new AbortController();
         setIsPending(true);
+
         try {
             console.log(getCookie("token"))
             let response;
-            if (url.toString().includes("?"))
-                response = await fetch(url + "&pageNo=" + page + "&pageSize=" + pageSize, {headers:  {Authorization: 'Bearer ' + getCookie("token")}, signal: controller.signal});
-            else
-                response = await fetch(url + "?pageNo=" + page + "&pageSize=" + pageSize, {headers:  {Authorization: 'Bearer ' + getCookie("token")}, signal: controller.signal});
-            const data = (await response.json());
+            let data;
+            if (url.toString().includes("?")){
+               response = await  axios.get(url,{
+                   params:{
+                       pageNo: page,
+                       pageSize: pageSize
+                   },
+                   headers: {Authorization: "Bearer " + getCookie("token")}, signal: controller.signal}).then(response => data = response.data);
+             }
+              else
+                  response = await axios.get(url,{
+                      params:{
+                          pageNo: page,
+                          pageSize: pageSize
+                      },
+                      headers: {Authorization: "Bearer " + getCookie("token")}, signal: controller.signal} ).then(response => data = response.data);
+
+            console.log(data);
             if (data['content']) {
                 setTotalPages(data['totalPages']);
                 setTotalElements(data['totalElements']);

@@ -8,7 +8,7 @@ import {Pagination} from "../Pagination";
 
 export const Rooms = () => {
 
-    const rootUrl = "http://192.168.1.75:8080/api/rooms";
+    const rootUrl = "http://192.168.1.64:8080/api/rooms";
     const [url, setUrl] = useState(rootUrl);
     const roomTypesUrl = rootUrl + "/room-types";
     const {data: roomTypes} = useFetch(roomTypesUrl);

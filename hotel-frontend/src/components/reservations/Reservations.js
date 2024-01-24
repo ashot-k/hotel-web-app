@@ -8,7 +8,7 @@ import {Pagination} from "../Pagination";
 
 export const Reservations = () => {
 
-    const rootUrl = "http://192.168.1.75:8080/api/reservations";
+    const rootUrl = "http://192.168.1.64:8080/api/reservations";
     const [url, setUrl] = useState(rootUrl);
     const availableRoomsUrl = rootUrl + "/available";
     const {data: reservations, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);

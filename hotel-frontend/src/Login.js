@@ -11,12 +11,13 @@ const Login = () => {
         e.preventDefault();
         const credentials = Object.fromEntries(new FormData(e.target));
         console.log("credentials " + credentials.username);
-        fetch("http://192.168.1.75:8080/api/auth/login", {
+        fetch("http://192.168.1.64:8080/api/auth/login", {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(credentials)
         }).then((res) =>
             res.json()).then((data) => {
+                console.log(data);
             setToken(data.token);
             document.cookie ="token=" + data.token;
         }).then(() => {
