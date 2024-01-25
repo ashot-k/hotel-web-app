@@ -45,11 +45,11 @@ export const ReservationForm = ({toggleModal, initialValues, submitForm, checkAv
                         }}/>
                     </div>
                     <div>
-                        <label>Available Room Ids*</label><br/>
+                        <label>Available Rooms*</label><br/>
                         <select name="roomId">
                             {availableRooms &&
                                 availableRooms.map((room) => {
-                                    return <option value={room.id}>{room.id}</option>
+                                    return <option value={room.id}>{room.name + " " +  room.roomType + " " +  room.price + "€"}</option>
                                 })
                             }
                         </select>

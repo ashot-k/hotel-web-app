@@ -5,14 +5,13 @@ import {List} from "../List";
 import {useState} from "react";
 import ReservationForm from "./ReservationForm";
 import {Pagination} from "../Pagination";
+import {reservationsURL, availableRoomsURL} from "../../URLs";
 
 export const Reservations = () => {
 
-    const rootUrl = "http://192.168.1.64:8080/api/reservations";
-    const [url, setUrl] = useState(rootUrl);
-    const availableRoomsUrl = rootUrl + "/available";
+    const [url, setUrl] = useState(reservationsURL);
     const {data: reservations,error, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
-    const {create, update, remove} = CRUDOperations(rootUrl);
+    const {create, update, remove} = CRUDOperations(reservationsURL);
 
     const [addModal, setAddModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
@@ -26,10 +25,10 @@ export const Reservations = () => {
     }
     const isSearchTermPresent = async (searchTerm) => {
         if (searchTerm) {
-            setUrl(rootUrl + "/search?term=" + searchTerm);
+            setUrl(reservationsURL + "/search?term=" + searchTerm);
             setDataChanged((prev) => prev + 1);
         } else {
-            setUrl(rootUrl);
+            setUrl(reservationsURL);
             setDataChanged((prev) => prev + 1);
         }
     }
@@ -37,12 +36,12 @@ export const Reservations = () => {
     return (
         <div className="main-content">
 
-                 {addModal && <ReservationForm toggleModal={toggleAddModal} checkAvailabilityUrl={availableRoomsUrl} initialValues={initialValues}
+                 {addModal && <ReservationForm toggleModal={toggleAddModal} checkAvailabilityUrl={availableRoomsURL} initialValues={initialValues}
                                               submitForm={(event) => {
                                                   create(event, setDataChanged);
                                                   setAddModal(!addModal);
                                               }}/>}
-                {editModal && <ReservationForm toggleModal={toggleEditModal} checkAvailabilityUrl={availableRoomsUrl} initialValues={editDetails}
+                {editModal && <ReservationForm toggleModal={toggleEditModal} checkAvailabilityUrl={availableRoomsURL} initialValues={editDetails}
                                                submitForm={(event) => {
                                                    update(event, setDataChanged);
                                                    setEditModal(!editModal);

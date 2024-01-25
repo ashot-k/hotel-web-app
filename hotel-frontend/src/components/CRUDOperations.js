@@ -115,8 +115,8 @@ export const CRUDOperations = (url) => {
     const create = (e, setDataChanged) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
-        return  axios.post(url, {...entry})
-            .then(setDataChanged((prev) => prev + 1))
+        axios.post(url, {...entry})
+            .then(() => setDataChanged((prev) => prev + 1))
             .catch(error => setError(error));
     }
 
@@ -124,14 +124,9 @@ export const CRUDOperations = (url) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
         console.log(entry)
-        fetch(url + "/" + entry['id'], {
-            method: 'PUT',
-            body: JSON.stringify(entry)
-        }).then(() => {
-                console.log("entry updated");
-                setDataChanged((prev) => prev + 1);
-            }
-        );
+        axios.put(url + "/" + entry['id'], {...entry})
+            .then(() => setDataChanged((prev) => prev + 1))
+            .catch(error => setError(error))
     }
 
     function remove(id, setDataChanged) {

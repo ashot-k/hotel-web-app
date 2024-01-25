@@ -12,31 +12,15 @@ public interface PersonService {
 
     Person getPersonById(Long id);
     PersonDTO getPersonDTOById(Long id);
-
     Person getPersonByUsername(String username);
     PersonDTO getPersonDTOByUsername(String username);
-
-
-
     Page<PersonDTO> getPeopleDTOByTerm(int pageNo, int pageSize, String term);
     List<Person> getAllPeople();
-
-
-
     Page<PersonDTO> getAllPeopleDTOPageable(int pageNo, int pageSize);
-
-
-
     PersonDTO savePerson(PersonDTO person);
-
     PersonDTO updatePerson(Long id, PersonDTO updatedPerson);
-
     String deletePerson(Long id);
-
     Person personDTOtoPerson(PersonDTO personDTO);
-
     PersonDTO PersonToPersonDTO(Person p);
-
-
 
 }

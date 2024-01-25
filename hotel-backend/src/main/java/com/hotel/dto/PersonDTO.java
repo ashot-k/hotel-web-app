@@ -1,15 +1,9 @@
 package com.hotel.dto;
 
-import com.fasterxml.jackson.annotation.JsonKey;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.hotel.entity.user.Roles;
-import com.hotel.utils.UserRoles;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-
-import javax.naming.Name;
-import java.util.List;
 
 public record PersonDTO(
         Long id,
@@ -29,7 +23,7 @@ public record PersonDTO(
         @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
                 + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
                 + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$", message = "Invalid phone number format")
-        String phoneNumber, String roles) {
+        String phoneNumber, String role) {
 
 
 }

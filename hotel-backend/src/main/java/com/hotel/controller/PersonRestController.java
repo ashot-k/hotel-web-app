@@ -1,20 +1,14 @@
 package com.hotel.controller;
 
 import com.hotel.dto.PersonDTO;
-import com.hotel.entity.user.Person;
 import com.hotel.service.PersonService;
 import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
@@ -31,18 +25,20 @@ public class PersonRestController {
     public ResponseEntity<PersonDTO> getUser(@PathVariable Long personId) {
         return new ResponseEntity<>(personService.getPersonDTOById(personId), HttpStatus.OK);
     }
+
     @GetMapping("/search")
     public ResponseEntity<Page<PersonDTO>> getUserByTerm(@RequestParam("term") String term,
                                                          @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
-                                                         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize){
-        return new ResponseEntity<>(personService.getPeopleDTOByTerm(pageNo, pageSize,term), HttpStatus.OK);
+                                                         @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        return new ResponseEntity<>(personService.getPeopleDTOByTerm(pageNo, pageSize, term), HttpStatus.OK);
     }
+
     @GetMapping
     public ResponseEntity<Page<PersonDTO>> getUsers(
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         Page<PersonDTO> page = personService.getAllPeopleDTOPageable(pageNo, pageSize);
-        return new ResponseEntity<>(page,HttpStatus.OK);
+        return new ResponseEntity<>(page, HttpStatus.OK);
     }
 
     @PostMapping

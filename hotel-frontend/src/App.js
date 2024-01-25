@@ -7,7 +7,7 @@ import {Users} from "./components/users/Users";
 import {Reservations} from "./components/reservations/Reservations";
 import Home from "./Home";
 import Login from "./Login";
-import {deleteCookie, getCookie, setCookie} from "./Cookies";
+import {deleteCookie, getCookie, setCookie, parseJwt, getUsername} from "./Cookies";
 import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 import {useEffect, useState} from "react";
 import Register from "./Register";
@@ -41,7 +41,10 @@ function App() {
                                     <NavLink className="btn btn-primary" to="login">Login</NavLink>
                                     <NavLink className="btn btn-primary" to="register">Register</NavLink>
                                 </div>
-                                || <button className="btn btn-danger" onClick={(e) => {deleteCookie("token"); setToken("")}}>Logout</button>}
+                                ||<div>
+                                    <h5>Hello {parseJwt(token).sub}</h5>
+                                    <button className="btn btn-danger" onClick={(e) => {deleteCookie("token"); setToken("")}}>Logout</button>
+                                </div>}
                         </div>
                     </nav>
                 </header>

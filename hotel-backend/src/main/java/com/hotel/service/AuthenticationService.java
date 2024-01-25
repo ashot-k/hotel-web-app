@@ -23,7 +23,6 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse register(PersonDTO personDTO) {
-
         Person person = personService.personDTOtoPerson(personService.savePerson(personDTO));
         var jwtToken = jwtService.generateToken(person);
         return new AuthenticationResponse(jwtToken);

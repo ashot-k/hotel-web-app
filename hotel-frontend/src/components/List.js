@@ -1,4 +1,5 @@
 import {useState} from "react";
+import {roomImagesURL} from "../URLs";
 
 export const List = ({data, isSearchTermPresent, toggleAddModal, toggleEditModal, setDataChanged, remove}) => {
     const [searchTerm, setSearchTerm] = useState("");
@@ -38,7 +39,7 @@ export const List = ({data, isSearchTermPresent, toggleAddModal, toggleEditModal
                                 {headers.map(header => {
                                     if (header === 'imageUrl')
                                         return <td key={header}><img
-                                            src={"http://192.168.1.64:8080/api/rooms/image/" + item.name} width={"55px"}
+                                            src={roomImagesURL + item.name} width={"55px"}
                                             height={"55px"}
                                             alt=""></img><p style={{fontSize: "12px"}}>{item.imageUrl} </p></td>
                                     else

@@ -4,6 +4,7 @@ import com.hotel.entity.user.Person;
 import com.hotel.repo.PersonRepository;
 import com.hotel.service.PersonServiceImpl;
 import com.hotel.utils.ExceptionMessages;
+import com.hotel.utils.UserRoles;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.Filter;
 import org.springframework.context.annotation.Bean;
@@ -41,8 +42,10 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/**").permitAll()
                         .requestMatchers("/api/reservations/available").permitAll()
                         .requestMatchers("/api/rooms/image/**").permitAll()
-                        .requestMatchers(HttpMethod.POST,"/api/reservations").authenticated()
-                        .requestMatchers("/api/**").hasAuthority("ADMIN")
+                        .requestMatchers(HttpMethod.GET,"/api/rooms").permitAll()
+                        .requestMatchers("/api/reservations").hasAnyAuthority(UserRoles.ADMIN.name(), UserRoles.EMPLOYEE.name())
+                        .requestMatchers("/api/users").hasAnyAuthority(UserRoles.ADMIN.name(), UserRoles.EMPLOYEE.name())
+                        .requestMatchers("/api/rooms").hasAuthority(UserRoles.ADMIN.name())
                         .anyRequest().authenticated()
                         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .and().authenticationProvider(authProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
@@ -58,6 +61,5 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
     }
-
 
 }

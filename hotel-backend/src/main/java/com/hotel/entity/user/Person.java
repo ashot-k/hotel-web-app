@@ -1,6 +1,5 @@
 package com.hotel.entity.user;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
@@ -11,10 +10,8 @@ import jakarta.validation.constraints.Pattern;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -47,10 +44,9 @@ public class Person implements UserDetails{
     @PrimaryKeyJoinColumn
     @Valid
     private Address address;
-    @OneToMany(mappedBy = "person", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @PrimaryKeyJoinColumn
-    @JsonIgnore
-    private List<Roles> roles;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id")
+    private List<Role> roles;
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -117,9 +113,9 @@ public class Person implements UserDetails{
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList= new ArrayList<>();
-        for(Roles r: roles)
+        for(Role r: roles)
         {
-            authorityList.add(new SimpleGrantedAuthority(r.getRole().name()));
+            authorityList.add(new SimpleGrantedAuthority(r.getUserRole().name()));
         }
         return authorityList;
     }
@@ -148,11 +144,11 @@ public class Person implements UserDetails{
         this.address = address;
     }
 
-    public List<Roles> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Roles> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 }

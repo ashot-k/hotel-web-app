@@ -5,13 +5,14 @@ import {useState} from "react";
 import {CRUDOperations} from "../CRUDOperations";
 import UserForm from "./UserForm";
 import {Pagination} from "../Pagination";
+import {usersURL} from "../../URLs";
 
 export const Users = () => {
 
-    const rootUrl = "http://192.168.1.64:8080/api/users";
-    const [url, setUrl] = useState(rootUrl);
+
+    const [url, setUrl] = useState(usersURL);
     const {data: users, isPending, totalPages, totalElements, pageChange, setDataChanged, setPageSize} = useFetch(url);
-    const {create, update, remove, error} = CRUDOperations(rootUrl);
+    const {create, update, remove, error} = CRUDOperations(usersURL);
     const [addModal, setAddModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [editDetails, setEditDetails] = useState(initialValues);
@@ -26,10 +27,10 @@ export const Users = () => {
 
     const isSearchTermPresent = async (searchTerm) => {
         if (searchTerm) {
-            setUrl(rootUrl + "/search?term=" + searchTerm);
+            setUrl(usersURL + "/search?term=" + searchTerm);
             setDataChanged((prev) => prev + 1);
         } else {
-            setUrl(rootUrl);
+            setUrl(usersURL);
             setDataChanged((prev) => prev + 1);
         }
     }

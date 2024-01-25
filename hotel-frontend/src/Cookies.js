@@ -20,7 +20,14 @@ function getCookie(cname) {
     }
     return false;
 }
+function parseJwt(token) {
+    if (!token) { return; }
+    const base64Url = token.split('.')[1];
+    const base64 = base64Url.replace('-', '+').replace('_', '/');
+    return JSON.parse(window.atob(base64));
+}
+
 function deleteCookie(name) {
     document.cookie = name +'=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
 }
-export {setCookie, getCookie, deleteCookie};
+export {setCookie, getCookie, deleteCookie, parseJwt};
