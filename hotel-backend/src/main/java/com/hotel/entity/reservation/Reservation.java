@@ -44,6 +44,7 @@ public class Reservation {
     private Long personId;
     @Transient
     private Long roomId;
+
     @Column(name = "starts_at")
     @NotNull(message = "Invalid Date for start")
     @FutureOrPresent(message = "Invalid Date for start")
@@ -57,10 +58,9 @@ public class Reservation {
     @Column(name = "created_at")
     private LocalDate created = LocalDate.now();
 
-
     public Long getPersonId() {
         if (person != null) {
-            return person.getId();  // Assuming the Person class has a `getName()` method
+            return person.getId();
         }
         return null;
     }

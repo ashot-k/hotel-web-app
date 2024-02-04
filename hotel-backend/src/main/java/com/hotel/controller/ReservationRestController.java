@@ -6,6 +6,7 @@ import com.hotel.entity.reservation.Reservation;
 import com.hotel.entity.room.Room;
 import com.hotel.exceptions.RoomReservedException;
 import com.hotel.service.ReservationService;
+import com.hotel.utils.ConvertDates;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -18,7 +19,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/reservations")
-@CrossOrigin({"http://192.168.1.75:3000", "http://localhost:3000", "http://192.168.1.75:8080/api/rooms", "http://192.168.1.75:8080/api/rooms/available"})
 public class ReservationRestController {
 
     ReservationService reservationService;
@@ -47,15 +47,8 @@ public class ReservationRestController {
 
     @GetMapping("/available")
     public ResponseEntity<List<Room>> getAvailable(@RequestParam("start") String start, @RequestParam("end") String end) {
-        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-
-        String startFormatted = outputFormat.format(inputFormat.parse(start));
-        String endFormatted = outputFormat.format(inputFormat.parse(end));
-
-        LocalDate startDate = LocalDate.parse(startFormatted, outputFormat);
-        LocalDate endDate = LocalDate.parse(endFormatted, outputFormat);
-
+        LocalDate startDate = ConvertDates.YMDtoDMY(start);
+        LocalDate endDate = ConvertDates.YMDtoDMY(end);
         return new ResponseEntity<>(reservationService.getAvailableRooms(startDate, endDate), HttpStatus.OK);
     }
 

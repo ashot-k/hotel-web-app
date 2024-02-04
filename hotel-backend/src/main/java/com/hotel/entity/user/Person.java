@@ -36,7 +36,6 @@ public class Person implements UserDetails{
     @NotNull
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{5,}$"
             , message = PASSWORD_ERROR_MESSAGE)
-
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

@@ -36,7 +36,7 @@ const Home = () => {
     }
 
     return (
-        <div className={"d-flex flex-column gap-3 justify-content-center align-items-center"}>
+        <div className={"d-flex flex-column gap-3 align-items-center"} style={{minHeight: "550px"}}>
             <div className={"d-flex justify-content-center gap-3"}>
                 <div>
                     <label>Starting Date</label><br/>

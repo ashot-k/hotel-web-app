@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {useNavigate} from 'react-router-dom';
+import {registerURL} from "./URLs";
 
 const Register = ({setToken}) => {
     const [username, setUsername] = useState("");
@@ -16,7 +17,7 @@ const Register = ({setToken}) => {
     function registerRequest(e) {
         e.preventDefault();
         const credentials = Object.fromEntries(new FormData(e.target));
-        fetch("http://192.168.1.64:8080/api/auth/register", {
+        fetch(registerURL, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(credentials)

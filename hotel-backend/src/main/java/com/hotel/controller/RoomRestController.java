@@ -22,11 +22,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.List;
 
 @RestController
-//@Secured("ADMIN")
 @RequestMapping("/api/rooms")
 public class RoomRestController {
     RoomService roomService;
@@ -72,10 +72,7 @@ public class RoomRestController {
     }
     @GetMapping("/room-types")
     public ResponseEntity<List<String>> getRoomTypes() {
-        List<String> roomTypes = new ArrayList<>();
-        for (RoomType roomType : RoomType.values())
-            roomTypes.add(roomType.name());
-        return new ResponseEntity<>(roomTypes, HttpStatus.OK);
+        return new ResponseEntity<>(RoomType.RoomTypeList(), HttpStatus.OK);
     }
     @GetMapping(value = "/image/{roomName}", produces = MediaType.IMAGE_JPEG_VALUE)
     public @ResponseBody Resource getImage(@PathVariable String roomName) throws IOException {

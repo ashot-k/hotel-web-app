@@ -5,7 +5,6 @@ import com.hotel.utils.UserRoles;
 import jakarta.persistence.*;
 
 @Entity
-//@Table(uniqueConstraints = @UniqueConstraint(columnNames = {"person_id", "role"}))
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -24,6 +23,13 @@ public class Role {
         this.userRole = UserRoles.CLIENT;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public UserRoles getUserRole() {
         return userRole;

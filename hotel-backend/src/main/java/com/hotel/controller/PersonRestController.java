@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/users")
-@CrossOrigin({"http://192.168.1.64:3000", "http://localhost:3000", "http://192.168.1.64:8080/api/users"})
 public class PersonRestController {
     PersonService personService;
     private static final Logger LOG = LoggerFactory.getLogger(PersonRestController.class);
@@ -37,8 +36,7 @@ public class PersonRestController {
     public ResponseEntity<Page<PersonDTO>> getUsers(
             @RequestParam(value = "pageNo", defaultValue = "0") int pageNo,
             @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        Page<PersonDTO> page = personService.getAllPeopleDTOPageable(pageNo, pageSize);
-        return new ResponseEntity<>(page, HttpStatus.OK);
+        return new ResponseEntity<>(personService.getAllPeopleDTOPageable(pageNo, pageSize), HttpStatus.OK);
     }
 
     @PostMapping

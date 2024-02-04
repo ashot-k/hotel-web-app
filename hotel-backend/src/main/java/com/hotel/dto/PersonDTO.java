@@ -20,10 +20,10 @@ public record PersonDTO(
         String street2,
         @NotNull(message = "Please input a phone number")
         @NotBlank(message = "Please enter a valid phone number")
-        @Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
+        /*@Pattern(regexp = "^(\\+\\d{1,3}( )?)?((\\(\\d{3}\\))|\\d{3})[- .]?\\d{3}[- .]?\\d{4}$"
                 + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?){2}\\d{3}$"
                 + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$", message = "Invalid phone number format")
-        String phoneNumber, String role) {
+      */  String phoneNumber, String role) {
 
 
 }

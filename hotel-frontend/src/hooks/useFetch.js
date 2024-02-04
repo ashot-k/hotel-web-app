@@ -23,7 +23,6 @@ export const useFetch = (url) => {
                    },
                    headers: {Authorization: "Bearer " + getCookie("token")}, signal: controller.signal})
                    .then(response => response.data);
-            //console.log(data);
             if (data['content']) {
                 setTotalPages(data['totalPages']);
                 setTotalElements(data['totalElements']);

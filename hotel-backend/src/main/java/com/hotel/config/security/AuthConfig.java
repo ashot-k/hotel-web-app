@@ -23,9 +23,7 @@ public class AuthConfig {
     @Bean
     public UserDetailsService userDetailsService(){
         return username -> personRepo.findByUsername(username)
-                .orElseThrow(()->
-                        new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), username))
-                );
+                .orElseThrow(()-> new EntityNotFoundException(ExceptionMessages.EntityNotFound(Person.class.getSimpleName(), username)));
     }
     @Bean
     public AuthenticationProvider authenticationProvider() {
