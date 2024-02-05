@@ -10,4 +10,5 @@ Moreover a simple user can see available rooms within a date range and book them
 * Nodejs v20.11.0 
 * Java jdk 17
 * PostgreSQL 15
-* 
+
+
