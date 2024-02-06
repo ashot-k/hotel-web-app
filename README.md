@@ -21,9 +21,9 @@ Prerequisites
 * Book available rooms
 
 ## REST API ENDPOINTS
-| Method  | URL  | Params  | Action  | Example Request |  Example Response |
-|---|---|---|---|---|---|
-| GET  | /api/users  | pageNo, pageSize   | Get users paged   | GET /api/users?pageNo=0&pageSize=1  | |
+| Method  | URL  | Params  | Action  | Example Request |
+|---|---|---|---|---|
+| GET  | /api/users  | pageNo, pageSize   | Get users paged   | GET /api/users?pageNo=0&pageSize=1  |
 | GET  |   |   |   |
 | GET  |   |   |   |
 |  POST |   |   |   |
