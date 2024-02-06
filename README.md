@@ -17,7 +17,7 @@ Prerequisites
 ## REST API ENDPOINTS
 # Users
 ## GET Users paged
-### Request `GET /api/users`
+### Request `curl -X GET --location "http://localhost/api/users"`
 ### params
 * pageNo (default value 0)
 * pageSize (default value 25)
@@ -37,6 +37,7 @@ Prerequisites
             "role": "CLIENT"
         }
     ],
+    //pagination part
     "pageable": {
         "pageNumber": 0,
         "pageSize": 1,
@@ -82,7 +83,7 @@ Prerequisites
 ```
 
 ## Get Users by username paged
-### Request `GET /api/users/search`
+### Request `curl -X GET --location "http://localhost/api/users/search?term=string"`
 ### params
 * pageNo (default value 0)
 * pageSize (default value 25)
@@ -116,5 +117,51 @@ Prerequisites
     ], + pagination part 
 }
 ```
+## POST User
+### Request 
+```
+curl -X POST --location "http://localhost/api/users" \
+-H "Content-Type: application/json" \
+-d '{
+          "username" : "",
+          "password" : "",
+          "email" : "",
+          "country" : "",
+          "postalCode" : "",
+          "street" : "",
+          "street2" : "", //optional
+          "phoneNumber" : "",
+          "role" : ""//defaults to client and can only be set by an admin
+}
+```
+### Example request `GET /api/users` with body
+```json
+{
+    "username": "sasasa",
+    "password": "56469e73A",
+    "email": "sasasa@gmail.com",
+    "country": "greece",
+    "postalCode": "54321",
+    "street": "mpostari 664",
+    "phoneNumber": "6909627079"
+}
+```
+### Response
+```json
+{
+    "id": 1202,
+    "username": "sasasa",
+    "email": "sasasa@gmail.com",
+    "country": "greece",
+    "postalCode": "54321",
+    "street": "mpostari 664",
+    "street2": null,
+    "phoneNumber": "6909627079",
+    "role": "CLIENT"
+}
+```
+
+
+
 
 
