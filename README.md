@@ -16,17 +16,12 @@ Prerequisites
 
 ## REST API ENDPOINTS
 # Users
-
 ## GET Users paged
-### request
-`GET /api/users`
+### Request `GET /api/users`
 ### params
 * pageNo (default value 0)
 * pageSize (default value 25)
-### Example request 
-`GET /api/users?pageNo=0&pageSize=1`
-### Example response
-
+### Example response for request `GET /api/users?pageNo=0&pageSize=1` 
 ```json
 {
     "content": [
@@ -70,22 +65,19 @@ Prerequisites
 }
 ```
 ## Get User by id 
-### Request
-`GET /api/users/:id`
-### Example request 
-`GET /api/users/1151`
-### Example response 
+### Request `GET /api/users/:id`
+### Example response for request `GET /api/users/123`
 ```json
 {
-    "id": 1151,
-    "username": "admin",
-    "email": "admin@gmaill.com",
-    "country": "undefined",
-    "postalCode": "12345",
-    "street": "street",
-    "street2": "",
-    "phoneNumber": "1234567890",
-    "role": "ADMIN"
+    "id": 123,
+    "username": "kraunds3e",
+    "email": "hreboul3e@unblog.fr",
+    "country": "Russia",
+    "postalCode": "353598",
+    "street": "96 Golf View Hill",
+    "street2": null,
+    "phoneNumber": "365-175-4775",
+    "role": "CLIENT"
 }
 ```
 
