@@ -82,16 +82,12 @@ Prerequisites
 ```
 
 ## Get Users by username paged
-### request
-`GET /api/users/search`
+### Request `GET /api/users/search`
 ### params
 * pageNo (default value 0)
 * pageSize (default value 25)
 * username
-### Example request 
-`GET /api/users/search?term=george&pageSize=2`
-### Example response
-
+### Example response for request `GET /api/users/search?term=george&pageSize=2`
 ```json
 {
     "content": [
@@ -117,32 +113,7 @@ Prerequisites
             "phoneNumber": "663-443-1062",
             "role": "CLIENT"
         }
-    ],
-    "pageable": {
-        "pageNumber": 0,
-        "pageSize": 2,
-        "sort": {
-            "empty": true,
-            "sorted": false,
-            "unsorted": true
-        },
-        "offset": 0,
-        "unpaged": false,
-        "paged": true
-    },
-    "last": true,
-    "totalElements": 2,
-    "totalPages": 1,
-    "size": 2,
-    "number": 0,
-    "sort": {
-        "empty": true,
-        "sorted": false,
-        "unsorted": true
-    },
-    "first": true,
-    "numberOfElements": 2,
-    "empty": false
+    ], + pagination part 
 }
 ```
 
