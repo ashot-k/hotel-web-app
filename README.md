@@ -21,8 +21,6 @@ Prerequisites
 * Book available rooms
 
 ## REST API ENDPOINTS
-
-
 ## Users
 | Method | URL               | Params                 | Action                  | Example Request                              |
 |--------|-------------------|------------------------|-------------------------|----------------------------------------------|
