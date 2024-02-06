@@ -27,8 +27,8 @@ Prerequisites
 | Method  | URL  | Params  | Action  | Example Request |
 |---|---|---|---|---|
 | GET  | /api/users  | pageNo, pageSize   | Get users paged   | GET /api/users?pageNo=0&pageSize=1  |
-| GET  |   |   |   |
-| GET  |   |   |   |
+| GET  | /api/users/:id  | ----  | Get User by id   | GET /api/users/123
+| GET  | /api/users/search  | term, pageNo, pageSize  | Get users by name paged  | GET /api/users/search?term=george&pageSize=2|
 |  POST |   |   |   |
 |  PUT |   |   |   |
 |  DELETE |   |   |   |
