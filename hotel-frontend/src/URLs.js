@@ -1,5 +1,5 @@
-const localHostUrl = "http://192.168.1.64:8080";
-
+ const localHostUrl = "http://192.168.1.64:8080";
+// const localHostUrl = "http://localhost:8080";
 const rootURL = localHostUrl + "/api"
 const loginURL = rootURL + "/auth/login"
 const registerURL = rootURL + "/auth/register"

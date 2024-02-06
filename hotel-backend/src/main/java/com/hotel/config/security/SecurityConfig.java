@@ -42,12 +42,13 @@ public class SecurityConfig {
             try {
                 requests
                         .requestMatchers("/api/auth/**").permitAll()
-                        .requestMatchers("/api/reservations/available").permitAll()
+
                         .requestMatchers("/api/rooms/image/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/rooms").permitAll()
-                        .requestMatchers("/api/reservations").hasAnyAuthority(UserRoles.ADMIN.name(), UserRoles.EMPLOYEE.name())
+                      //  .requestMatchers("/api/reservations").hasAnyAuthority(UserRoles.ADMIN.name(), UserRoles.EMPLOYEE.name())
                         .requestMatchers("/api/users").hasAnyAuthority(UserRoles.ADMIN.name(), UserRoles.EMPLOYEE.name())
                         .requestMatchers("/api/rooms").hasAuthority(UserRoles.ADMIN.name())
+                        .requestMatchers(HttpMethod.GET,"/api/reservations/available").permitAll()
                         .anyRequest().authenticated()
                         .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                         .and().authenticationProvider(authProvider).addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);

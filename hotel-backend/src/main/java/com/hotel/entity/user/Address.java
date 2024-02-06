@@ -44,6 +44,15 @@ public class Address {
             + "|^(\\+\\d{1,3}( )?)?(\\d{3}[ ]?)(\\d{2}[ ]?){2}\\d{2}$", message = "Invalid phone number format")
     */private String phoneNumber;
 
+    public Address(String email, String country, String postalCode, String street, String street2, String phoneNumber) {
+        this.email = email;
+        this.country = country;
+        this.postalCode = postalCode;
+        this.street = street;
+        this.street2 = street2;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Address() {
     }
 

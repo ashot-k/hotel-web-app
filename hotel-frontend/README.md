@@ -1,3 +1,35 @@
+
+
+
+| Method | URL               | Params                 | Action                  | Example Request                              |
+|--------|-------------------|------------------------|-------------------------|----------------------------------------------|
+| GET    | /api/users        | pageNo, pageSize       | Get users paged         | GET /api/users?pageNo=0&pageSize=1           |
+| GET    | /api/users/:id    | -                      | Get user by id          | GET /api/users/123                           |
+| GET    | /api/users/search | term, pageNo, pageSize | Get users by name paged | GET /api/users/search?term=george&pageSize=2 |
+| POST   | /api/users        | -                      | Create user             | POST /api/users + json body                  |
+| PUT    | 	/api/users/:id   | -                      | Update user             | PUT /api/users/123 + json body               |
+| DELETE | /api/users/:id    | -                      | Delete user             | DELETE /api/users/55                         |
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

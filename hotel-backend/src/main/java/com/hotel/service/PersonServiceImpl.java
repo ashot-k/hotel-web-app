@@ -147,6 +147,22 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public Person savePerson(Person person) {
+        if (person.getId() != null || personRepo.findByUsername(person.getUsername()).isPresent()) {
+            try {
+                throw new UsernameAlreadyExistsException(ExceptionMessages.AlreadyExists(Person.class.getSimpleName(), person.getUsername()));
+            } catch (UsernameAlreadyExistsException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        if (person.getAddress() == null)
+            person.setAddress(new Address());
+        person.getAddress().setPerson(person);
+        person.setPassword(bCryptEncoder.encode(person.getPassword()));
+        return personRepo.save(person);
+    }
+
+    @Override
     public PersonDTO updatePerson(Long id, PersonDTO updatedPersonDTO) {
         Person updatedPerson = personDTOtoPerson(updatedPersonDTO);
         return personRepo.findById(id).map(oldPerson -> {

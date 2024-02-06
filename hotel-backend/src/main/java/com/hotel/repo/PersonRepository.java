@@ -18,8 +18,10 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Override
     @Query("FROM Person p JOIN FETCH p.address a")
     List<Person> findAll();
+
+    //JOIN FETCH p.roles
     @Override
-    @Query("FROM Person p JOIN FETCH p.address a JOIN FETCH p.roles ORDER BY p.id")
+    @Query("FROM Person p JOIN FETCH p.address a  ORDER BY p.id")
     Page<Person> findAll(Pageable pageable);
 
     @Query("FROM Person p JOIN FETCH p.address a " +
