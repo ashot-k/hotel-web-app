@@ -27,10 +27,10 @@ Prerequisites
 | Method  | URL  | Params  | Action  | Example Request |
 |---|---|---|---|---|
 | GET  | /api/users  | pageNo, pageSize   | Get users paged   | GET /api/users?pageNo=0&pageSize=1  |
-| GET  | /api/users/:id  | ----  | Get User by id   | GET /api/users/123
+| GET  | /api/users/:id  | -  | Get user by id   | GET /api/users/123
 | GET  | /api/users/search  | term, pageNo, pageSize  | Get users by name paged  | GET /api/users/search?term=george&pageSize=2|
-|  POST |   |   |   |
-|  PUT |   |   |   |
+|  POST | /api/users   | -  | Create user | POST /api/users + json body |
+|  PUT |   	/api/users/:id  | -  | Update user |PUT /api/users/123 + json body |
 |  DELETE |   |   |   |
 # GET Users paged
 ### Request `curl -X GET --location "http://localhost/api/users"`
