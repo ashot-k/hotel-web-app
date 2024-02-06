@@ -21,6 +21,15 @@ Prerequisites
 * Book available rooms
 
 ## REST API ENDPOINTS
+| Method  | URL  | Params  | Action  | Example Request |  Example Response |
+|---|---|---|---|---|---|
+| GET  | /api/users  | pageNo, pageSize   | Get users paged   | GET /api/users?pageNo=0&pageSize=1  | |
+| GET  |   |   |   |
+| GET  |   |   |   |
+|  POST |   |   |   |
+|  PUT |   |   |   |
+|  DELETE |   |   |   |
+
 ## Users
 # GET Users paged
 ### Request `curl -X GET --location "http://localhost/api/users"`
