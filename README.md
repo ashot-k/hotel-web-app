@@ -3,11 +3,17 @@ Prerequisites
 * Nodejs v20.11.0 
 * Java jdk 17
 * PostgreSQL 15
-## The REST api allows crud operations based on roles
+## The REST api allows users to perform crud operations based on roles 
+### Roles
+* ADMIN
+* EMPLOYEE 
+* CLIENT
 ### Admins can perform operations on: 
 * Users
 * Hotel Rooms
 * Room Reservations
+### Employees can perform operations on: 
+* Users
 ### All users can:
 * Register
 * Login
@@ -15,8 +21,8 @@ Prerequisites
 * Book available rooms
 
 ## REST API ENDPOINTS
-# Users
-## GET Users paged
+## Users
+# GET Users paged
 ### Request `curl -X GET --location "http://localhost/api/users"`
 ### params
 * pageNo (default value 0)
@@ -65,7 +71,7 @@ Prerequisites
     "empty": false
 }
 ```
-## Get User by id 
+# Get User by id 
 ### Request `GET /api/users/:id`
 ### Example response for request `GET /api/users/123`
 ```json
@@ -82,7 +88,7 @@ Prerequisites
 }
 ```
 
-## Get Users by username paged
+# Get Users by username paged
 ### Request `curl -X GET --location "http://localhost/api/users/search?term=string"`
 ### params
 * pageNo (default value 0)
@@ -117,7 +123,7 @@ Prerequisites
     ], + pagination part 
 }
 ```
-## POST User
+# POST User
 ### Request 
 ```
 curl -X POST --location "http://localhost/api/users" \
@@ -134,7 +140,7 @@ curl -X POST --location "http://localhost/api/users" \
           "role" : ""//defaults to client and can only be set by an admin
 }
 ```
-### Example request `GET /api/users` with body
+### Example request `POST /api/users` with body
 ```json
 {
     "username": "sasasa",
@@ -160,6 +166,56 @@ curl -X POST --location "http://localhost/api/users" \
     "role": "CLIENT"
 }
 ```
+
+# PUT User
+### Request 
+```
+curl -X PUT --location "http://localhost/api/users/:id" \
+    -H "Content-Type: application/json" \
+    -d '{
+          "username" : "",
+          "password" : "",
+          "email" : "",
+          "country" : "",
+          "postalCode" : "",
+          "street" : "",
+          "street2" : "", //optional
+          "phoneNumber" : "",
+          "role" : ""//defaults to client and can only be set by an admin
+        }'
+```
+### Example request `PUT /api/users/53` with body
+```json
+{
+    "username": "james",
+    "password": "123456789",
+    "email": "james@gmail.com",
+    "country": "greece",
+    "postalCode": "54329",
+    "street": "delfon 29",
+    "phoneNumber": "6941313123",
+    "role": "EMPLOYEEE"
+}
+```
+
+### Response
+```json
+{
+    "id": 53,
+    "username": "james",
+    "email": "james@gmail.com",
+    "country": "greece",
+    "postalCode": "54329",
+    "street": "delfon 29",
+    "street2": null,
+    "phoneNumber": "6941313123",
+    "role": "EMPLOYEE"
+}
+```
+
+
+
+
 
 
 
