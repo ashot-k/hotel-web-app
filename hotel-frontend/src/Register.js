@@ -40,7 +40,7 @@ const Register = ({setToken}) => {
     return (
         <form onSubmit={(e) => registerRequest(e)}>
             <div className="d-flex justify-content-center">
-                <div className="w-25 p-3 d-flex flex-column gap-3">
+                <div className="p-3 d-flex flex-column gap-3">
                     <div>
                         <label className="form-label">Username*</label>
                         <input className="form-control" value={username} name="username" required={true}

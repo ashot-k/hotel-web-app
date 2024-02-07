@@ -19,18 +19,25 @@
   .card-text *{
     font-size: 3vw;
   }
+  td{
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 //pc
 @media screen and (min-width: 700px) {
-  $card-width: 15vw;
+  $card-width: 10vw;
+  $card-height: 50vw;
   .card-container {
     width: $card-width;
-    max-height: 50vw;
+    max-height: $card-height;
   }
   .card-image {
-    width: $card-width;
-    height: $card-width;
+    width: $card-width - 1;
+    height: $card-width - 2;
   }
   .card-body button {
     width: 85%;
@@ -41,10 +48,18 @@
   .card-text *{
     font-size: 0.8vw;
   }
+  td{
+    max-width: 500px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
+
 .table-container{
   overflow-x: auto;
 }
+
 hr{
   width: 100%;
 }

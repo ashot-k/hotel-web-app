@@ -31,7 +31,7 @@ const Login = ({setToken}) => {
     return (
             <form onSubmit={(e) => loginRequest(e)}>
                 <div className="d-flex justify-content-center">
-                    <div className="w-25 p-3">
+                    <div className=" p-3">
                         <div className="mb-3 form-input">
                             <label className="form-label">Username</label>
                             <input className="form-control" value={username} name="username" required={true}

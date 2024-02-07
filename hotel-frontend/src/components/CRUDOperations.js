@@ -12,7 +12,6 @@ export const CRUDOperations = (url) => {
     const createRoom = (e, setDataChanged) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
-
         if (entry.imageUrl.name.length > 0) {
             const reader = new FileReader();
             reader.readAsDataURL(entry.imageUrl);
@@ -20,11 +19,6 @@ export const CRUDOperations = (url) => {
                 entry.imageUrl = reader.result;
                 fetch(url, {
                     method: 'POST',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + getCookie("token"),
-                    },
                     body: JSON.stringify(entry)
                 }).then(response => response.json())
                     .then(data => {
@@ -37,16 +31,9 @@ export const CRUDOperations = (url) => {
                 });
             }
         } else {
-            console.log("no image")
             delete entry.imageUrl;
             fetch(url, {
                 method: 'POST',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer " + getCookie("token"),
-                },
-
                 body: JSON.stringify(entry)
             }).then(response => response.json())
                 .then(data => {

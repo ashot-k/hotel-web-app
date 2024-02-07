@@ -4,6 +4,7 @@ import com.hotel.dto.ReservationDTO;
 import com.hotel.entity.reservation.Reservation;
 import com.hotel.entity.room.Room;
 import com.hotel.entity.user.Person;
+import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +16,7 @@ import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
-@Repository
+@Repository@Transactional
 public interface ReservationRepo extends JpaRepository<Reservation, Long> {
 
 

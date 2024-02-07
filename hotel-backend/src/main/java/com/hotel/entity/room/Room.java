@@ -19,6 +19,7 @@ public class Room {
     @NotBlank
     private String name;
     @Column(name = "description")
+    @Lob
     private String description;
     @Column(name = "size", nullable = false)
     @NotNull
@@ -27,7 +28,7 @@ public class Room {
     @Column(name = "price")
     private double price;
 
-    @Column(name = "image_url")
+    @Column(name = "image_url", length = 500)
     private String imageUrl;
 
 

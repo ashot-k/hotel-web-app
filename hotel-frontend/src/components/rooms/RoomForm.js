@@ -33,7 +33,7 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
                     </div>
                     <div>
                         <label>Description*</label><br/>
-                        <input name="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
+                        <textarea name="description" value={description} onChange={(e) => setDescription(e.target.value)}/>
                     </div>
                     <div>
                         <label>Size*</label><br/>

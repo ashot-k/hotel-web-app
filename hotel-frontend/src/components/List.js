@@ -39,8 +39,8 @@ export const List = ({data, isSearchTermPresent, toggleAddModal, toggleEditModal
                                 {headers.map(header => {
                                     if (header === 'imageUrl')
                                         return <td key={header}><img
-                                            src={roomImagesURL + item.name} width={"55px"}
-                                            height={"55px"}
+                                            src={roomImagesURL + item.name} width={"80px"}
+                                            height={"50px"}
                                             alt=""></img><p style={{fontSize: "12px"}}>{item.imageUrl} </p></td>
                                     else
                                         return <td key={header}>{item[header]}</td>

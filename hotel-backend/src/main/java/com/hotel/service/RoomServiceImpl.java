@@ -23,12 +23,8 @@ import java.util.List;
 public class RoomServiceImpl implements RoomService {
     RoomRepository roomRepo;
 
-    ReservationRepo reservationRepo;
-
-
-    public RoomServiceImpl(RoomRepository roomRepo, ReservationRepo reservationRepo) {
+    public RoomServiceImpl(RoomRepository roomRepo) {
         this.roomRepo = roomRepo;
-        this.reservationRepo = reservationRepo;
     }
 
     @Override
@@ -55,18 +51,15 @@ public class RoomServiceImpl implements RoomService {
     public Room updateRoom(Long id, Room updatedRoom) {
         return roomRepo.findById(id).map(oldRoom -> {
             if (updatedRoom.getImageUrl() == null) {
-                if (oldRoom.getImageUrl() != null) {
-                    if (!updatedRoom.getName().equalsIgnoreCase(oldRoom.getName())) {
+                if (oldRoom.getImageUrl() != null)
+                    if (!updatedRoom.getName().equalsIgnoreCase(oldRoom.getName()))
                         ImageUtils.rename(ImageUtils.roomImageDirectory + "/" + oldRoom.getImageUrl(), ImageUtils.roomImageDirectory + "/" + updatedRoom.getName());
-                        updatedRoom.setImageUrl(updatedRoom.getName());
-                    }
-                }
             } else {
                 if (oldRoom.getImageUrl() != null)
                     ImageUtils.deleteImage(ImageUtils.roomImageDirectory, oldRoom.getImageUrl());
                 ImageUtils.saveImageToFileSystem(ImageUtils.decodeBase64Image(updatedRoom.getImageUrl()), ImageUtils.roomImageDirectory, updatedRoom.getName());
-                updatedRoom.setImageUrl(updatedRoom.getName());
             }
+            updatedRoom.setImageUrl(updatedRoom.getName());
             updatedRoom.setId(oldRoom.getId());
             oldRoom = updatedRoom;
             return roomRepo.save(oldRoom);

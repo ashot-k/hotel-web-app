@@ -19,7 +19,7 @@ function App() {
 
     return (
         <BrowserRouter>
-            <div className="App main-content">
+            <div className="App main-content" data-bs-theme="dark">
                 <header>
                     <nav className="d-flex flex-wrap p-4 gap-2 justify-content-center">
                         <div className={"d-flex justify-content-between w-100"}>

@@ -16,15 +16,21 @@
   .card-text * {
     font-size: 3vw;
   }
+  td {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 @media screen and (min-width: 700px) {
   .card-container {
-    width: 15vw;
+    width: 10vw;
     max-height: 50vw;
   }
   .card-image {
-    width: 15vw;
-    height: 15vw;
+    width: 9vw;
+    height: 8vw;
   }
   .card-body button {
     width: 85%;
@@ -34,6 +40,12 @@
   }
   .card-text * {
     font-size: 0.8vw;
+  }
+  td {
+    max-width: 500px;
+    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 .table-container {

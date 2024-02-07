@@ -50,7 +50,7 @@ export const UserForm = ({toggleModal, initialValues, submitForm, error}) => {
                     </div>
                     <div>
                         <label>Roles</label><br/>
-                        <select name="roles">
+                        <select name="role">
                             <option value={"CLIENT"}>Client</option>
                             <option value={"EMPLOYEE"}>Employee</option>
                             <option value={"ADMIN"}>Admin</option>

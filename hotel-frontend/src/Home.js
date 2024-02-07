@@ -6,7 +6,8 @@ import {getCookie, parseJwt} from "./Cookies";
 import {roomsURL, reservationsURL, availableRoomsURL, roomImagesURL} from "./URLs";
 
 const Home = () => {
-    axios.defaults.headers.common['Authorization'] = ""
+
+    axios.defaults.headers.common['Authorization'] = "";
     const [start, setStart] = useState(initialValues.start);
     const [end, setEnd] = useState(initialValues.end);
     const [availableRooms, setAvailableRooms] = useState(null);
@@ -30,8 +31,7 @@ const Home = () => {
     }
     const reserveRoom = (roomId) => {
         const username = parseJwt(getCookie("token")).sub;
-        console.log(username);
-        axios.post(reservationsURL, {roomId, username, start, end})
+        axios.post(reservationsURL,{roomId, username, start, end}, {headers:{"Authorization": 'Bearer ' + getCookie("token")}})
             .then(() => checkAvailability(start, end))
             .catch(error => console.log(error));
     }
