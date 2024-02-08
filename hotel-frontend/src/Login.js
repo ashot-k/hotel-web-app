@@ -10,14 +10,12 @@ const Login = ({setToken}) => {
     function loginRequest(e) {
         e.preventDefault();
         const credentials = Object.fromEntries(new FormData(e.target));
-        console.log("credentials " + credentials.username);
         fetch(loginURL, {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(credentials)
         }).then((res) =>
             res.json()).then((data) => {
-                console.log(data);
             setToken(data.token);
             document.cookie ="token=" + data.token;
         }).then(() => {

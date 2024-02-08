@@ -30,7 +30,7 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Query("FROM Room r " +
             "WHERE r.roomType = :term " +
             "ORDER BY r.id ")
-    Page<Room> findByTerm(@Param("term") RoomType term, Pageable pageable);
+    Page<Room> findByRoomType(@Param("term") RoomType term, Pageable pageable);
 
     Optional<Room> findByName(String name);
 }

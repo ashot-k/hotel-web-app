@@ -4,6 +4,7 @@ import com.hotel.dto.PersonDTO;
 import com.hotel.entity.user.Address;
 import com.hotel.entity.user.Person;
 import com.hotel.entity.user.Role;
+import com.hotel.repo.PersonRepository;
 import com.hotel.service.PersonService;
 import com.hotel.utils.UserRoles;
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -27,21 +30,44 @@ public class HotelApplication implements CommandLineRunner{
         SpringApplication.run(HotelApplication.class, args);
     }
 
-    PersonService personService;
-    public HotelApplication(PersonService personService){
-        this.personService = personService;
+    PersonRepository personRepository;
+    PasswordEncoder bCryptEncoder;
+    public HotelApplication(PersonRepository personRepository, PasswordEncoder bCryptEncoder){
+        this.personRepository = personRepository;
+        this.bCryptEncoder = bCryptEncoder;
     }
 
     @Override
     public void run(String... args) throws Exception {
-        if(personService.getPersonByUsername("admin") == null) {
+        if(personRepository.findByUsername("admin").isEmpty()) {
             Person admin = new Person();
             admin.setUsername("admin");
-            admin.setPassword("admin");
+            admin.setPassword(bCryptEncoder.encode("admin"));
             admin.setRoles(new ArrayList<>());
             admin.getRoles().add(new Role(UserRoles.ADMIN));
             admin.setAddress(new Address("admin@gmaill.com", "undefined", "12345", "street", "", "1234567890"));
-            personService.savePerson(admin);
+            admin.getAddress().setPerson(admin);
+            personRepository.save(admin);
+        }
+        if(personRepository.findByUsername("employee").isEmpty()) {
+            Person employee = new Person();
+            employee.setUsername("employee");
+            employee.setPassword(bCryptEncoder.encode("employee"));
+            employee.setRoles(new ArrayList<>());
+            employee.getRoles().add(new Role(UserRoles.EMPLOYEE));
+            employee.setAddress(new Address("employee@gmaill.com", "undefined", "12345", "street", "", "1234567890"));
+            employee.getAddress().setPerson(employee);
+            personRepository.save(employee);
+        }
+        if(personRepository.findByUsername("client").isEmpty()) {
+            Person client = new Person();
+            client.setUsername("client");
+            client.setPassword(bCryptEncoder.encode("client"));
+            client.setRoles(new ArrayList<>());
+            client.getRoles().add(new Role(UserRoles.CLIENT));
+            client.setAddress(new Address("client@gmaill.com", "undefined", "12345", "street", "", "1234567890"));
+            client.getAddress().setPerson(client);
+            personRepository.save(client);
         }
     }
 

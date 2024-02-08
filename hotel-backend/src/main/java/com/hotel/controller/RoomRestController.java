@@ -54,8 +54,6 @@ public class RoomRestController {
         return new ResponseEntity<>(roomService.getRoomsByTerm(pageNo, pageSize, term), HttpStatus.OK);
     }
 
-
-
     @PostMapping
     public ResponseEntity<Room> createRoom(@Valid @RequestBody Room room){
         return new ResponseEntity<>(roomService.saveRoom(room), HttpStatus.CREATED);

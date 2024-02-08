@@ -14,10 +14,8 @@ export const ReservationForm = ({toggleModal, initialValues, submitForm, checkAv
 
     const checkAvailability = async (start, end) => {
         if (start && end) {
-            console.log(start, end)
             const response = await fetch(checkAvailabilityUrl + "?start=" + start + "&end=" + end);
             const rooms = (await response.json());
-            console.log(rooms);
             setAvailableRooms(rooms);
         }
     }

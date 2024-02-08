@@ -13,7 +13,6 @@ import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 import {useEffect, useState} from "react";
 import Register from "./Register";
 import Footer from "./components/Footer";
-//import bootstrap from 'bootstrap/dist/css/bootstrap.min.css'
 function App() {
     const [token, setToken] = useState(getCookie("token"));
 
@@ -24,17 +23,16 @@ function App() {
                     <nav className="d-flex flex-wrap p-4 gap-2 justify-content-center">
                         <div className={"d-flex justify-content-between w-100"}>
                             <h1 className={"display-1"}>Hotel</h1>
-
                         </div>
                         <div className="d-flex flex-wrap gap-3 w-100 align-items-center justify-content-between fs-4">
                             <div className="d-flex gap-2">
                                 {(token.length > 0 &&
-                                    <div className="d-flex gap-3">
-                                        <NavLink to="/">Home</NavLink>
-                                        <NavLink to="users">Users</NavLink>
-                                        <NavLink to="rooms">Rooms</NavLink>
-                                        <NavLink to="reservations">Reservations</NavLink>
-                                    </div>)
+                                        <div className="d-flex gap-3">
+                                            <NavLink to="/">Home</NavLink>
+                                            <NavLink to="users">Users</NavLink>
+                                            <NavLink to="rooms">Rooms</NavLink>
+                                            <NavLink to="reservations">Reservations</NavLink>
+                                        </div>)
                                     || <div className="d-flex gap-5">
                                         <NavLink to="/">Home</NavLink>
                                     </div>
@@ -45,9 +43,13 @@ function App() {
                                     <NavLink className="btn btn-primary" to="login">Login</NavLink>
                                     <NavLink className="btn btn-primary" to="register">Register</NavLink>
                                 </div>
-                                ||<div>
+                                || <div>
                                     <h5>Hello {parseJwt(token).sub}</h5>
-                                    <button className="btn btn-danger" onClick={(e) => {deleteCookie("token"); setToken("")}}>Logout</button>
+                                    <button className="btn btn-danger" onClick={(e) => {
+                                        deleteCookie("token");
+                                        setToken("")
+                                    }}>Logout
+                                    </button>
                                 </div>}
                         </div>
                     </nav>

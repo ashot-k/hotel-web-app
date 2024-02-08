@@ -1,3 +1,10 @@
+export const initialValues = {
+    id: "",
+    username: "",
+    start: "",
+    end: "",
+    roomId: ""
+};
 /*export const inputs = [
     {
         id: 1,
@@ -35,10 +42,3 @@
         required: true
     },
 ];*/
-export const initialValues = {
-    id: "",
-    username: "",
-    start: "",
-    end: "",
-    roomId: ""
-};

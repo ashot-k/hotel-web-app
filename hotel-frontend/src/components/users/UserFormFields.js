@@ -1,3 +1,15 @@
+
+export const initialValues = {
+    username: "",
+    password: "",
+    email: "",
+    country: "",
+    postalCode: "",
+    phoneNumber: "",
+    street: "",
+    street2: "",
+};
+
 /*export const inputs = [
     {
         id: 1,
@@ -78,14 +90,3 @@
         label: "Street 2 (Optional)"
     },
 ];*/
-export const initialValues = {
-    username: "",
-    password: "",
-    email: "",
-    country: "",
-    postalCode: "",
-    phoneNumber: "",
-    street: "",
-    street2: "",
-};
-

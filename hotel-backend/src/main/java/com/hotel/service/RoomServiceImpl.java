@@ -73,19 +73,21 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public Page<Room> getRoomsByTerm(int pageNo, int pageSize, String term) {
-        RoomType roomType = null;
+        if (checkIfRoomType(term))
+            return roomRepo.findByRoomType(RoomType.valueOf(term.toUpperCase()), PageRequest.of(pageNo, pageSize));
+        else
+            return roomRepo.findByTerm("%" + term + "%", PageRequest.of(pageNo, pageSize));
+    }
+    private static boolean checkIfRoomType(String str){
+        boolean isRoomType = false;
         for (RoomType r : RoomType.values()) {
-            if (r.name().equalsIgnoreCase(term)) {
-                roomType = r;
+            if (r.name().equalsIgnoreCase(str)) {
+                isRoomType = true;
                 break;
             }
         }
-        if (roomType != null) {
-            return roomRepo.findByTerm(roomType, PageRequest.of(pageNo, pageSize));
-        } else
-            return roomRepo.findByTerm("%" + term + "%", PageRequest.of(pageNo, pageSize));
+        return isRoomType;
     }
-
     @Override
     public String deleteRoom(Long id) {
         try {

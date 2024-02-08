@@ -8,6 +8,7 @@ export const CRUDOperations = (url) => {
     axios.defaults.headers.common['Authorization'] = "Bearer " + getCookie("token");
     axios.defaults.headers.common['Accept'] = 'application/json';
     axios.defaults.headers.common['Content-Type'] = 'application/json';
+   // axios.interceptors.request.use(function (){ setDataChanged((prev) => prev + 1)})
 
     const createRoom = (e, setDataChanged) => {
         e.preventDefault();
@@ -17,33 +18,15 @@ export const CRUDOperations = (url) => {
             reader.readAsDataURL(entry.imageUrl);
             reader.onload = () => {
                 entry.imageUrl = reader.result;
-                fetch(url, {
-                    method: 'POST',
-                    body: JSON.stringify(entry)
-                }).then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                    })
-                    .then(() => {
-                        setDataChanged((prev) => prev + 1);
-                    }).catch(error => {
-                    console.error(error);
-                });
+                axios.post(url, {...entry})
+                    .then(() => setDataChanged((prev) => prev + 1))
+                    .catch(error => setError(error));
             }
         } else {
             delete entry.imageUrl;
-            fetch(url, {
-                method: 'POST',
-                body: JSON.stringify(entry)
-            }).then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .then(() => {
-                    setDataChanged((prev) => prev + 1);
-                }).catch(error => {
-                console.error(error);
-            });
+            axios.post(url, {...entry})
+                .then(() => setDataChanged((prev) => prev + 1))
+                .catch(error => setError(error));
         }
     }
 
@@ -56,46 +39,15 @@ export const CRUDOperations = (url) => {
             reader.readAsDataURL(entry.imageUrl);
             reader.onload = () => {
                 entry.imageUrl = reader.result;
-                fetch(url + "/" + entry['id'], {
-                    method: 'PUT',
-                    headers: {
-                        Accept: 'application/json',
-                        'Content-Type': 'application/json',
-                        Authorization: "Bearer " + getCookie("token"),
-                    },
-                    body: JSON.stringify(entry)
-                }).then(response => response.json())
-                    .then(data => {
-                        console.log(data);
-                    })
-                    .then(() => {
-                        setDataChanged((prev) => prev + 1);
-                    }).catch(error => {
-                    console.error(error);
-                });
+                axios.put(url + "/" + entry['id'], {...entry})
+                    .then(() => setDataChanged((prev) => prev + 1))
+                    .catch(error => setError(error));
             }
-        }
-        else {
-            console.log("no image")
+        } else {
             delete entry.imageUrl;
-            fetch(url + "/" + entry['id'], {
-                method: 'PUT',
-                headers: {
-                    Accept: 'application/json',
-                    'Content-Type': 'application/json',
-                    Authorization: "Bearer " + getCookie("token"),
-                },
-
-                body: JSON.stringify(entry)
-            }).then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                })
-                .then(() => {
-                    setDataChanged((prev) => prev + 1);
-                }).catch(error => {
-                console.error(error);
-            });
+            axios(url + "/" + entry['id'], {...entry}
+            ) .then(() => setDataChanged((prev) => prev + 1))
+                .catch(error => setError(error));
         }
     }
 
@@ -110,28 +62,16 @@ export const CRUDOperations = (url) => {
     const update = (e, setDataChanged) => {
         e.preventDefault();
         const entry = Object.fromEntries(new FormData(e.target));
-        console.log(entry)
         axios.put(url + "/" + entry['id'], {...entry})
             .then(() => setDataChanged((prev) => prev + 1))
             .catch(error => setError(error))
     }
-
     function remove(id, setDataChanged) {
-        fetch(url + "/" + id, {
-            method: 'DELETE',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                Authorization: "Bearer " + getCookie("token"),
-            },
-        })
-            .then((message) => {
-                console.log(message.text());
-                console.log("entry deleted");
+       axios.delete(url + "/" + id)
+            .then(() => {
                 setDataChanged((prev) => prev + 1);
             }).catch(error => console.log(error));
     }
-
 
     return {create, update, remove, createRoom, updateRoom, error}
 }

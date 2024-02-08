@@ -1,3 +1,15 @@
+
+export const roomTypes= ["SINGLE", "DOUBLE", "TRIPLE", "STUDIO", "SUITE", "DELUXE"];
+export const initialValues = {
+    name: "",
+    size: "",
+    roomType: "",
+    price: "",
+    description: "",
+    imageUrl:""
+};
+
+
 /*
 export const inputs = [
     {
@@ -46,13 +58,3 @@ export const inputs = [
         required: true
     }];
 */
-
-export const roomTypes= ["SINGLE", "DOUBLE", "TRIPLE", "STUDIO", "SUITE", "DELUXE"];
-export const initialValues = {
-    name: "",
-    size: "",
-    roomType: "",
-    price: "",
-    description: "",
-    imageUrl:""
-};

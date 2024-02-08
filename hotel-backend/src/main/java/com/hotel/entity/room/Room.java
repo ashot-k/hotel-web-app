@@ -18,8 +18,7 @@ public class Room {
     @NotNull
     @NotBlank
     private String name;
-    @Column(name = "description")
-    @Lob
+    @Column(name = "description", length = 2000)
     private String description;
     @Column(name = "size", nullable = false)
     @NotNull
