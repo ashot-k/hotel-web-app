@@ -1,6 +1,3 @@
-insert into person (person_id, username, pass) values (1, 'lmacmurray0', '$2a$04$O4kHmPmKWpZqxHNSPR2AgeY05CF2OAQ9r2MtzzL43MeU/et/W1fK6');
-insert into person (person_id, username, pass) values (2, 'asparshatt1', '$2a$04$krIidMM7ew8fmFfRnjeSkuH//0df58Jl8lnYyKZ6lJKx2C.Vhww3i');
-insert into person (person_id, username, pass) values (3, 'ehungerford2', '$2a$04$QnqdXCvuXxOhUFRNCInQYOXzsMpqCiGIWaikovRUd5FEjRgbtXTiS');
 insert into person (person_id, username, pass) values (4, 'mgearty3', '$2a$04$AOMYVU1niCP34fHs6cabAenEI9BEBNR3J2OXj8Zl81Jozzf7EzJbq');
 insert into person (person_id, username, pass) values (5, 'xfelip4', '$2a$04$G0r44riZqXIFJErc7J7v0OiaENz4r6Xt6W14yA2n02rfLu6FTsuJO');
 insert into person (person_id, username, pass) values (6, 'dbraybrooke5', '$2a$04$3DK8230EW7z/HtnZhIaQVuWX2LtnEdAPwtIEEN2xQF/TCBmOl1l2S');
@@ -998,9 +995,6 @@ insert into person (person_id, username, pass) values (997, 'hgodwinro', '$2a$04
 insert into person (person_id, username, pass) values (998, 'pousbyrp', '$2a$04$9JcMRVYK/hNnS2yYAaScXupzzgdbTG2S/DJ5YamE/yaBzPkcNXXdq');
 insert into person (person_id, username, pass) values (999, 'callibertonrq', '$2a$04$abVgT5vaHD3WGN3uzDv6Ze/lD6oxtQ7hd8c8RPjQEoGXlzag9O04O');
 insert into person (person_id, username, pass) values (1000, 'semlynrr', '$2a$04$9ZX1UxiCqkRhk/EdLbprY.X.Ax8tZ1hvdJDJvboK9PxSS8u1OTHS.');
-insert into address (person_id, country, phone_number, email, postal_code, street_1) values (1, 'Indonesia', '406-295-8030', 'bbenediktovich0@google.it', null, '0974 Dayton Place');
-insert into address (person_id, country, phone_number, email, postal_code, street_1) values (2, 'China', '120-208-2951', 'hprevost1@samsung.com', null, '19623 Nevada Park');
-insert into address (person_id, country, phone_number, email, postal_code, street_1) values (3, 'Indonesia', '337-342-5041', 'bskeermer2@unblog.fr', null, '33382 Bultman Point');
 insert into address (person_id, country, phone_number, email, postal_code, street_1) values (4, 'Czech Republic', '999-458-5071', 'kjelly3@bandcamp.com', '250 65', '06 Ramsey Road');
 insert into address (person_id, country, phone_number, email, postal_code, street_1) values (5, 'Russia', '832-118-9428', 'hattridge4@godaddy.com', '633130', '04 Lindbergh Trail');
 insert into address (person_id, country, phone_number, email, postal_code, street_1) values (6, 'France', '862-668-6099', 'aduddin5@example.com', '92974 CEDEX', '0473 Veith Avenue');
@@ -1998,9 +1992,6 @@ insert into address (person_id, country, phone_number, email, postal_code, stree
 insert into address (person_id, country, phone_number, email, postal_code, street_1) values (998, 'Panama', '280-109-4482', 'alongwoodrp@yandex.ru', null, '840 Hagan Pass');
 insert into address (person_id, country, phone_number, email, postal_code, street_1) values (999, 'United States', '602-602-0244', 'gfuchsrq@wired.com', '85030', '67022 Boyd Avenue');
 insert into address (person_id, country, phone_number, email, postal_code, street_1) values (1000, 'Argentina', '101-451-6825', 'gdohrmannrr@epa.gov', '4174', '4 Myrtle Place');
-insert into role (id, role, person_id) values (1, 2, 1);
-insert into role (id, role, person_id) values (2, 2, 2);
-insert into role (id, role, person_id) values (3, 1, 3);
 insert into role (id, role, person_id) values (4, 2, 4);
 insert into role (id, role, person_id) values (5, 2, 5);
 insert into role (id, role, person_id) values (6, 1, 6);

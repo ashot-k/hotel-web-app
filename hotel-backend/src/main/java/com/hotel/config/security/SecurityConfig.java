@@ -42,7 +42,6 @@ public class SecurityConfig {
             try {
                 requests
                         .requestMatchers("/api/auth/**").permitAll()
-
                         .requestMatchers("/api/rooms/image/**").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/rooms").permitAll()
                         .requestMatchers("/api/reservations").hasAnyAuthority(UserRoles.ADMIN.name(), UserRoles.EMPLOYEE.name())

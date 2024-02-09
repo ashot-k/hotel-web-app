@@ -23,7 +23,7 @@ export const ReservationForm = ({toggleModal, initialValues, submitForm, checkAv
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">
                 <div className="form-modal-body d-flex flex-column  gap-2 align-items-center">
-                    <h1>User Info</h1>
+                    <h1>Reservation Info</h1>
                     <input name="id" value={initialValues.id} hidden onChange={(e) => {
                     }}/>
                     <div>

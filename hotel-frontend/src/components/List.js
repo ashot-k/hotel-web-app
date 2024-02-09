@@ -41,7 +41,7 @@ export const List = ({data, isSearchTermPresent, toggleAddModal, toggleEditModal
                                         return <td key={header}><img
                                             src={roomImagesURL + item.name} width={"80px"}
                                             height={"50px"}
-                                            alt=""></img><p style={{fontSize: "12px"}}>{item.imageUrl} </p></td>
+                                            alt="Image Not Available"></img><p style={{fontSize: "12px"}}>{item.imageUrl} </p></td>
                                     else
                                         return <td key={header}>{item[header]}</td>
                                 })}

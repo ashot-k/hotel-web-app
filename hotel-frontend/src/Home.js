@@ -63,7 +63,7 @@ const Home = () => {
                     return <div className="card-container" key={room.id}>
                         <div className="card-body d-flex flex-column gap-4 justify-content-between align-items-center">
                             <h5 className="card-title">{room.name}</h5>
-                            <img src={roomImagesURL + room.name} className="card-image" alt="..."/>
+                            <img src={roomImagesURL + room.name} className="card-image" alt="Image not Available"/>
                             <div className="card-text">
                                 <h5 className="">{room.roomType}</h5>
                                 <button type={"button"} className="btn btn-primary"

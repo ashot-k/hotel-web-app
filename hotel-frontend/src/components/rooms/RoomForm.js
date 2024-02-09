@@ -14,7 +14,7 @@ export const RoomForm = ({toggleModal, initialValues, submitForm, roomTypes}) =>
         <form className="form form-modal" action="/" onSubmit={submitForm}>
             <div className="overlay d-flex justify-content-center align-items-center">
                 <div className="form-modal-body d-flex flex-column  gap-2align-items-center">
-                    <h1>User Info</h1>
+                    <h1>Room Info</h1>
                     <input name="id" value={initialValues.id} readOnly={true} hidden/>
                     <div>
                         <label>Room Type*</label><br/>
