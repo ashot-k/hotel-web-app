@@ -34,8 +34,6 @@ public class Person implements UserDetails{
     @Column(name = "pass", nullable = false, length = 1000)
     @NotBlank(message = "Enter valid password")
     @NotNull
-   /* @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{5,}$"
-            , message = PASSWORD_ERROR_MESSAGE)*/
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 

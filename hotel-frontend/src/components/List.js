@@ -21,7 +21,6 @@ export const List = ({data, isSearchTermPresent, toggleAddModal, toggleEditModal
                     }}/>
                 </label>
             </div>
-            <hr/>
             {data && data.length > 0 &&
                 <div className="table-container">
                     <table className="table table-dark table-striped">

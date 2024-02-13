@@ -21,8 +21,8 @@ public interface RoomRepository extends JpaRepository<Room, Long> {
     @Override
     void deleteById(Long id);
     @Query("FROM Room r  " +
-            "WHERE r.description like :term " +
-            "OR r.name like :term " +
+            "WHERE r.description ilike :term " +
+            "OR r.name ilike :term " +
             "OR r.size like :term " +
             "ORDER BY r.id ")
     Page<Room> findByTerm(@Param("term") String term, Pageable pageable);

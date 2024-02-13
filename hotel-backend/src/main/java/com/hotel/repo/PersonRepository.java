@@ -25,13 +25,13 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     Page<Person> findAll(Pageable pageable);
 
     @Query("FROM Person p JOIN FETCH p.address a " +
-            "WHERE p.username like :term " +
-            "OR p.address.country like :term " +
-            "OR p.address.email like :term " +
+            "WHERE p.username ilike :term " +
+            "OR p.address.country ilike %:term% " +
+            "OR p.address.email ilike :term " +
             "OR p.address.phoneNumber like :term " +
             "OR p.address.postalCode like :term " +
-            "OR p.address.street like :term " +
-            "OR p.address.street2 like :term " +
+            "OR p.address.street ilike :term " +
+            "OR p.address.street2 ilike :term " +
             "ORDER BY p.id")
     Page<Person> findByTerm(@Param("term") String term, Pageable pageable);
 

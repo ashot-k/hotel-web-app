@@ -1,8 +1,13 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export const Pagination = ({totalPages, totalElements, pageChange, setPageSize}) => {
+
     const [currentPage, setCurrentPage] = useState(0);
 
+    useEffect(() => {
+        setCurrentPage(0);
+        pageChange(0);
+    }, [totalElements]);
     const pageNavButtons = () => {
         const buttons = [];
 

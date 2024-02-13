@@ -78,7 +78,8 @@ public class RoomServiceImpl implements RoomService {
         else
             return roomRepo.findByTerm("%" + term + "%", PageRequest.of(pageNo, pageSize));
     }
-    private static boolean checkIfRoomType(String str){
+
+    private static boolean checkIfRoomType(String str) {
         boolean isRoomType = false;
         for (RoomType r : RoomType.values()) {
             if (r.name().equalsIgnoreCase(str)) {
@@ -88,6 +89,7 @@ public class RoomServiceImpl implements RoomService {
         }
         return isRoomType;
     }
+
     @Override
     public String deleteRoom(Long id) {
         try {
@@ -104,10 +106,12 @@ public class RoomServiceImpl implements RoomService {
     public ByteArrayResource getRoomImage(String roomName) throws IOException {
         File folder = new File(ImageUtils.roomImageDirectory);
         File[] listOfFiles = folder.listFiles();
-        for (int i = 0; i < listOfFiles.length; i++) {
-            File f = listOfFiles[i];
-            if (f.getName().equalsIgnoreCase(roomName)) {
-                return new ByteArrayResource(Files.readAllBytes(Paths.get(listOfFiles[i].getAbsolutePath())));
+        if (listOfFiles != null) {
+            for (int i = 0; i < listOfFiles.length; i++) {
+                File f = listOfFiles[i];
+                if (f.getName().equalsIgnoreCase(roomName)) {
+                    return new ByteArrayResource(Files.readAllBytes(Paths.get(listOfFiles[i].getAbsolutePath())));
+                }
             }
         }
         return null;
