@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 
 public record PersonDTO(
         Long id,
-        @NotNull String username,
+        @NotNull(message = "Enter a username") String username,
         @NotBlank(message = "Enter valid password") @NotNull
         @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) String password,
         @NotNull(message = "Please input an email address")

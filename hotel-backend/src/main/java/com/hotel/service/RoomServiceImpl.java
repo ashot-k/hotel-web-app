@@ -109,7 +109,7 @@ public class RoomServiceImpl implements RoomService {
         if (listOfFiles != null) {
             for (int i = 0; i < listOfFiles.length; i++) {
                 File f = listOfFiles[i];
-                if (f.getName().equalsIgnoreCase(roomName)) {
+                if (f.getName().trim().equalsIgnoreCase(roomName.trim())) {
                     return new ByteArrayResource(Files.readAllBytes(Paths.get(listOfFiles[i].getAbsolutePath())));
                 }
             }

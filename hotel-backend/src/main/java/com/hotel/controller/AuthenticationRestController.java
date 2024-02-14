@@ -3,6 +3,7 @@ package com.hotel.controller;
 
 import com.hotel.dto.PersonDTO;
 import com.hotel.service.AuthenticationService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +21,7 @@ public class AuthenticationRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AuthenticationResponse> register(@RequestBody PersonDTO personDTO){
+    public ResponseEntity<AuthenticationResponse> register(@Valid @RequestBody PersonDTO personDTO){
             return new ResponseEntity<>(authService.register(personDTO), HttpStatus.OK);
     }
 

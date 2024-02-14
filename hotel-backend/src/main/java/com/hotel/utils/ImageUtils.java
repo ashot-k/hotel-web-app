@@ -1,7 +1,10 @@
 package com.hotel.utils;
 
+import com.hotel.controller.HotelRestControllerAdvice;
 import jakarta.annotation.PostConstruct;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,6 +25,7 @@ public class ImageUtils {
     @Value("${room.image.dir}")
     private String roomImageDirectoryCreation;
 
+    private static final Logger LOG = LoggerFactory.getLogger(ImageUtils.class);
     @PostConstruct
     public void createFolderIfNotExists() {
         File folder = new File(roomImageDirectoryCreation);
@@ -29,9 +33,9 @@ public class ImageUtils {
         if (!folder.exists()) {
             boolean created = folder.mkdirs();
             if (created) {
-                System.out.println("Folder created: " + folder.getAbsolutePath());
+                LOG.info("Folder created: " + folder.getAbsolutePath());
             } else {
-                System.err.println("Failed to create folder: " + folder.getAbsolutePath());
+                LOG.error("Failed to create folder: " + folder.getAbsolutePath());
             }
         }
     }

@@ -17,23 +17,24 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Person implements UserDetails{
-    public static final String PASSWORD_ERROR_MESSAGE = """
+public class Person implements UserDetails {
+   /* public static final String PASSWORD_ERROR_MESSAGE = """
             Please enter a password that has: <br>
             At least 5 characters. <br>
             At least one letter. <br>
-            At least one number.""";
+            At least one number.""";*/
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     @Column(name = "person_id", nullable = false)
     private Long id;
     @Column(name = "username", nullable = false, unique = true)
-    @NotNull
+    @NotNull(message = "Enter a username")
+    @NotBlank(message = "Enter a valid username")
     private String username;
     @Column(name = "pass", nullable = false, length = 1000)
     @NotBlank(message = "Enter valid password")
-    @NotNull
+    @NotNull(message = "Enter a password")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
@@ -44,19 +45,7 @@ public class Person implements UserDetails{
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "person_id")
     private List<Role> roles;
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (id == null || obj == null || getClass() != obj.getClass())
-            return false;
-        Person that = (Person) obj;
-        return id.equals(that.id);
-    }
-    @Override
-    public int hashCode() {
-        return id == null ? 0 : id.hashCode();
-    }
+
     public Person() {
 
     }
@@ -80,9 +69,30 @@ public class Person implements UserDetails{
     }
 
 
-    public String getUsername() {
-        return username;
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (id == null || obj == null || getClass() != obj.getClass())
+            return false;
+        Person that = (Person) obj;
+        return id.equals(that.id);
     }
+
+    @Override
+    public int hashCode() {
+        return id == null ? 0 : id.hashCode();
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorityList = new ArrayList<>();
+        for (Role r : roles) {
+            authorityList.add(new SimpleGrantedAuthority(r.getUserRole().name()));
+        }
+        return authorityList;
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -103,19 +113,14 @@ public class Person implements UserDetails{
         return true;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
     public void setUsername(String username) {
         this.username = username;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorityList= new ArrayList<>();
-        for(Role r: roles)
-        {
-            authorityList.add(new SimpleGrantedAuthority(r.getUserRole().name()));
-        }
-        return authorityList;
-    }
 
     public String getPassword() {
         return password;

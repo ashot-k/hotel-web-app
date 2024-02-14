@@ -7,7 +7,8 @@ import {roomsURL, reservationsURL, availableRoomsURL, roomImagesURL, roomTypesUR
 
 const Home = () => {
     axios.defaults.headers.common['Authorization'] = "";
-    const {data: roomTypes} = useFetch(roomTypesURL);
+    const [roomTypes, setRoomTypes] = useState();
+    console.log(roomTypes)
     const [selectedRoomType, setSelectedRoomType] = useState("all");
     const [start, setStart] = useState(initialValues.start);
     const [end, setEnd] = useState(initialValues.end);
@@ -17,6 +18,9 @@ const Home = () => {
     useEffect(() => {
         checkAvailability(start, end);
     }, [start, end]);
+    useEffect(() => {
+        axios.get(roomTypesURL).then((response)=> setRoomTypes(response.data));
+    }, []);
 
     const checkAvailability = (start, end) => {
         if (start && end) {

@@ -68,7 +68,6 @@ public class Address {
         this.email = email;
     }
 
-
     public Long getId() {
         return id;
     }
